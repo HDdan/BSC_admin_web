@@ -1,5 +1,7 @@
 <template>
-  <div>vue</div>
+  <div>
+    <router-link to="/componyinfomanage" >Home</router-link>
+  </div>
 </template>
 <script>
 export default {

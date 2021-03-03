@@ -6,11 +6,16 @@ export default [
     path: '/login/index', 
     name: 'login',
     component: login, 
-    meta: { title: '登陆' } 
   },
   {
-    path: '/home', 
+    path: '/home',
     name: 'Home',
-    component: Home, 
-  },
+    component: Home,
+    children:[
+      {
+        path: '/componyinfomanage',
+        name: 'login',
+        component: login,
+      },]
+    }
 ];
