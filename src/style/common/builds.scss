@@ -1,0 +1,76 @@
+
+  
+  // 生成字体大小类 .fz-14 ...
+@mixin build-font-sizes($begin, $end) {
+    @for $i from $begin through $end {
+      .font-#{$i} {
+        font-size: #{$i}px !important;
+      }
+      .fz-#{$i} {
+        font-size: #{$i}px;
+      }
+    }
+  }
+  @mixin build-spaces($space) {
+    .mt-#{$space} {
+      margin-top: #{$space}px;
+    }
+    .margin-top-#{$space} {
+      margin-top: #{$space}px !important;
+    }
+    .pt-#{$space} {
+      padding-top: #{$space}px;
+    }
+    .padding-top-#{$space} {
+      padding-top: #{$space}px !important;
+    }
+    .mb-#{$space} {
+      margin-bottom: #{$space}px;
+    }
+    .margin-bottom-#{$space} {
+      margin-bottom: #{$space}px !important;
+    }
+    .pb-#{$space} {
+      padding-bottom: #{$space}px;
+    }
+    .padding-bottom-#{$space} {
+      padding-bottom: #{$space}px !important;
+    }
+    .ml-#{$space} {
+      margin-left: #{$space}px;
+    }
+    .margin-left-#{$space} {
+      margin-left: #{$space}px !important;
+    }
+    .pl-#{$space} {
+      padding-left: #{$space}px;
+    }
+    .padding-left-#{$space} {
+      padding-left: #{$space}px !important;
+    }
+    .mr-#{$space} {
+      margin-right: #{$space}px;
+    }
+    .margin-right-#{$space} {
+      margin-right: #{$space}px !important;
+    }
+    .pr-#{$space} {
+      padding-right: #{$space}px;
+    }
+    .padding-right-#{$space} {
+      padding-right: #{$space}px !important;
+    }
+    .margin-#{$space} {
+      margin: #{$space}px;
+    }
+    .padding-#{$space} {
+      padding: #{$space}px;
+    }
+  }
+// 批量生成
+@mixin batch-build-spaces($count) {
+    @for $i from 1 through $count {
+      @include build-spaces($i * 4);
+      @include build-spaces($i * 5);
+    }
+  }
