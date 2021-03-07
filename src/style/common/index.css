@@ -1,0 +1,39 @@
+.el-input{
+    width: 320px;
+}
+.el-select>.el-input{
+    width: 220px;
+}
+.el-input--prefix .el-input__inner {
+  height: 36px;
+  background: #ffffff;
+  width: 320px;
+  border-radius: 4px;
+  border: 1px solid #d7d7d7;
+}
+.el-date-editor .el-range__icon {
+  position: absolute;
+  right: 14px;
+}
+.el-range-input:nth-child(2) {
+  text-align: right;
+}
+.el-range-input:nth-child(4) {
+  text-align: left;
+}
+.el-range-editor.el-input__inner {
+  width: 320px;
+  height: 36px;
+  border-radius: 4px;
+  border: 1px solid #d7d7d7;
+}
+.el-date-editor .el-range-separator {
+  line-height: 27px;
+}
+.el-input--suffix .el-input__inner {
+  width: 220px;
+  height: 36px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #d7d7d7;
+}

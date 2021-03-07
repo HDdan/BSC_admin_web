@@ -1,15 +1,17 @@
 import Home from '@/views/home'
+import PotentialDistributor from '@/views/potentialDistributor'
+
 export default [
   {
     path: '/home',
     name: 'Home',
     component: Home,
     children:[
-      // {
-      //   path: '/componyinfomanage',
-      //   name: 'login',
-      //   component: login,
-      // },
+      {
+        path: '/home',
+        name: 'PotentialDistributor',
+        component: PotentialDistributor,
+      },
       // {
       //   path: '/componyinfomanage1',
       //   name: 'login',

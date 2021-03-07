@@ -1,0 +1,27 @@
+.el-table .warning-row {
+    background: #F9F9F9;
+  }
+
+  .el-table .success-row {
+    background: #F9F9F9;
+  }
+  .el-table th.is-leaf, .el-table td {
+      border-bottom: none !important;
+    //   border-right: none !important;
+    height: 42px;
+    padding: 0;
+    /* border-top: 1px solid #e5e5e5; */
+  }
+  .el-table th.is-leaf{
+    background: #F9F9F9;
+    &::after{
+        content: '';
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        border-right: 1px solid #999999;
+        height: 6px;
+        border-bottom: 1px solid #999999;
+        width: 6px;
+    }
+  }
