@@ -1,12 +1,5 @@
-// const login   = () => import(/* webpackChunkName: "login" */ '@/views/login/index');
-import login from '@/views/login/index'
 import Home from '@/views/home'
 export default [
-  {
-    path: '/login', 
-    name: 'login',
-    component: login, 
-  },
   {
     path: '/home',
     name: 'Home',
