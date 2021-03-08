@@ -99,8 +99,8 @@ export default {
         {
           id: 2,
           name: "经销商档案",
-          url: "/componyinfomanage1",
-          icon: "iconfont iconjingxiaoshangdangan-hui",
+          url: "/distributorDocument/list",
+          icon:"iconfont iconjingxiaoshangdangan-hui"
         },
         {
           id: 3,
