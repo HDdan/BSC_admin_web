@@ -1,5 +1,5 @@
 <template>
-  <el-container style="background: #F3F5FA">
+  <el-container style="background: #f3f5fa">
     <el-header class="home-header">
       <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
         <el-radio-button :label="false">展开</el-radio-button>
@@ -10,6 +10,7 @@
         <div class="header-admin">
           <div>
             <i class="iconfont iconyonghuming-2"></i>
+            {{ this.$route.path }}
           </div>
 
           <span>admin</span>
@@ -24,57 +25,7 @@
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu
-          :collapse="isCollapse"
-          class="home-menu"
-          background-color="#FFFFFF"
-          text-color="#B4B4B4"
-          :default-active="this.$route.path"
-          router
-        >
-          <template v-for="item in munuList">
-            <el-submenu v-if="item.child" :index="item.url" :key="item.id">
-              <template slot="title" class="munu-list">
-                <i :class="item.icon"></i>
-                <span>{{ item.name }}</span>
-              </template>
-              <template v-for="subItem in item.child">
-                <el-submenu
-                  class="menu__level2"
-                  v-if="subItem.child"
-                  :index="subItem.url"
-                  :key="subItem.id"
-                >
-                  <template slot="title">
-                    <span>{{ subItem.name }}</span>
-                  </template>
-                  <el-menu-item
-                    class="menu__level3"
-                    :index="thirdItem.url"
-                    v-for="thirdItem in subItem.child"
-                    :key="thirdItem.id"
-                  >
-                    <template>
-                      <span>{{ thirdItem.name }}</span>
-                    </template>
-                  </el-menu-item>
-                </el-submenu>
-                <el-menu-item
-                  class="menu__level2"
-                  v-else
-                  :index="subItem.url"
-                  :key="subItem.id"
-                >
-                  <span slot="title">{{ subItem.name }}</span>
-                </el-menu-item>
-              </template>
-            </el-submenu>
-            <el-menu-item v-else :index="item.url" :key="item.id">
-              <i :class="item.icon"></i>
-              <span slot="title">{{ item.name }}</span>
-            </el-menu-item>
-          </template>
-        </el-menu>
+      <Left :munuList="munuList" class="home-menu"/>
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -84,23 +35,29 @@
 </template>
 
 <script>
+import Left from './components/left.vue';
 import "./index.scss";
+// import {
+//     login
+//   } from "@/api/user";
 export default {
-  name: "Left",
+   components: {
+    Left
+  },
   data() {
     return {
       munuList: [
         {
           id: 1,
           name: "潜在经销商",
-          url: "/home",
+          url: "/potentialDistributor",
           icon: "iconfont iconqianzaijingxiaoshang-hui",
         },
         {
           id: 2,
           name: "经销商档案",
-          url: "/distributorDocument/list",
-          icon:"iconfont iconjingxiaoshangdangan-hui"
+          url: "/distributorDocument",
+          icon: "iconfont iconjingxiaoshangdangan-hui",
         },
         {
           id: 3,
@@ -112,7 +69,7 @@ export default {
               id: 30,
               name: "招商主数据",
               url: "/userData30",
-              icon: "iconfont iconjichuzhushuju-hui",
+              icon: "",
               child: [
                 {
                   id: 301,
@@ -195,10 +152,29 @@ export default {
           icon: "iconfont iconquanxianshezhi-hui",
         },
       ],
-      isCollapse: false,
     };
   },
   computed: {},
   methods: {},
+  created() {
+console.log("ppppdppdpdpd")
+      // new Promise((resolve, reject) => {
+        // login({
+        //  action:"login",loginname:"admin",password:"13133332222"
+        // })
+        //   .then(response => {
+        //     const { data } = response;
+        //     console.log("ppppp",data)
+        //     // commit("SET_TOKEN", data.token);
+        //     // setToken(data.token);
+        //     resolve();
+        //   })
+        //   .catch(error => {
+        //     reject(error);
+        //   });
+      // });
+
+    console.log("this.$router", this.$route);
+  },
 };
 </script>

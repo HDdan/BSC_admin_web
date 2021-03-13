@@ -49,6 +49,9 @@
 .el-menu--popup-right-start {
   padding-top: 38px;
   height: 100%;
+  .is-active{
+    color: #4196FF!important;
+  }
   span {
     padding-left: 10px;
   }

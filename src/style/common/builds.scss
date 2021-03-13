@@ -70,6 +70,7 @@
 // 批量生成
 @mixin batch-build-spaces($count) {
     @for $i from 1 through $count {
+      @include build-spaces($i * 1);
       @include build-spaces($i * 4);
       @include build-spaces($i * 5);
     }
