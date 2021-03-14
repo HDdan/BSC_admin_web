@@ -1,11 +1,13 @@
 <template>
   <div class="main">
-    <div class="main-header">医院主数据</div>
+    <div class="main-header">{{ title }}</div>
     <div class="info-search mt-30 mb-20 ml-20 mr-20">
       <div>
-        <span class="fz-16 mr-20" style="color:#333333">共430条</span>
-        <span class="fz-14" style="color:#666666"
-          >最近更新时间：2021-01-07 17</span
+        <span class="fz-16 mr-20" style="color: #333333"
+          >共{{ this.baseData.count || 0 }}条</span
+        >
+        <span class="fz-14" style="color: #666666"
+          >最近更新时间：{{ this.baseData.data.lastupdatetime }}</span
         >
       </div>
 
@@ -38,14 +40,28 @@
           <i class="mr-10 iconfont icondaorujilu-hui"></i>
           <span>导出</span>
         </div>
-        <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary"
-          >经销商</el-button
+        <el-button
+          icon="fz-14 mr-8 iconfont iconxinzeng"
+          type="primary"
+          @click="addSource"
+          >{{ btnType }}</el-button
         >
       </div>
     </div>
-    <Table :tableData="tableData.list"></Table>
-    <add-source></add-source>
-     <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
+    <Table :tableData="tableData.list" :apiType="apiType"></Table>
+    <add-source
+      :apiType="apiType"
+      @add="addSuccess"
+      v-if="showAddSource"
+      @cancel="showAddSource = !showAddSource"
+    ></add-source>
+    <pagination
+      v-if="page.totalNum > 0"
+      :total="page.totalNum"
+      :page.sync="page.currPage"
+      :limit.sync="page.pageSize"
+      @pagination="handlePagination"
+    />
   </div>
 </template>
 
@@ -53,63 +69,66 @@
 import Table from "./table.vue";
 import { api } from "@/api";
 import "../index.scss";
-import AddSource from './addSource.vue';
-import Pagination from '@/components/Pagination';
+import AddSource from "./addSource.vue";
+import Pagination from "@/components/Pagination";
 
 export default {
-  components: { Table, AddSource,Pagination},
-    data() {
+  components: { Table, AddSource, Pagination },
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    btnType: {
+      type: String,
+      default: "",
+    },
+    apiType:{
+      type:String,
+      default: "",
+    }
+  },
+  data() {
     return {
-     tableData: {
-        list: [{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        },{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        },{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        },{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        },{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        },{
-          id: 1,
-          name: "hah",
-          businessType: '1',
-        }],
-        meta: {
-          currPage: 1,
-          pageSize: 5,
-          totalNum: 6
-        }
-      }
+      showAddSource: false,
+      baseData: {},
+      page: {
+        currPage: 1,
+        pageSize: 12,
+        totalNum: 0,
+      },
+      tableData: [],
     };
   },
-  methods:{
-        handlePagination() {
-      this.$emit("handlePagination");
+  methods: {
+    handlePagination(val) {
+      console.log("oodooso", val);
+      this.page.currPage = val.page;
+      this.baselist();
+      // this.$emit("handlePagination");
+    },
+    addSource() {
+      this.showAddSource = true;
+    },
+    addSuccess() {
+      this.showAddSource = false;
+      this.baselist();
+    },
+    baselist() {
+      api({
+        action: "baselist",
+        type: this.apiType,
+        pageindex: this.page.currPage,
+        pagesize: this.page.pageSize,
+      }).then((res) => {
+        this.baseData = res;
+        this.tableData = res.data;
+        this.page.totalNum = res.count;
+      });
     },
   },
   created() {
-    console.log("dkdkk");
-    api({
-      action: "basemain",
-      type: "source",
-      pageindex: 0,
-      pagesize: 10,
-    })
-      .then((res) => {
-        
-      })
+    this.baselist();
   },
 };
 </script>

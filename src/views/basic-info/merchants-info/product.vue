@@ -1,7 +1,9 @@
 <template>
-  <div>
-      <base-main></base-main>
-  </div>
+  <base-main
+    :title="'产品主数据'"
+    :btnType="'产品数据'"
+    :apiType="'product'"
+  ></base-main>
 </template>
 
 <script>
