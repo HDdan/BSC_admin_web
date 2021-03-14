@@ -120,6 +120,7 @@ export default {
   .el-form-item {
     width: 25%;
     min-width: 220px;
+    margin-bottom: 0;
   }
   .el-input {
     width: 94%;
