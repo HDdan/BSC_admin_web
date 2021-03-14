@@ -22,6 +22,10 @@ export default {
          apiType:{
       type:String,
       default: "",
+    },
+             action:{
+      type:String,
+      default: "basemain",
     }
     },
   data() {
@@ -32,7 +36,7 @@ export default {
   methods: {
     add() {
       api({
-        action: "basemain",
+        action: this.action,
         name: this.input,
         type: this.apiType,
       }).then((res) => {

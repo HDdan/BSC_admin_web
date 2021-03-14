@@ -7,17 +7,10 @@
     :row-class-name="tableRowClassName"
   >
     <el-table-column prop="date" label="序号" width="60"> </el-table-column>
-    <el-table-column prop="address" label="经销商名称" width="100"> </el-table-column>
-    <el-table-column prop="address" label="数据来源"> </el-table-column>
-    <el-table-column prop="address" label="业务区域"> </el-table-column>
-    <el-table-column prop="address" label="合作科室"> </el-table-column>
-    <el-table-column prop="address" label="主营产品类型"> </el-table-column>
-    <el-table-column prop="address" label="沟通时间"> </el-table-column>
-    <el-table-column prop="address" label="沟通专员"> </el-table-column>
-    <el-table-column prop="address" label="推送时间"> </el-table-column>
-    <el-table-column prop="address" label="推送专员"> </el-table-column>
-
-
+    <el-table-column prop="address" label="时间" width="100"> </el-table-column>
+    <el-table-column prop="address" label="操作人"> </el-table-column>
+    <el-table-column prop="address" label="经销商名称"> </el-table-column>
+    <el-table-column prop="address" label="具体操作"> </el-table-column>
 
   </el-table>
   <pagination
@@ -30,7 +23,6 @@
 </template>
 
 <script>
-import "./index.scss";
 import Pagination from '@/components/Pagination/index'
 
 export default {

@@ -1,6 +1,6 @@
 <template>
-  <div class="potential-distributor">
-    <div class="potential-distributor__header">潜在经销商</div>
+  <div class="main">
+    <div class="main-header">潜在经销商</div>
     <div class="potential-distributor__search">
       <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="input4">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -112,5 +112,17 @@ export default {
   data() {
     return { value1: "" };
   },
+  created(){
+    api({
+        action: "baselist",
+        type: this.apiType,
+        pageindex: this.page.currPage,
+        pagesize: this.page.pageSize,
+      }).then((res) => {
+        this.baseData = res;
+        this.tableData = res.data;
+        this.page.totalNum = res.count;
+      });
+  }
 };
 </script>

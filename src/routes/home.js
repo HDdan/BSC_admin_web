@@ -9,6 +9,11 @@ import department from '@/views/basic-info/merchants-info/department'
 import brand from '@/views/basic-info/merchants-info/brand'
 import hospital from '@/views/basic-info/merchants-info/hospital'
 import product from '@/views/basic-info/merchants-info/product'
+import modifyRecord from '@/views/modify-record'
+import importRecord from '@/views/import-record'
+import exportRecord from '@/views/export-record'
+import roleSetting from '@/views/role-setting'
+
 export default [
   {
     path: '/home',
@@ -64,6 +69,26 @@ export default [
         path: '/baseInfo/merchantsInfo/product',
         name: 'product',
         component: product,
+      },
+      {
+        path: '/modifyRecord',
+        name: 'modifyRecord',
+        component: modifyRecord,
+      },
+      {
+        path: '/importRecord',
+        name: 'importRecord',
+        component: importRecord,
+      },
+      {
+        path: '/exportRecord',
+        name: 'exportRecord',
+        component: exportRecord,
+      },
+      {
+        path: '/roleSetting',
+        name: 'roleSetting',
+        component: roleSetting,
       }
     ]
   }

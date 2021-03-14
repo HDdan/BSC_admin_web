@@ -1,7 +1,6 @@
 <template>
   <el-menu
     :collapse="isCollapse"
-    style="padding-left:15px"
     background-color="#FFFFFF"
     text-color="#B4B4B4"
     :default-active="this.$route.path"
@@ -15,7 +14,7 @@
         :key="item.id"
       >
         <template slot="title" class="munu-list">
-          <i :class="item.icon"></i>
+          <i :class="item.icon" :style="{paddingLeft:item.left}"></i>
           <span>{{ item.name }}</span>
         </template>
       <left v-if="item.child" :key="item.id" :munuList="item.child"></left>
@@ -27,7 +26,7 @@
         :index="item.url"
         :key="item.id"
       >
-        <i :class="item.icon"></i>
+        <i :class="item.icon" :style="{paddingLeft:item.left}"></i>
         <span slot="title">{{ item.name }}</span>
       </el-menu-item>
     </template>

@@ -11,8 +11,13 @@
         >
       </div>
 
-      <div class="info-search__right">
-        <el-select class="mr-20" v-model="value" placeholder="请选择">
+      <div class="info-search__right" v-if="showSearch">
+        <el-select
+          v-if="action == 'baselist'"
+          class="mr-20"
+          v-model="value"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -21,8 +26,9 @@
           >
           </el-option>
         </el-select>
-        <el-button type="primary">检索</el-button>
+        <el-button v-if="action == 'baselist'" type="primary">检索</el-button>
         <el-upload
+          v-if="action == 'baselist'"
           class="potential-distributor__upload mr-18 ml-4"
           action="https://jsonplaceholder.typicode.com/posts/"
           :on-preview="handlePreview"
@@ -36,7 +42,10 @@
           <i class="mr-3 iconfont icondaorujilu-hui"></i>
           <span>导入</span>
         </el-upload>
-        <div class="potential-distributor__upload mr-24">
+        <div
+          v-if="action == 'baselist'"
+          class="potential-distributor__upload mr-24"
+        >
           <i class="mr-10 iconfont icondaorujilu-hui"></i>
           <span>导出</span>
         </div>
@@ -48,15 +57,19 @@
         >
       </div>
     </div>
-    <Table :tableData="tableData.list" :apiType="apiType"></Table>
+    <Table
+      :tableData="tableData.list || tableData"
+      :apiType="apiType"
+      :action="action"
+    ></Table>
     <add-source
+      :action="action"
       :apiType="apiType"
       @add="addSuccess"
       v-if="showAddSource"
       @cancel="showAddSource = !showAddSource"
     ></add-source>
     <pagination
-      v-if="page.totalNum > 0"
       :total="page.totalNum"
       :page.sync="page.currPage"
       :limit.sync="page.pageSize"
@@ -83,10 +96,18 @@ export default {
       type: String,
       default: "",
     },
-    apiType:{
-      type:String,
+    apiType: {
+      type: String,
       default: "",
-    }
+    },
+    action: {
+      type: String,
+      default: "baselist",
+    },
+    showSearch: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -116,7 +137,7 @@ export default {
     },
     baselist() {
       api({
-        action: "baselist",
+        action: this.action,
         type: this.apiType,
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
