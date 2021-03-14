@@ -6,4 +6,3 @@ export function api(data) {
     data,
   })
 }
-

@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/index'
+import echarts from 'echarts'
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import './style/variables.scss'
@@ -19,8 +21,14 @@ Vue.prototype.$axios = Axios
 Axios.defaults.baseURL = '/api'
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
+Vue.prototype.$echarts = echarts
+Vue.prototype.$axios = Axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
+
+Axios.defaults.baseURL = '/api'
+Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 /* eslint-disable no-new */
 new Vue({

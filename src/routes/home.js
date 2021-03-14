@@ -2,6 +2,7 @@ import Home from '@/views/home'
 import potentialDistributor from '@/views/potential-distributor'
 import distributorDocumentList from '@/views/distributor-document/list'
 import distributorDocumentDetail from '@/views/distributor-document/detail'
+import distributorDocumentStudentDetail from '@/views/distributor-document/studentDetail'
 import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
 import source from '@/views/basic-info/merchants-info/source'
 import department from '@/views/basic-info/merchants-info/department'
@@ -23,12 +24,16 @@ export default [
         path: '/distributorDocument',
         name: 'distributorDocumentList',
         component: distributorDocumentList,
-       
       },
       {
           path: '/distributorDocument/detail',
           name: 'distributorDocumentDetail',
           component: distributorDocumentDetail,
+      },
+      {
+        path: '/distributorDocument/studentDetail',
+        name: 'distributorDocumentStudentDetail',
+        component: distributorDocumentStudentDetail,
       },
       {
         path: '/potentialDistributor/edit',

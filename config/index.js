@@ -41,7 +41,33 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+    
+    proxyTable: {
+        '/api': {
+          target: 'http://dealer.qtdatas.com/api/Boke/Execobj',  // 接口域名
+          changeOrigin: true,  //是否跨域
+          pathRewrite: {
+            '^/api': '/'
+          }
+        }
+      },
+      
+      // proxyTable: {
+      //   '/login': {
+      //     target: "http://dealer.qtdatas.com",
+      //     changeOrigin:true,
+      //     secure: false,
+      //     pathRewrite:{
+      //         '^/api':''
+      //     }
+      //   }
+      // },
+    // proxyTable: {
+    //   context: ['http://dealer.qtdatas.com'],
+    //   target: 'http://dealer.qtdatas.com',
+    //   changOrigin: true
+    // }
   },
 
   build: {
