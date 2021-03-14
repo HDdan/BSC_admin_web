@@ -69,27 +69,27 @@ export default {
                 {
                   id: 301,
                   name: "数据来源",
-                  url: "/baseInfo/merchantsInfo/dataSource",
+                  url: "/baseInfo/merchantsInfo/source",
                 },
                 {
                   id: 302,
                   name: "医院主数据",
-                  url: "/userData302",
+                  url: "/baseInfo/merchantsInfo/hospital",
                 },
                 {
                   id: 303,
                   name: "产品主数据",
-                  url: "/userData303",
+                  url: "/baseInfo/merchantsInfo/product",
                 },
                 {
                   id: 304,
                   name: "科室主数据",
-                  url: "/userData304",
+                  url: "/baseInfo/merchantsInfo/department",
                 },
                 {
                   id: 305,
                   name: "品牌主数据",
-                  url: "/userData305",
+                  url: "/baseInfo/merchantsInfo/brand",
                 },
               ],
             },

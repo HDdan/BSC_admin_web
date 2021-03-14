@@ -3,7 +3,11 @@ import potentialDistributor from '@/views/potential-distributor'
 import distributorDocumentList from '@/views/distributor-document/list'
 import distributorDocumentDetail from '@/views/distributor-document/detail'
 import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
-import dataSource from '@/views/basic-info/merchants-info/data-source'
+import source from '@/views/basic-info/merchants-info/source'
+import department from '@/views/basic-info/merchants-info/department'
+import brand from '@/views/basic-info/merchants-info/brand'
+import hospital from '@/views/basic-info/merchants-info/hospital'
+import product from '@/views/basic-info/merchants-info/product'
 export default [
   {
     path: '/home',
@@ -32,9 +36,29 @@ export default [
         component: editPotentialDistributor,
       },
       {
-        path: '/baseInfo/merchantsInfo/dataSource',
-        name: 'dataSource',
-        component: dataSource,
+        path: '/baseInfo/merchantsInfo/source',
+        name: 'source',
+        component: source,
+      },
+      {
+        path: '/baseInfo/merchantsInfo/department',
+        name: 'department',
+        component: department,
+      },
+      {
+        path: '/baseInfo/merchantsInfo/brand',
+        name: 'brand',
+        component: brand,
+      },
+      {
+        path: '/baseInfo/merchantsInfo/hospital',
+        name: 'hospital',
+        component: hospital,
+      },
+      {
+        path: '/baseInfo/merchantsInfo/product',
+        name: 'product',
+        component: product,
       }
     ]
   }

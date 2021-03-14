@@ -104,8 +104,9 @@ export default {
 .pagination-container {
   padding: 0px !important;
   display: flex!important;
-  justify-content: flex-end!important;
   padding-top: 30px!important;
+  padding-bottom: 30px !important;
+  justify-content: center;
   .el-input--suffix .el-input__inner {
     width: 100%!important;
     height: 28px!important;

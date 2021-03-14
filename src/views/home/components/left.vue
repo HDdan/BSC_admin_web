@@ -47,8 +47,8 @@ export default {
       console.log("1111", this.$route.path.indexOf('/baseInfo/merchantsInfo/dataSource'));
     },
   },
-  mounted() {
-    console.log("dodododo", this.$route.path, this.route);
+  created() {
+    this.route = this.$route.path;
   },
   data() {
     return {
