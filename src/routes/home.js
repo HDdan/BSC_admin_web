@@ -3,6 +3,7 @@ import potentialDistributor from '@/views/potential-distributor'
 import distributorDocumentList from '@/views/distributor-document/list'
 import distributorDocumentDetail from '@/views/distributor-document/detail'
 import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
+import dataSource from '@/views/basic-info/merchants-info/data-source'
 export default [
   {
     path: '/home',
@@ -29,6 +30,11 @@ export default [
         path: '/potentialDistributor/edit',
         name: 'editPotentialDistributor',
         component: editPotentialDistributor,
+      },
+      {
+        path: '/baseInfo/merchantsInfo/dataSource',
+        name: 'dataSource',
+        component: dataSource,
       }
     ]
   }

@@ -44,7 +44,7 @@ export default {
     // 监听 this.$route.path     watch监听非DOM元素的改变
     "$route.path": function (newVal, oldVal) {
       this.route = this.$route.path;
-      console.log("1111", this.$route.path, this.route);
+      console.log("1111", this.$route.path.indexOf('/baseInfo/merchantsInfo/dataSource'));
     },
   },
   mounted() {

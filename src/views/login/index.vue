@@ -15,7 +15,6 @@
         <img class="login-page__right__wapper__welcome" src="@/assets/images/login-welcome@2x.png" />
       </div>
     </div>
-    <!-- <router-link to="/componyinfomanage" >Home</router-link> -->
   </div>
 </template>
 <script>
@@ -29,7 +28,17 @@ export default {
   },
   methods: {
     login() {
-      this.$router.replace({ path: '/home' });
+      this.$store
+        .dispatch("user/login", {
+      action: "login",
+      loginname: this.user,
+      password: this.password,
+    })
+        .then(() => {
+          this.$router.replace({ path: "/potentialDistributor" });
+        })
+        .catch(e => {
+        });
     }
   }
 }

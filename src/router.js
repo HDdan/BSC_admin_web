@@ -1,6 +1,7 @@
 import Vue    from 'vue';
 import Router from 'vue-router';
 import routes from './routes';
+import { getToken } from '@/utils/auth'
 
 Vue.use(Router);
 
@@ -12,4 +13,12 @@ router.afterEach((to, from) => {
   document.title = to.meta.title ? to.meta.title : '管理后台';
 });
 
+router.beforeEach((to, from, next) => {
+  if(to.path === '/login') {
+    next()
+  } else {
+    let token = getToken()
+    token ? next() : next('/login')
+  }
+})
 export default router;

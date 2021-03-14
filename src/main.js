@@ -3,11 +3,21 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+import store from './store/index'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import './style/variables.scss'
 import "./style/common/index.css";
+import Axios from 'axios'
+import { getToken } from '@/utils/auth'
+import qs from 'qs';
+Vue.prototype.$qs = qs;
+
+
+Vue.prototype.$axios = Axios
+
+Axios.defaults.baseURL = '/api'
+Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -16,6 +26,7 @@ Vue.use(ElementUI)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

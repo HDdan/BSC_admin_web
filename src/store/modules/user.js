@@ -1,13 +1,12 @@
 import {
   login,
-  logout
+  getUsers,
+  getPageLogs
 } from "@/api/user";
-import { getToken, setToken, removeToken } from "@/services/env";
-import axios from "axios";
-import qs from "qs";
+import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const state = {
-  token: getToken()
+  // token: getToken()
 };
 
 const mutations = {
@@ -18,16 +17,17 @@ const mutations = {
 
 const actions = {
   login({ commit }, userInfo) {
-    const { account, password } = userInfo;
+    const { action,loginname, password } = userInfo;
     return new Promise((resolve, reject) => {
       login({
-        account: account,
+        action:action,
+        loginname: loginname,
         password: password
       })
         .then(response => {
           const { data } = response;
-          commit("SET_TOKEN", data.token);
-          setToken(data.token);
+          commit("SET_TOKEN", data);
+          setToken(data);
           resolve();
         })
         .catch(error => {
@@ -40,15 +40,8 @@ const actions = {
       logout(state.token)
         .then(() => {
           commit("SET_TOKEN", "");
-          commit("SET_ROLES", []);
           removeToken();
           // resetRouter()
-
-          // reset visited views and cached views
-          // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-          dispatch("tagsView/delAllViews", null, {
-            root: true
-          });
 
           resolve();
         })
@@ -60,7 +53,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit("SET_TOKEN", "");
-      commit("SET_ROLES", []);
+      // commit("SET_ROLES", []);
       removeToken();
       resolve();
     });

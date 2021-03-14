@@ -6,26 +6,23 @@
         <el-radio-button :label="true">收起</el-radio-button>
       </el-radio-group> -->
       <div></div>
-      <el-dropdown>
+      <el-dropdown   @command="resetToken">
         <div class="header-admin">
           <div>
             <i class="iconfont iconyonghuming-2"></i>
-            {{ this.$route.path }}
           </div>
 
           <span>admin</span>
         </div>
 
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
-          <el-dropdown-item>新增</el-dropdown-item>
-          <el-dropdown-item>删除</el-dropdown-item>
+          <el-dropdown-item>退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
     <el-container>
       <el-aside width="200px">
-      <Left :munuList="munuList" class="home-menu"/>
+        <Left :munuList="munuList" class="home-menu" />
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -35,14 +32,12 @@
 </template>
 
 <script>
-import Left from './components/left.vue';
+import Left from "./components/left.vue";
 import "./index.scss";
-// import {
-//     login
-//   } from "@/api/user";
+import { login } from "@/api/user";
 export default {
-   components: {
-    Left
+  components: {
+    Left,
   },
   data() {
     return {
@@ -62,19 +57,19 @@ export default {
         {
           id: 3,
           name: "基础主数据",
-          url: "/userData3",
+          url: "/baseInfo",
           icon: "iconfont iconjichuzhushuju-hui",
           child: [
             {
               id: 30,
               name: "招商主数据",
-              url: "/userData30",
+              url: "/merchantsInfo",
               icon: "",
               child: [
                 {
                   id: 301,
                   name: "数据来源",
-                  url: "/componyinfomanage",
+                  url: "/baseInfo/merchantsInfo/dataSource",
                 },
                 {
                   id: 302,
@@ -155,26 +150,14 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    resetToken(){
+      this.$store.dispatch("user/resetToken").then(()=>{
+        location.reload()
+      })
+    }
+  },
   created() {
-console.log("ppppdppdpdpd")
-      // new Promise((resolve, reject) => {
-        // login({
-        //  action:"login",loginname:"admin",password:"13133332222"
-        // })
-        //   .then(response => {
-        //     const { data } = response;
-        //     console.log("ppppp",data)
-        //     // commit("SET_TOKEN", data.token);
-        //     // setToken(data.token);
-        //     resolve();
-        //   })
-        //   .catch(error => {
-        //     reject(error);
-        //   });
-      // });
-
-    console.log("this.$router", this.$route);
   },
 };
 </script>

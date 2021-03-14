@@ -1,6 +1,5 @@
 import qs from 'qs';
 import api from '@/api';
-import wechatSdkService from './wechat-sdk';
 
 const TokenKey = 'Admin-Token'
 

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import "./index.scss";
 export default {
   methods: {
     tableRowClassName({ row, rowIndex }) {
