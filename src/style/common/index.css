@@ -1,6 +1,7 @@
 .main {
   background: #fff;
   min-width: 1200px;
+  min-height: 100%;
 }
 .main-header {
   height: 63px;

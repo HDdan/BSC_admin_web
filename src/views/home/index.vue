@@ -6,7 +6,7 @@
         <el-radio-button :label="true">收起</el-radio-button>
       </el-radio-group> -->
       <div></div>
-      <el-dropdown   @command="resetToken">
+      <el-dropdown @command="resetToken">
         <div class="header-admin">
           <div>
             <i class="iconfont iconyonghuming-2"></i>
@@ -35,9 +35,13 @@
 import Left from "./components/left.vue";
 import "./index.scss";
 import { login } from "@/api/user";
+import Watermark from "@/utils/watermark"; //路径不要写错
 export default {
   components: {
     Left,
+  },
+  mounted: function() {
+    Watermark.set("2020年01月12日  20时", "admin  U87653421");
   },
   data() {
     return {
@@ -65,37 +69,37 @@ export default {
               name: "招商主数据",
               url: "/merchantsInfo",
               icon: "",
-              left:'15px',
+              left: "15px",
               child: [
                 {
                   id: 301,
                   name: "数据来源",
                   url: "/baseInfo/merchantsInfo/source",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 302,
                   name: "医院主数据",
                   url: "/baseInfo/merchantsInfo/hospital",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 303,
                   name: "产品主数据",
                   url: "/baseInfo/merchantsInfo/product",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 304,
                   name: "科室主数据",
                   url: "/baseInfo/merchantsInfo/department",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 305,
                   name: "品牌主数据",
                   url: "/baseInfo/merchantsInfo/brand",
-                  left:'30px',
+                  left: "30px",
                 },
               ],
             },
@@ -103,37 +107,37 @@ export default {
               id: 31,
               name: "OBOR主数据",
               url: "/userData31",
-              left:'15px',
+              left: "15px",
               child: [
                 {
                   id: 311,
                   name: "基础主数据",
                   url: "/userData312",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 312,
                   name: "销量主数据",
                   url: "/userData312",
-                  left:'30px',
+                  left: "30px",
                 },
-                 {
+                {
                   id: 313,
                   name: "SFE主数据",
                   url: "/userData313",
-                  left:'30px',
+                  left: "30px",
                 },
                 {
                   id: 314,
                   name: "优势标签主数据",
                   url: "/userData314",
-                  left:'30px',
+                  left: "30px",
                 },
-                 {
+                {
                   id: 315,
                   name: "线上线下赋能主数据",
                   url: "/userData315",
-                  left:'30px',
+                  left: "30px",
                 },
               ],
             },
@@ -141,13 +145,13 @@ export default {
               id: 41,
               name: "拜访主数据",
               url: "/userData41",
-              left:'15px',
+              left: "15px",
             },
             {
               id: 42,
               name: "调研主数据",
               url: "/userData42",
-              left:'15px',
+              left: "15px",
             },
           ],
         },
@@ -180,13 +184,12 @@ export default {
   },
   computed: {},
   methods: {
-    resetToken(){
-      this.$store.dispatch("user/resetToken").then(()=>{
-        location.reload()
-      })
-    }
+    resetToken() {
+      this.$store.dispatch("user/resetToken").then(() => {
+        location.reload();
+      });
+    },
   },
-  created() {
-  },
+  created() {},
 };
 </script>

@@ -94,4 +94,7 @@
   .menu__level3 {
     background-color: #f6f6f6 !important;
   }
+  .el-menu-item:focus, .el-menu-item:hover{
+    background-color:transparent
+  }
 }
