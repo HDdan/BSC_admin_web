@@ -3,15 +3,22 @@ import {
   getUsers,
   getPageLogs
 } from "@/api/user";
+import {
+  api
+} from "@/api";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const state = {
-  token: getToken()
+  token: getToken(),
+  roleOptions:[]
 };
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token;
+  },
+  SET_ROLE_OPTIONS: (state, roleOptions) => {
+    state.roleOptions = roleOptions;
   },
 };
 
@@ -58,6 +65,22 @@ const actions = {
       resolve();
     });
   },
+  roleOptions({commit}){
+    return new Promise((resolve, reject) => {
+      api({
+        action:"rolelist",
+      })
+        .then(response => {
+          const { data } = response;
+          commit("SET_ROLE_OPTIONS", data);
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
 };
 
 export default {

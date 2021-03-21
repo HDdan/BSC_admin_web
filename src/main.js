@@ -13,6 +13,8 @@ import "./style/common/index.css";
 import Axios from 'axios'
 import { getToken } from '@/utils/auth'
 import qs from 'qs';
+import { api } from "@/api";
+Vue.prototype.$api = api;
 Vue.prototype.$qs = qs;
 
 

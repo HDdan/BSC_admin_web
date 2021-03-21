@@ -5,6 +5,11 @@ import distributorDocumentDetail from '@/views/distributor-document/detail'
 import distributorDocumentStudentDetail from '@/views/distributor-document/studentDetail'
 import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
 import source from '@/views/basic-info/merchants-info/source'
+import basicInfo from '@/views/obor/basic-info'
+import salesInfo from '@/views/obor/sales-info'
+import sfeInfo from '@/views/obor/sfe-info'
+import lableInfo from '@/views/obor/lable-info'
+import courseInfo from '@/views/obor/course-info'
 import department from '@/views/basic-info/merchants-info/department'
 import brand from '@/views/basic-info/merchants-info/brand'
 import hospital from '@/views/basic-info/merchants-info/hospital'
@@ -44,6 +49,31 @@ export default [
         path: '/potentialDistributor/edit',
         name: 'editPotentialDistributor',
         component: editPotentialDistributor,
+      },
+      {
+        path: '/obor/basicInfo',
+        name: 'basicInfo',
+        component: basicInfo,
+      },
+      {
+        path: '/obor/salesInfo',
+        name: 'salesInfo',
+        component: salesInfo,
+      },
+      {
+        path: '/obor/sfeInfo',
+        name: 'sfeInfo',
+        component: sfeInfo,
+      },
+      {
+        path: '/obor/lableInfo',
+        name: 'lableInfo',
+        component: lableInfo,
+      },
+      {
+        path: '/obor/courseInfo',
+        name: 'courseInfo',
+        component: courseInfo,
       },
       {
         path: '/baseInfo/merchantsInfo/source',

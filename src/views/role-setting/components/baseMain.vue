@@ -1,12 +1,28 @@
 <template>
   <div class="main">
-    <div class="main-header">导出记录</div>
-    <SearchBar/>
+    <div class="main-header">{{ title }}</div>
+    <div class="info-search mt-30 mb-20 ml-20 mr-20">
+      <TotalAndTime />
+      <div class="info-search__right">
+        <el-button
+          icon="fz-14 mr-8 iconfont iconxinzeng"
+          type="primary"
+          @click="addSource"
+          >{{ btnType }}</el-button
+        >
+      </div>
+    </div>
     <Table
       :tableData="tableData.list || tableData"
       @alter="alterInfo"
       @del="baselist"
     ></Table>
+    <add-source
+      ref="roleData"
+      @add="addSuccess"
+      v-if="showAddSource"
+      @cancel="showAddSource = !showAddSource"
+    ></add-source>
     <pagination
       :total="page.totalNum"
       :page.sync="page.currPage"
@@ -17,14 +33,14 @@
 </template>
 
 <script>
-import Table from "./components/table";
+import Table from "./table.vue";
 // import "../index.scss";
-import SearchBar from "./components/searchBar";
+import AddSource from "./addSource.vue";
 import TotalAndTime from "@/components/TotalAndTime";
 import Pagination from "@/components/Pagination";
 
 export default {
-  components: { Table, SearchBar, Pagination, TotalAndTime },
+  components: { Table, AddSource, Pagination, TotalAndTime },
   props: {
     title: {
       type: String,
@@ -66,7 +82,6 @@ export default {
       });
     },
     handlePagination(val) {
-      console.log("oodooso", val);
       this.page.currPage = val.page;
       this.baselist();
       // this.$emit("handlePagination");
@@ -80,7 +95,7 @@ export default {
     },
     baselist() {
       this.$api({
-        action: "filedownloadlist",
+        action: "userlist",
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
       }).then((res) => {

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">导出记录</div>
+    <div class="main-header">线上线下赋能主数据</div>
     <SearchBar/>
     <Table
       :tableData="tableData.list || tableData"
@@ -80,7 +80,8 @@ export default {
     },
     baselist() {
       this.$api({
-        action: "filedownloadlist",
+        action: "oborlist",
+        type:'course',
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
       }).then((res) => {

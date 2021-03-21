@@ -40,7 +40,7 @@ export default {
   components: {
     Left,
   },
-  mounted: function() {
+  mounted: function () {
     Watermark.set("2020年01月12日  20时", "admin  U87653421");
   },
   data() {
@@ -57,6 +57,44 @@ export default {
           name: "经销商档案",
           url: "/distributorDocument",
           icon: "iconfont iconjingxiaoshangdangan-hui",
+        },
+        {
+          id: 31,
+          name: "OBOR主数据",
+          url: "/obor",
+          icon: "iconfont iconjingxiaoshangdangan-hui",
+          child: [
+            {
+              id: 311,
+              name: "基础主数据",
+              url: "/obor/basicInfo",
+              left: "15px",
+            },
+            {
+              id: 312,
+              name: "销量主数据",
+              url: "/obor/salesInfo",
+              left: "15px",
+            },
+            {
+              id: 313,
+              name: "SFE主数据",
+              url: "/obor/sfeInfo",
+              left: "15px",
+            },
+            {
+              id: 314,
+              name: "优势标签主数据",
+              url: "/obor/lableInfo",
+              left: "15px",
+            },
+            {
+              id: 315,
+              name: "线上线下赋能主数据",
+              url: "/obor/courseInfo",
+              left: "15px",
+            },
+          ],
         },
         {
           id: 3,
@@ -99,44 +137,6 @@ export default {
                   id: 305,
                   name: "品牌主数据",
                   url: "/baseInfo/merchantsInfo/brand",
-                  left: "30px",
-                },
-              ],
-            },
-            {
-              id: 31,
-              name: "OBOR主数据",
-              url: "/userData31",
-              left: "15px",
-              child: [
-                {
-                  id: 311,
-                  name: "基础主数据",
-                  url: "/userData312",
-                  left: "30px",
-                },
-                {
-                  id: 312,
-                  name: "销量主数据",
-                  url: "/userData312",
-                  left: "30px",
-                },
-                {
-                  id: 313,
-                  name: "SFE主数据",
-                  url: "/userData313",
-                  left: "30px",
-                },
-                {
-                  id: 314,
-                  name: "优势标签主数据",
-                  url: "/userData314",
-                  left: "30px",
-                },
-                {
-                  id: 315,
-                  name: "线上线下赋能主数据",
-                  url: "/userData315",
                   left: "30px",
                 },
               ],

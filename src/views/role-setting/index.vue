@@ -2,15 +2,17 @@
     <base-main
     :title="'权限设置'"
     :btnType="'权限角色'"
-    :action="'userlist'"
   ></base-main>
 
 </template>
 
 <script>
-import baseMain from '../basic-info/merchants-info/components/baseMain.vue'
+import baseMain from './components/baseMain'
 export default {
   components: { baseMain },
+  created(){
+    this.$store.dispatch("user/roleOptions");
+  }
 }
 </script>
 

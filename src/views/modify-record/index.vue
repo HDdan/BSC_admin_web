@@ -1,43 +1,103 @@
 <template>
   <div class="main">
-      <div class="main-header">修改记录</div>
-      <div class="mt-30 ml-20">
-            <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="input4">
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-      </el-input>
-      <el-date-picker
-        class="mr-16 mb-16"
-        v-model="value1"
-        type="daterange"
-        range-separator="-"
-        start-placeholder="沟通开始日期"
-        end-placeholder="结束日期"
-      >
-      </el-date-picker>
-       <el-select class="mr-15 mb-16" v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      <el-button type="primary">检索</el-button>
-
-      </div>
-      <Table/>
+    <div class="main-header">修改记录</div>
+    <SearchBar/>
+    <Table
+      :tableData="tableData.list || tableData"
+      @alter="alterInfo"
+      @del="baselist"
+    ></Table>
+    <pagination
+      :total="page.totalNum"
+      :page.sync="page.currPage"
+      :limit.sync="page.pageSize"
+      @pagination="handlePagination"
+    />
   </div>
 </template>
 
 <script>
-import Table from './table'
+import Table from "./components/table";
+// import "../index.scss";
+import SearchBar from "./components/searchBar";
+import TotalAndTime from "@/components/TotalAndTime";
+import Pagination from "@/components/Pagination";
+
 export default {
-  components: { Table },
-
-}
+  components: { Table, SearchBar, Pagination, TotalAndTime },
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    btnType: {
+      type: String,
+      default: "",
+    },
+    showSearch: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  data() {
+    return {
+      showAddSource: false,
+      baseData: {},
+      page: {
+        currPage: 1,
+        pageSize: 12,
+        totalNum: 0,
+      },
+      tableData: [],
+    };
+  },
+  methods: {
+    alterInfo(val) {
+      this.showAddSource = true;
+      this.$nextTick(() => {
+        let roleData = this.$refs.roleData;
+        roleData.id = val.Id;
+        roleData.code = val.Code;
+        roleData.name = val.Name;
+        roleData.phone = val.Phone;
+        roleData.roleid = this.$store.getters.roleOptions.filter(
+          (v) => v.Id == val.RoleId
+        )[0].Name;
+      });
+    },
+    handlePagination(val) {
+      console.log("oodooso", val);
+      this.page.currPage = val.page;
+      this.baselist();
+      // this.$emit("handlePagination");
+    },
+    addSource() {
+      this.showAddSource = true;
+    },
+    addSuccess() {
+      this.showAddSource = false;
+      this.baselist();
+    },
+    baselist() {
+      this.$api({
+        action: "potentialdealersupdataloglist",
+        operationuserid:"",
+        type:"",
+        detail:"",
+        name:"",
+        starttime:"",
+        endtime:"",
+        pageindex: this.page.currPage,
+        pagesize: this.page.pageSize,
+      }).then((res) => {
+        this.baseData = res;
+        this.tableData = res.data;
+        this.page.totalNum = res.count;
+      });
+    },
+  },
+  created() {
+    this.baselist();
+  },
+};
 </script>
-
-<style>
-
-</style>
