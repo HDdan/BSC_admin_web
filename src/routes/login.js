@@ -2,7 +2,7 @@
 import login from '@/views/login/index'
 export default [
   {
-    path: '/login', 
+    path: '/', 
     name: 'login',
     component: login, 
   },

@@ -14,11 +14,11 @@ router.afterEach((to, from) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.path === '/login') {
+  if(to.path === '/') {
     next()
   } else {
     let token = getToken()
-    token ? next() : next('/login')
+    token ? next() : next('/')
   }
 })
 export default router;
