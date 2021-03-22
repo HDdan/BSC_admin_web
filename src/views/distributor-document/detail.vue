@@ -38,7 +38,7 @@ import VisitInfo from './detail/visit-info';
 export default {
   data() {
     return {
-      activeNames: ['1','2','3','4'],
+      activeNames: ['1','2','3','4','5'],
       searchInput: ''
     }
   },

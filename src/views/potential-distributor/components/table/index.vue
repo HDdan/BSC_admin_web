@@ -5,6 +5,7 @@
     :data="tableData"
     style="width: 100%"
     :row-class-name="tableRowClassName"
+    @row-click="gotoDetail"
   >
     <el-table-column prop="date" label="序号" width="60"> </el-table-column>
     <el-table-column prop="address" label="经销商名称" width="100"> </el-table-column>
@@ -42,8 +43,11 @@ export default {
       } else{
         return "";
       }
-     
     },
+    gotoDetail() {
+      this.$router.push({ path: '/potentialDistributor/edit' });
+      console.log("detail");
+    }
   },
   data() {
     return {

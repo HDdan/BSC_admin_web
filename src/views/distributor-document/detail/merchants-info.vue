@@ -1,25 +1,22 @@
 <template>
   <div class="merchants-info">
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item title="基本信息" name="1">
-        <base-info></base-info>
+      <el-collapse-item title="覆盖医院" name="1">
+        <hospital-list></hospital-list>
       </el-collapse-item>
-      <el-collapse-item title="OBOR信息" name="2">
-        <obor-info></obor-info>
+      <el-collapse-item title="招商沟通记录" name="2">
+        <connect-list></connect-list>
       </el-collapse-item>
-      <el-collapse-item title="渠道经理拜访信息" name="3">
-        <visit-info></visit-info>
-      </el-collapse-item>
-      <el-collapse-item title="调研问卷" name="4">
-        <survey-info></survey-info>
-      </el-collapse-item>
-      <el-collapse-item title="招商信息" name="5">
-        <merchants-info></merchants-info>
+      <el-collapse-item title="推送记录" name="3">
+        <push-info-list></push-info-list>
       </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 <script>
+import HospitalList from './merchants-info/hospital-list';
+import ConnectList  from './merchants-info/connect-list';
+import PushInfoList from './merchants-info/push-info-list';
 export default {
   data() {
     return {
@@ -31,5 +28,6 @@ export default {
       console.log(val);
     }
   },
+  components: { HospitalList, ConnectList, PushInfoList }
 }
 </script>
