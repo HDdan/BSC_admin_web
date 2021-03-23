@@ -14,14 +14,14 @@
   }
   .el-table th.is-leaf{
     background: #F9F9F9;
-    &::after{
-        content: '';
-        position: absolute;
-        right: 5px;
-        bottom: 5px;
-        border-right: 1px solid #999999;
-        height: 6px;
-        border-bottom: 1px solid #999999;
-        width: 6px;
-    }
+    // &::after{
+    //     content: '';
+    //     position: absolute;
+    //     right: 5px;
+    //     bottom: 5px;
+    //     border-right: 1px solid #999999;
+    //     height: 6px;
+    //     border-bottom: 1px solid #999999;
+    //     width: 6px;
+    // }
   }
