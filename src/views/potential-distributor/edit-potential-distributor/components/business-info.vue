@@ -11,7 +11,7 @@
     </div>
     <div class="business-info__main">
       <el-table
-      :data="tableData"
+      :data="tableData.list"
       style="width: 100%"
       >
         <el-table-column prop="id" label="序号"></el-table-column>
@@ -20,6 +20,25 @@
         <el-table-column prop="businessRegion" label="可以用作波科销售的业务人数"></el-table-column>
         <el-table-column prop="businessRegion" label="操作"></el-table-column>
       </el-table>
+      <div class="add-source ml-20 mr-20 mt-24">
+        <el-select class="mt-34 ml-24" v-model="province" placeholder="业务省份">
+          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+          </el-option>
+        </el-select>
+        <el-select class="mt-34 ml-24" v-model="city" placeholder="业务城市">
+          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+          </el-option>
+        </el-select>
+        <el-select class="mt-34 ml-24" v-model="county" placeholder="否县级区域">
+          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+          </el-option>
+        </el-select>
+        <el-input class="mt-10 ml-24" placeholder="可以用作波科销售的业务人数" v-model="phone" style="width: 30%"></el-input>
+        <div class="add-source__btn ml-24 mt-30">
+          <el-button type="primary" @click="add">添加</el-button>
+          <el-button @click="cancel">取消</el-button>
+        </div>
+      </div>
       <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
     </div>
   </div>
@@ -29,7 +48,15 @@ import Pagination from '../../../../components/Pagination'
 export default {
   data() {
     return {
-      
+      tableData: {
+        list: [{
+          id: 1,
+          name: 'ddd',
+          businessType: 'jijii',
+          businessRegion: 'fssss'
+        }],
+        meta: {}
+      }
     }
   },
   methods: {
@@ -64,6 +91,18 @@ export default {
   }
   &__main {
     padding:16px;
+  }
+}
+
+.add-source {
+  .el-select {
+    width: 30%;
+  }
+  .el-select > .el-input {
+    width: 100%;
+  }
+  .el-input--suffix .el-input__inner {
+    width: 100%;
   }
 }
 </style>
