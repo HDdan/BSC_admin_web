@@ -17,7 +17,7 @@
         <el-input v-model="ruleForm.name" suffix-icon="el-icon-edit"></el-input>
       </el-form-item>
       <div class="ml-20">
-        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">取消</el-button>
       </div>
     </el-form>

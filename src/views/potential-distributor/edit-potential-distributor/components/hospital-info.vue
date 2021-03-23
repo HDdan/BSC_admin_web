@@ -2,75 +2,178 @@
   <div class="business-info">
     <div class="business-info__header">
       <div class="business-info__header__title">
-        <span>共6条</span>
+        <span>共{{ hospitalList_total }}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
       <div class="business-info__header__query">
-        <el-button type="primary" @click="addBusinessType">+覆盖医院</el-button>
+        <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addHospital">覆盖医院</el-button>
       </div>
     </div>
     <div class="business-info__main">
       <el-table
-      :data="tableData.list"
+      :data="hospitalsList"
       style="width: 100%"
       >
         <el-table-column prop="id" label="序号"></el-table-column>
-        <el-table-column prop="name" label="医院名称"></el-table-column>
-        <el-table-column prop="businessType" label="医院编号"></el-table-column>
-        <el-table-column prop="businessRegion" label="医院科室"></el-table-column>
+        <el-table-column prop="hospitalname" label="医院名称"></el-table-column>
+        <el-table-column prop="hospitalcode" label="医院编号"></el-table-column>
+        <el-table-column prop="department" label="医院科室"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
           <template slot-scope="scope">
             <span style="display: flex">
-              <div class="mr-15" style="color: #4196ff; cursor: pointer" 
-              ><span>修改</span>|<span>删除</span> </div>
+              <div class="mr-15" style="color: #4196ff; cursor: pointer" @click="openEditHospital(scope.row)"
+              >修改</div>
+              <p>|</p>
+              <div class="ml-15" style="color: #4196ff; cursor: pointer" @click="delHospital(scope.row)"
+              >删除</div>
             </span>
           </template>
         </el-table-column>
       </el-table>
-      <div class="add-source ml-20 mr-20 mt-24">
-        <el-select class="mt-34 ml-24" v-model="province" placeholder="医院名称">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+      <div v-if="addCoverHospitalsVisible" class="add-source ml-20 mr-20 mt-24">
+        <el-select class="mt-34 ml-24" v-model="form.hospitalname" placeholder="医院名称">
+          <el-option v-for="item in option.hospitalOption" :key="item.hospitalCode" :value="item.hospitalname">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="医院编号">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
-          </el-option>
-        </el-select>
-        <el-select class="mt-34 ml-24" v-model="county" placeholder="医院科室">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-input class="mt-34 ml-24" v-model="form.hospitalcode" placeholder="医院编号"></el-input>
+        <el-select class="mt-34 ml-24" v-model="form.department" placeholder="医院科室">
+          <el-option v-for="item in option.departmentOption" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
         <div class="add-source__btn ml-24 mt-30">
-          <el-button type="primary" @click="add">添加</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="editPotentialDealersCoverHospitals">添加</el-button>
+          <el-button @click="cancelHospital">取消</el-button>
         </div>
       </div>
-      <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
+      <pagination v-if="hospitalList_total>0" :total="hospitalList_total" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
     </div>
   </div>
 </template>
 <script>
-import Pagination from '../../../../components/Pagination'
+import Pagination from '../../../../components/Pagination';
+import { lowerJSONKey } from '../../../../utils/index';
+
 export default {
   data() {
     return {
-      tableData: {
-        list: [{
-          id: 1,
-          name: 'ddd',
-          businessType: 'jijii',
-          businessRegion: 'fssss'
-        }],
-        meta: {}
-      }
+      addCoverHospitalsVisible: false,
+      currentEditHospitalId: null,
+      potentialDealersId: 1,
+      hospitalsList: null,
+      meta: {
+        currPage: 1,
+        pageSize: 2
+      },
+      hospitalList_total: 0,
+      option: {
+        departmentOption: null,
+        hospitalOption: null,
+        sexOptions: [{
+          value: '男',
+        },{
+          value: '女',
+        }]
+      },
+      form: {}
     }
   },
+  created() {
+    this.fetchDepartmentList();
+    this.fetchHospitalList();
+    this.fetchPotentialDealersCoverHospitalsList();
+  },
   methods: {
-    addBusinessType() {
-
+    addHospital() {
+      this.addCoverHospitalsVisible = true;
+      this.form = {};
+    },
+    cancelHospital() {
+      this.addCoverHospitalsVisible = false;
+    },
+    openEditHospital(row) {
+      this.addCoverHospitalsVisible = true;
+      this.currentEditHospitalId = row.id;
+      this.fetchPotentialDealersCoverHospitalsDetail(row.id);
+    },
+    delHospital(row) {
+      this.currentEditHospitalId = row.id;
+      this.deletePotentialDealersCoverHospitalsDelete(row.id);
     },
     handlePagination() {
-      
+      this.fetchPotentialDealersCoverHospitalsList();
+    },
+    editPotentialDealersCoverHospitals() {
+      this.$api({
+        action: "PotentialDealersCoverHospitalsEdit",
+        id: this.currentEditHospitalId ? this.currentEditHospitalId : 0,
+        potentialdealersid: this.potentialDealersId,
+        hospitalname: this.form.hospitalname,
+        department: this.form.department,
+        hospitalcode: this.form.hospitalcode
+      }).then(() => {
+        this.fetchPotentialDealersCoverHospitalsList();
+        this.addCoverHospitalsVisible = false;
+        this.currentEditHospitalId = null;
+      });
+    },
+    deletePotentialDealersCoverHospitalsDelete(id) {
+      this.$api({
+        action: "PotentialDealersCoverHospitalsDelete",
+        id: id,
+        potentialdealersid: this.potentialDealersId,
+      }).then(res => {
+        this.fetchPotentialDealersCoverHospitalsList();
+      });
+    },
+    fetchPotentialDealersCoverHospitalsDetail(id) {
+      this.$api({
+        action: "PotentialDealersCoverHospitalsDetail",
+        id: id,
+        potentialdealersid: this.potentialDealersId,
+      }).then(res => {
+        res.data = lowerJSONKey(res.data);
+        this.form = res.data;
+      });
+    },
+    fetchPotentialDealersCoverHospitalsList() {
+      this.$api({
+        action: "PotentialDealersCoverHospitalsList",
+        potentialdealersid: this.potentialDealersId,
+        pageindex: this.meta.currPage,
+        pagesize: this.meta.pageSize
+      }).then(res => {
+        res.data.forEach(item => {
+          item = lowerJSONKey(item);
+        });
+        this.hospitalsList = res.data;
+        this.hospitalList_total = res.count;
+      });
+    },
+    fetchDepartmentList() {
+      this.$api({
+        action: "BaseList",
+        type: 'department',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['departmentOption'] = res.data.list;
+      });
+    },
+    fetchHospitalList() {
+      this.$api({
+        action: "BaseList",
+        type: 'hospital',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['hospitalOption'] = res.data.list;
+      });
     }
   },
   components: { Pagination }

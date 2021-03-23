@@ -119,13 +119,13 @@ export default {
         action: "PotentialDealersPersonsEdit",
         id: this.currentEditPersonId ? this.currentEditPersonId : 0,
         potentialdealersid: this.potentialDealersId,
-        provice: this.form.province,
+        province: this.form.province,
         position: this.form.position,
         city: this.form.city,
         name: this.form.name,
         gender: this.form.gender,
         phone: this.form.phone,
-        fixedphone: this.form.fixedphone,
+        fixedPhone: this.form.fixedphone,
         address: this.form.address,
         remark: this.form.remark
       }).then(() => {
