@@ -1,13 +1,14 @@
 <template>
   <div class="edit-potential-distributor-base">
-    <el-form :model="baseForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm">
+    <div class="ml-20 mt-25 mb-25" style="color: #333333;font-size:14px">最近更新时间：{{ baseForm.updatetime }}</div>
+    <el-form :model="baseForm" :rules="rules" ref="ruleForm" label-width="200px" class="edit-potential-distributor-base__form">
       <el-form-item label="数据来源：" prop="sources">
         <el-select v-if="edit_flg['sources']" v-model="baseForm.sources">
           <el-option
-            v-for="item in sourcesOption"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in option.sourceOption"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
           </el-option>
         </el-select>
         <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('sources')">
@@ -29,34 +30,99 @@
         </div>
       </el-form-item>
       <el-form-item label="经销商状态:" prop="name">
-        <el-input v-model="baseForm.DealerStatus" suffix-icon="el-icon-edit"></el-input>
+        <div class="edit-potential-distributor-base__detail">
+          <span>{{ baseForm.dealerstatus }}</span>
+        </div>
       </el-form-item>
       <el-form-item label="潜在经销商名称:" prop="name">
-        <el-input v-model="baseForm.dealername" suffix-icon="el-icon-edit"></el-input>
+        <el-input v-if="edit_flg['dealername']" v-model="baseForm.dealername"></el-input>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('dealername')">
+          <span>{{ baseForm.dealername }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
       <el-form-item label="营业范围是否医疗器械:" prop="name">
-        <el-input v-model="baseForm.medicalinstruments" suffix-icon="el-icon-edit"></el-input>
+        <el-select v-if="edit_flg['medicalinstruments']" v-model="baseForm.medicalinstruments">
+          <el-option
+            v-for="item in option.medicalInstrumentsOption"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('medicalinstruments')">
+          <span>{{ baseForm.medicalinstruments }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
       <el-form-item label="是否从事高值介入产品：" prop="name">
-        <el-input v-model="baseForm.highvalueintervention" suffix-icon="el-icon-edit"></el-input>
+        <el-select v-if="edit_flg['highvalueintervention']" v-model="baseForm.highvalueintervention">
+          <el-option
+            v-for="item in option.highValueInterventionOption"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('highvalueintervention')">
+          <span>{{ baseForm.highvalueintervention }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
       <el-form-item label="合作科室：" prop="name">
-        <el-input v-model="baseForm.department" suffix-icon="el-icon-edit"></el-input>
+        <el-select v-if="edit_flg['department']" v-model="baseForm.department" multiple>
+          <el-option
+            v-for="item in option.departmentOption"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
+          </el-option>
+        </el-select>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('department')">
+          <span>{{ baseForm.department }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
       <el-form-item label="主营产品类型：" prop="name">
-        <el-input v-model="baseForm.mainproducttypes" suffix-icon="el-icon-edit"></el-input>
+        <el-select v-if="edit_flg['mainproducttypes']" v-model="baseForm.mainproducttypes">
+          <el-option
+            v-for="item in option.mainProductTypesOption"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
+          </el-option>
+        </el-select>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainproducttypes')">
+          <span>{{ baseForm.mainproducttypes }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
       <el-form-item label="主营产品明细：" prop="name">
-        <el-input v-model="baseForm.mainproducts" suffix-icon="el-icon-edit"></el-input>
+        <el-input v-if="edit_flg['mainproducts']" v-model="baseForm.mainproducts"></el-input>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainproducts')">
+          <span>{{ baseForm.mainproducts }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
-      <el-form-item label="主营品牌：" prop="name">
-        <el-input v-model="baseForm.mainbrands" suffix-icon="el-icon-edit"></el-input>
+      <el-form-item label="主营品牌：" prop="mainbrands">
+        <el-select v-if="edit_flg['mainbrands']" v-model="baseForm.mainbrands">
+          <el-option
+            v-for="item in option.brandOption"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
+          </el-option>
+        </el-select>
+        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainbrands')">
+          <span>{{ baseForm.mainbrands }}</span>
+          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+        </div>
       </el-form-item>
-      <div class="ml-20" v-if="isEdit">
-        <el-button type="primary" @click="editPotentialDealersBase('ruleForm')">保存</el-button>
-        <el-button @click="resetForm('ruleForm')">取消</el-button>
-      </div>
     </el-form>
+    <div class="ml-20" v-if="isEdit">
+      <el-button type="primary" @click="editPotentialDealersBase('ruleForm')">保存</el-button>
+      <el-button @click="resetForm('ruleForm')">取消</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -65,16 +131,6 @@ import { lowerJSONKey } from '../../../../utils/index';
 export default {
   data() {
     return {
-      // baseForm: {
-      //   sources: 'ssss',
-      //   region: '',
-      //   date1: '',
-      //   date2: '',
-      //   delivery: false,
-      //   type: [],
-      //   resource: '',
-      //   desc: ''
-      // },
       isEdit: false,
       edit_flg: {
         sources: false,
@@ -87,10 +143,26 @@ export default {
         mainproducts: false,
         mainbrands: false
       },
-      sourcesOption: [{
-        value: 1,
-        lable: 'ddd'
-      }],
+      option: {
+        sourceOption: null,
+        medicalInstrumentsOption: [{
+          value: '否',
+          lable: '否'
+        },{
+          value: '是',
+          lable: '是'
+        }],
+        highValueInterventionOption:[{
+          value: '否',
+          lable: '否'
+        },{
+          value: '是',
+          lable: '是'
+        }],
+        departmentOption: null,
+        mainProductTypesOption: null,
+        brandOption: null
+      },
       baseForm: null,
       rules: {
         name: [
@@ -118,6 +190,10 @@ export default {
     };
   },
   created() {
+    this.fetchSourceList();
+    this.fetchDepartmentList();
+    this.fetchMainProductTypesOption();
+    this.fetchBrandOption();
     this.fetchPotentialDealersDetail();
   },
   methods: {
@@ -125,29 +201,18 @@ export default {
       this.edit_flg[params] = true;
       this.isEdit = true;
     },
-    // submitForm(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       alert('submit!');
-    //     } else {
-    //       console.log('error submit!!');
-    //       return false;
-    //     }
-    //   });
-    // },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    fetchPotentialDealersDetail() {
-      this.$api({
-        action: "PotentialDealersDetail",
-        id: 1
-      }).then(res => {
-        this.baseForm = lowerJSONKey(res.data);
-        this.initBaseInfoFlg();
-      });
-    },
     editPotentialDealersBase() {
+      let department = '';
+      if (typeof this.baseForm.department === 'object') {
+        this.baseForm.department.forEach((item,index) => {
+          department = index === 0 ? item : department + '/'+ item;
+        });
+      } else {
+        department = this.baseForm.department;
+      }
       const params = {
         action: "PotentialDealersEditBase",
         id: this.baseForm.id,
@@ -156,6 +221,7 @@ export default {
         dealername: this.baseForm.dealername,
         medicalinstruments: this.baseForm.medicalinstruments,
         highvalueintervention: this.baseForm.highvalueintervention,
+        department: department,
         mainproducttypes: this.baseForm.mainproducttypes,
         mainproducts: this.baseForm.mainproducts,
         mainbrands: this.baseForm.mainbrands
@@ -168,13 +234,82 @@ export default {
       for (var key in this.edit_flg){
         this.edit_flg[key] = false;
       }
+      this.isEdit = false;
+    },
+    fetchPotentialDealersDetail() {
+      this.$api({
+        action: "PotentialDealersDetail",
+        id: 1
+      }).then(res => {
+        this.baseForm = lowerJSONKey(res.data);
+        this.initBaseInfoFlg();
+      });
+    },
+    fetchSourceList() {
+      this.$api({
+        action: "BaseList",
+        type: 'source',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['sourceOption'] = res.data.list;
+      });
+    },
+    fetchDepartmentList() {
+      this.$api({
+        action: "BaseList",
+        type: 'department',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['departmentOption'] = res.data.list;
+      });
+    },
+    fetchMainProductTypesOption() {
+      this.$api({
+        action: "BaseList",
+        type: 'product',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['mainProductTypesOption'] = res.data.list;
+      });
+    },
+    fetchBrandOption() {
+      this.$api({
+        action: "BaseList",
+        type: 'brand',
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.list.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['brandOption'] = res.data.list;
+      });
     }
   }
 }
 </script>
 <style lang="scss">
 .edit-potential-distributor-base {
+  &__form {
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
   .el-form-item {
+    width: 45%;
     display: inline-block;
     margin-left: 20px;
     padding-bottom: 14px;
@@ -183,15 +318,21 @@ export default {
   .el-form-item__label {
     text-align: left!important;
   }
+  .el-select {
+    width: 100%;
+  }
+  .el-input {
+    width: 100%;
+  }
   .el-input__inner {
-    width: 320px;
+    width: 100%;
     height: 36px;
     line-height: 36px;
     // border: none;
   }
   .el-select > .el-input {
-    width: 320px;
-    height: 36px;
+    width: 100%;
+    min-height: 36px;
     line-height: 36px;
   }
   .el-form-item__content {
@@ -203,7 +344,7 @@ export default {
   &__detail {
     display: flex;
     justify-content: space-between;
-    width: 320px;
+    width: 100%;
     height: 36px;
   }
 }
