@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-potential-distributor-base">
+  <div class="edit-potential-distributor-qualification">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm">
       <el-form-item label="注册资金：" prop="name">
         <el-input v-model="ruleForm.name" suffix-icon="el-icon-edit"></el-input>
@@ -80,7 +80,7 @@
   }
 </script>
 <style lang="scss">
-.edit-potential-distributor-base {
+.edit-potential-distributor-qualification {
   .el-form-item {
     display: inline-block;
     margin-left: 20px;

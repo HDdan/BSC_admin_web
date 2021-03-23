@@ -345,3 +345,13 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+export function lowerJSONKey(jsonObj){
+  for (var key in jsonObj){
+    if (typeof key === 'string') {
+      jsonObj[key.toLowerCase()] = jsonObj[key];
+      delete(jsonObj[key]);
+    }
+  }
+  return jsonObj;
+}
