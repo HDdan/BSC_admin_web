@@ -4,6 +4,7 @@ import distributorDocumentList from '@/views/distributor-document/list'
 import distributorDocumentDetail from '@/views/distributor-document/detail'
 import distributorDocumentStudentDetail from '@/views/distributor-document/studentDetail'
 import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
+import createPotentialDistributor from '@/views/potential-distributor/create-potential-distributor'
 import source from '@/views/basic-info/merchants-info/source'
 import basicInfo from '@/views/obor/basic-info'
 import salesInfo from '@/views/obor/sales-info'
@@ -49,6 +50,11 @@ export default [
         path: '/potentialDistributor/edit',
         name: 'editPotentialDistributor',
         component: editPotentialDistributor,
+      },
+      {
+        path: '/potentialDistributor/create',
+        name: 'createPotentialDistributor',
+        component: createPotentialDistributor,
       },
       {
         path: '/obor/basicInfo',

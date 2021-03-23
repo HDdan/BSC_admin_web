@@ -126,6 +126,7 @@
         <span>导出</span>
       </div>
       <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary"
+        @click="createPotentialDistributor"
         >经销商</el-button
       >
     </div>
@@ -248,6 +249,9 @@ export default {
       this.page.currPage = val.page;
       this.potentialDealersList();
     },
+    createPotentialDistributor() {
+      this.$router.push({ path: '/potentialDistributor/create' });
+    }
   },
 };
 </script>
