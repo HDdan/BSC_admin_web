@@ -6,65 +6,181 @@
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
       <div class="business-info__header__query">
-        <el-button type="primary" @click="addBusinessType">+业务区域</el-button>
+        <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addBusinessType">业务区域</el-button>
       </div>
     </div>
     <div class="business-info__main">
       <el-table
-      :data="tableData.list"
-      style="width: 100%"
+        :data="regionList"
+        style="width: 100%"
       >
-        <el-table-column prop="id" label="序号"></el-table-column>
-        <el-table-column prop="name" label="业务省份"></el-table-column>
-        <el-table-column prop="businessType" label="是/否县级区域"></el-table-column>
-        <el-table-column prop="businessRegion" label="可以用作波科销售的业务人数"></el-table-column>
-        <el-table-column prop="businessRegion" label="操作"></el-table-column>
+        <el-table-column prop="id" label="序号" width="150"></el-table-column>
+        <el-table-column prop="province" label="业务省份" width="150"></el-table-column>
+        <el-table-column prop="city" label="业务城市" width="150"></el-table-column>
+        <el-table-column prop="iscounty" label="是/否县级区域"></el-table-column>
+        <el-table-column prop="bscsalesnum" label="可以用作波科销售的业务人数"></el-table-column>
+        <el-table-column prop="businessRegion" label="操作">
+          <template slot-scope="scope">
+          <span style="display: flex">
+            <div class="mr-15" style="color: #4196ff; cursor: pointer" @click="openAddRegion(scope.row)"
+            >修改</div>
+            <p>|</p>
+            <div class="ml-15" style="color: #4196ff; cursor: pointer" @click="delRegion(scope.row)"
+            >删除</div>
+          </span>
+        </template>
+        </el-table-column>
       </el-table>
-      <div class="add-source ml-20 mr-20 mt-24">
-        <el-select class="mt-34 ml-24" v-model="province" placeholder="业务省份">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+      <div v-if="addRegionVisible" class="add-source ml-20 mr-20 mt-24">
+        <el-select class="mt-34 ml-24" v-model="form.province" placeholder="业务省份" @change="fetchCity">
+          <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="业务城市">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select class="mt-34 ml-24" v-model="form.city" placeholder="业务城市">
+          <el-option v-for="item in option.cityOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="county" placeholder="否县级区域">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select class="mt-34 ml-24" v-model="form.iscounty" placeholder="是/否县级区域">
+          <el-option v-for="item in option.isCountyOptions" :key="item.value" :value="item.value">
           </el-option>
         </el-select>
-        <el-input class="mt-10 ml-24" placeholder="可以用作波科销售的业务人数" v-model="phone" style="width: 30%"></el-input>
+        <el-input class="mt-10 ml-24" placeholder="可以用作波科销售的业务人数" v-model="form.bscsalesnum" style="width: 30%"></el-input>
         <div class="add-source__btn ml-24 mt-30">
-          <el-button type="primary" @click="add">添加</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="editPotentialDealersRegions">添加</el-button>
+          <el-button @click="cancelRegion">取消</el-button>
         </div>
       </div>
-      <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
+      <pagination v-if="regionList_total>0" :total="regionList_total" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
     </div>
   </div>
 </template>
 <script>
-import Pagination from '../../../../components/Pagination'
+import Pagination from '../../../../components/Pagination';
+import { lowerJSONKey } from '../../../../utils/index';
+
 export default {
   data() {
     return {
-      tableData: {
-        list: [{
-          id: 1,
-          name: 'ddd',
-          businessType: 'jijii',
-          businessRegion: 'fssss'
-        }],
-        meta: {}
-      }
+      addRegionVisible: false,
+      currentEditRegionId: null,
+      potentialDealersId: 1,
+      regionList: null,
+      meta: {
+        currPage: 1,
+        pageSize: 2
+      },
+      regionList_total: 0,
+      option: {
+        provinceOptions: null,
+        cityOptions: null,
+        isCountyOptions: [{
+          value: '否',
+        },{
+          value: '是',
+        }]
+      },
+      form: {}
     }
+  },
+  created() {
+    this.fetchProvince();
+    this.fetchPotentialDealersRegionsList();
   },
   methods: {
     addBusinessType() {
-
+      this.addRegionVisible = true;
+      this.form = {};
+    },
+    cancelRegion() {
+      this.addRegionVisible = false;
+    },
+    openAddRegion(row) {
+      this.addRegionVisible = true;
+      this.currentEditRegionId = row.id;
+      this.fetchPotentialDealersRegionsDetail(row.id);
+    },
+    delRegion(row) {
+      this.currentEditRegionId = row.id;
+      this.deletePotentialDealersRegion(row.id);
     },
     handlePagination() {
-      
+      this.fetchPotentialDealersRegionsList();
+    },
+    editPotentialDealersRegions() {
+      this.$api({
+        action: "PotentialDealersRegionsEdit",
+        id: this.currentEditRegionId ? this.currentEditRegionId : 0,
+        potentialdealersid: this.potentialDealersId,
+        provice: this.form.province,
+        city: this.form.city,
+        iscounty: this.form.iscounty,
+        bscsalesnum: this.form.bscsalesnum,
+      }).then(() => {
+        this.fetchPotentialDealersRegionsList();
+        this.addRegionVisible = false;
+        this.currentEditRegionId = null;
+      });
+    },
+    deletePotentialDealersRegion(id) {
+      this.$api({
+        action: "PotentialDealersRegionsDelete",
+        id: id,
+        potentialdealersid: this.potentialDealersId,
+      }).then(res => {
+        this.fetchPotentialDealersRegionsList();
+      });
+    },
+    fetchPotentialDealersRegionsDetail(id) {
+      this.$api({
+        action: "PotentialDealersRegionsDetail",
+        id: id,
+        potentialdealersid: this.potentialDealersId,
+      }).then(res => {
+        res.data = lowerJSONKey(res.data);
+        this.form = res.data;
+      });
+    },
+    fetchPotentialDealersRegionsList() {
+      this.$api({
+        action: "PotentialDealersRegionsList",
+        potentialdealersid: this.potentialDealersId,
+        pageindex: this.meta.currPage,
+        pagesize: this.meta.pageSize
+      }).then(res => {
+        res.data.forEach(item => {
+          item = lowerJSONKey(item);
+        });
+        this.regionList = res.data;
+        this.regionList_total = res.count;
+      });
+    },
+    fetchProvince() {
+      this.$api({
+        action: "DownList",
+        type: 'province',
+        parentid: 0,
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        res.data.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['provinceOptions'] = res.data;
+      });
+    },
+    fetchCity(value) {
+      const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
+      const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
+      this.$api({
+        action: "DownList",
+        type: 'city',
+        parentid: currentProvinceId
+      }).then((res) => {
+        res.data.forEach(item => {
+          item = lowerJSONKey(item);
+        })
+        this.option['cityOptions'] = res.data;
+      });
     }
   },
   components: { Pagination }
