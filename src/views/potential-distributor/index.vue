@@ -11,20 +11,22 @@
       </el-input>
       <el-date-picker
         class="mr-16 mb-16"
-        v-model="params.callstarttime"
+        v-model="callTime"
+        value-format="yyyy-MM-dd"
         type="daterange"
         range-separator="-"
         start-placeholder="沟通开始日期"
-        end-placeholder="结束日期"
+        end-placeholder="沟通结束日期"
       >
       </el-date-picker>
       <el-date-picker
         class="mr-16 mb-16"
-        v-model="params.callendtime"
+        value-format="yyyy-MM-dd"
+        v-model="pushTime"
         type="daterange"
         range-separator="-"
-        start-placeholder="沟通开始日期"
-        end-placeholder="结束日期"
+        start-placeholder="推送开始日期"
+        end-placeholder="推送结束日期"
       >
       </el-date-picker>
       <el-select
@@ -33,10 +35,10 @@
         placeholder="主营产品类型"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.product"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
@@ -46,10 +48,10 @@
         placeholder="合作科室"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.department"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
@@ -59,10 +61,10 @@
         placeholder="数据来源"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.source"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
@@ -72,23 +74,24 @@
         placeholder="业务区域"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.province"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
+
       <el-select
         class="mb-16"
         v-model="params.callusername"
         placeholder="沟通专员"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.userlist"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
@@ -98,10 +101,10 @@
         placeholder="推送专员"
       >
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in option.userlist"
+          :key="item.Id"
+          :label="item.Name"
+          :value="item.Name"
         >
         </el-option>
       </el-select>
@@ -109,13 +112,8 @@
       <el-upload
         class="potential-distributor__upload mr-18 ml-40"
         action="https://jsonplaceholder.typicode.com/posts/"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
         multiple
         :limit="3"
-        :on-exceed="handleExceed"
-        :file-list="fileList"
       >
         <i class="mr-3 iconfont icondaorujilu-hui"></i>
         <span>导入</span>
@@ -158,6 +156,15 @@ export default {
     return {
       dialogVisible: false,
       tableData: [],
+      departmentOptions: [],
+      callTime: [],
+      pushTime: [],
+      option: {
+        product: [],
+        departmentOptions: [],
+        source: [],
+        userlist: [],
+      },
       params: {
         name: "",
         callstarttime: "",
@@ -174,24 +181,72 @@ export default {
 
       page: {
         currPage: 1,
-        pageSize: 12,
+        pageSize: 10,
         totalNum: 0,
       },
     };
   },
   created() {
     this.potentialDealersList();
+    this.baseList("product");
+    this.baseList("department");
+    this.baseList("source");
+    this.downList("province");
+    this.userlist();
   },
   methods: {
     potentialDealersList() {
       const params = this.params;
       params.action = "PotentialDealersList";
+      params.callstarttime = this.callTime[0];
+      params.callendtime = this.callTime[1];
+      params.pushstarttime = this.pushTime[0];
+      params.pushendtime = this.pushTime[1];
       params.pageindex = this.page.currPage;
       params.pagesize = this.page.pageSize;
       this.$api(params).then((res) => {
         this.tableData = res.data;
         this.page.totalNum = res.count;
       });
+    },
+    baseList(type) {
+      this.$api({
+        action: "BaseList",
+        type: type,
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        // return res.data.list
+        this.option[type] = res.data.list;
+        // this.page.totalNum = res.count;
+      });
+    },
+    downList(type) {
+      this.$api({
+        action: "DownList",
+        type: type,
+        parentid: 0,
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        this.option[type] = res.data;
+      });
+    },
+    userlist() {
+      this.$api({
+        action: "userlist",
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        this.option["userlist"] = res.data;
+      });
+    },
+    handleChange(val) {
+      console.log("8888", val);
+    },
+    handlePagination(val) {
+      this.page.currPage = val.page;
+      this.potentialDealersList();
     },
   },
 };
