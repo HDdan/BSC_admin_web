@@ -6,101 +6,203 @@
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
       <div class="business-info__header__query">
-        <el-button type="primary" @click="addBusinessType">+推送记录</el-button>
+        <el-button type="primary" @click="show = true">+推送记录</el-button>
       </div>
     </div>
     <div class="business-info__main">
-      <el-table
-      :data="tableData.list"
-      style="width: 100%"
-      >
-        <el-table-column prop="id" label="序号"></el-table-column>
-        <el-table-column prop="name" label="推送时间"></el-table-column>
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="Id" label="序号"></el-table-column>
+        <el-table-column
+          prop="AccomplishDate"
+          label="推送时间"
+        ></el-table-column>
         <el-table-column prop="businessType" label="专员名称"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向来源"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向BU"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向subbu"></el-table-column>
-        <el-table-column prop="businessRegion" label="沟通临床"></el-table-column>
-        <el-table-column prop="businessRegion" label="进院议价"></el-table-column>
-        <el-table-column prop="businessRegion" label="落地达成"></el-table-column>
-        <el-table-column prop="businessRegion" label="落地时间"></el-table-column>
+        <el-table-column prop="IntentSource" label="意向来源"></el-table-column>
+        <el-table-column prop="IntentBu" label="意向BU"></el-table-column>
+        <el-table-column prop="IntentSubbu" label="意向subbu"></el-table-column>
+        <el-table-column prop="Clinical" label="沟通临床"></el-table-column>
+        <el-table-column prop="Bargain" label="进院议价"></el-table-column>
+        <el-table-column prop="Accomplish" label="落地达成"></el-table-column>
+        <el-table-column
+          prop="AccomplishDate"
+          label="落地时间"
+        ></el-table-column>
       </el-table>
-      <div class="add-source ml-20 mr-20 mt-24">
+      <div class="add-source ml-20 mr-20 mt-24" v-if="show">
         <el-date-picker
           class="mt-34 ml-24"
-          v-model="searchInput"
+          v-model="accomplishDate"
+          value-format="yyyy-MM-dd"
           placeholder="推送时间"
-          type="date">
+          type="date"
+        >
         </el-date-picker>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="意向来源">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select
+          class="mt-34 ml-24"
+          v-model="intentsource"
+          placeholder="意向来源"
+        >
+          <el-option
+            v-for="item in option.source"
+            :key="item.Id"
+            :value="item.Name"
+          >
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="意向BU">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select class="mt-34 ml-24" v-model="intentbu" placeholder="意向BU">
+          <el-option
+            v-for="item in option.Bu"
+            :key="item.Id"
+            :value="item.Name"
+          >
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="意向subbu">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select
+          class="mt-10 ml-24"
+          v-model="intentsubbu"
+          placeholder="意向subbu"
+        >
+          <el-option
+            v-for="item in option.Bu"
+            :key="item.Id"
+            :value="item.Name"
+          >
           </el-option>
         </el-select>
         <el-date-picker
-          class="mt-10 ml-24" 
-          v-model="searchInput"
+          class="ml-24"
+          v-model="clinical"
+          value-format="yyyy-MM-dd"
           placeholder="沟通临床"
-          type="date">
+          type="date"
+        >
         </el-date-picker>
         <el-date-picker
-          class="mt-10 ml-24" 
-          v-model="searchInput"
+          class="ml-24"
+          v-model="bargain"
+          value-format="yyyy-MM-dd"
           placeholder="进院议价"
-          type="date">
+          type="date"
+        >
         </el-date-picker>
-        <el-select class="mt-34 ml-24" v-model="city" placeholder="落地达成">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+        <el-select class="ml-24" v-model="accomplish" placeholder="落地达成">
+          <el-option
+            v-for="item in option.Bu"
+            :key="item.Id"
+            :value="item.Name"
+          >
           </el-option>
         </el-select>
         <el-date-picker
-          class="mt-10 ml-24" 
-          v-model="searchInput"
+          class="mt-10 ml-24"
+          v-model="accomplishDate"
+          value-format="yyyy-MM-dd"
           placeholder="落地时间"
-          type="date">
+          type="date"
+        >
         </el-date-picker>
         <div class="add-source__btn ml-24 mt-30">
           <el-button type="primary" @click="add">添加</el-button>
           <el-button @click="cancel">取消</el-button>
         </div>
       </div>
-      <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
+      <pagination
+        v-else
+        :total="page.totalNum"
+        :page.sync="page.currPage"
+        :limit.sync="page.pageSize"
+        @pagination="handlePagination"
+      />
     </div>
   </div>
 </template>
 <script>
-import Pagination from '../../../../components/Pagination'
+import Pagination from "@/components/Pagination";
 export default {
   data() {
     return {
-      tableData: {
-        list: [{
-          id: 1,
-          name: 'ddd',
-          businessType: 'jijii',
-          businessRegion: 'fssss'
-        }],
-        meta: {}
-      }
-    }
+      tableData: [],
+      page: {
+        currPage: 1,
+        pageSize: 10,
+        totalNum: 0,
+      },
+      intentsource: "",
+      intentbu: "",
+      intentsubbu: "",
+      clinical: "",
+      bargain: "",
+      accomplish: "",
+      accomplishDate: "",
+      show: false,
+      option: {},
+    };
   },
   methods: {
-    addBusinessType() {
-
+    handlePagination() {},
+    clear() {
+      this.intentsource = "";
+      this.intentbu = "";
+      this.intentsubbu = "";
+      this.clinical = "";
+      this.bargain = "";
+      this.accomplish = "";
+      this.accomplishDate = "";
     },
-    handlePagination() {
-      
-    }
+    cancel() {
+      this.show = false;
+      this.clear();
+    },
+    add() {
+      this.show = false;
+      this.potentialDealersPushLogsEdit();
+    },
+    potentialDealersPushLogsList() {
+      this.$api({
+        action: "PotentialDealersPushLogsList",
+        potentialdealersid: this.$route.query.Id,
+        pageindex: this.page.currPage,
+        pagesize: this.page.pageSize,
+      }).then((res) => {
+        this.tableData = res.data;
+      });
+    },
+    potentialDealersPushLogsEdit() {
+      this.$api({
+        action: "PotentialDealersPushLogsEdit",
+        potentialdealersid: this.$route.query.Id,
+        id: 0,
+        intentsource: this.intentsource,
+        intentbu: this.intentbu,
+        intentsubbu: this.intentsubbu,
+        clinical: this.clinical,
+        bargain: this.bargain,
+        accomplish: this.accomplish,
+        accomplishDate: this.accomplishDate,
+      }).then((res) => {
+        this.potentialDealersPushLogsList();
+        this.clear();
+      });
+    },
+    baseList(action, type) {
+      this.$api({
+        action: action,
+        type: type,
+        pageindex: 1,
+        pagesize: 100000,
+      }).then((res) => {
+        this.option[type] = res.data.list || res.data;
+      });
+    },
   },
-  components: { Pagination }
-}
+  created() {
+    this.baseList("BaseList", "source");
+    this.baseList("DownList", "Bu");
+
+    this.potentialDealersPushLogsList();
+  },
+  components: { Pagination },
+};
 </script>
 <style lang="scss">
 .business-info {
@@ -110,19 +212,19 @@ export default {
     align-items: center;
     padding: 38px 16px 0;
     &__title {
-      >span:nth-child(1) {
+      > span:nth-child(1) {
         font-size: 16px;
         color: #333333;
         padding-right: 26px;
       }
-      >span:nth-child(2) {
+      > span:nth-child(2) {
         font-size: 14px;
         color: #666666;
       }
     }
   }
   &__main {
-    padding:16px;
+    padding: 16px;
   }
 }
 
@@ -136,7 +238,8 @@ export default {
   .el-input--suffix .el-input__inner {
     width: 100%;
   }
-  .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
     width: 30%;
   }
 }

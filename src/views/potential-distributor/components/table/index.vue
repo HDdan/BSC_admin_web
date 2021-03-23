@@ -40,9 +40,13 @@ export default {
         return "";
       }
     },
-    gotoDetail() {
-      this.$router.push({ path: '/potentialDistributor/edit' });
-      console.log("detail");
+    gotoDetail(row) {
+      this.$router.push({
+        name: "editPotentialDistributor",
+        path: "/potentialDistributor/edit'",
+        query: { Id: row.Id }
+      });
+      console.log("detail",row);
     }
   },
   data() {
