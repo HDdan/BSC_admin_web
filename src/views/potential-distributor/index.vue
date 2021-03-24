@@ -68,19 +68,7 @@
         >
         </el-option>
       </el-select>
-      <el-select
-        class="mr-15 mb-16"
-        v-model="params.province"
-        placeholder="业务区域"
-      >
-        <el-option
-          v-for="item in option.province"
-          :key="item.Id"
-          :label="item.Name"
-          :value="item.Name"
-        >
-        </el-option>
-      </el-select>
+      <el-cascader ref="cascaderRegion" placeholder="业务区域" :props="regionProps" @change="selectRegion"></el-cascader>
 
       <el-select
         class="mb-16"
@@ -185,6 +173,11 @@ export default {
         pageSize: 10,
         totalNum: 0,
       },
+
+      regionProps: {
+        lazy: true,
+        lazyLoad: this.fetchRegion
+      }
     };
   },
   created() {
@@ -192,10 +185,49 @@ export default {
     this.baseList("product");
     this.baseList("department");
     this.baseList("source");
-    this.downList("province");
     this.userlist();
   },
   methods: {
+    fetchRegion(node, resolve) {
+      if (!node) {
+        return false
+      }
+
+      if (node.level === 0) {
+        this.$api({
+          action: "DownList",
+          type: 'province',
+          parentid: 0,
+          pageindex: 1,
+          pagesize: 100000,
+        }).then(res => {
+          resolve(res.data.map((val) => {
+            return {
+              value: val.Id,
+              label: val.Name,
+              leaf: false
+            };
+          }))
+        });
+      } else if (node.level === 1) {
+        this.$api({
+          action: "DownList",
+          type: 'city',
+          parentid: node.data.value
+        }).then((res) => {
+          resolve(res.data.map((val) => {
+            return {
+              value: val.Id,
+              label: val.Name,
+              leaf: true
+            };
+          }))
+        });
+      }
+    },
+    selectRegion() {
+      this.params.province = this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] + '/' + this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
+    },
     potentialDealersList() {
       const params = this.params;
       params.action = "PotentialDealersList";
