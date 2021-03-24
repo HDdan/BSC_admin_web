@@ -31,7 +31,7 @@
       <div v-if="addCallLogsVisible" class="add-source ml-20 mr-20 mt-24">
         <el-input class="mt-34 ml-24" v-model="form.userid" placeholder="专员名称"></el-input>
         <el-select class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
-          <el-option v-for="item in roleOptions" :key="item.Id" :value="item.Name">
+          <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
         </el-select>
         <el-input class="mt-10 ml-24" type="textarea" v-model="form.detail" placeholder="请简述沟通内容……"></el-input>
@@ -45,15 +45,19 @@
   </div>
 </template>
 <script>
-import Pagination from '../../../../components/Pagination';
-import { lowerJSONKey } from '../../../../utils/index';
+import Pagination from '@/components/Pagination';
+import { lowerJSONKey } from '@/utils/index';
 
 export default {
+  props: {
+    potentialDealersId: {
+      type: Number|String,
+    },
+  },
   data() {
     return {
       addCallLogsVisible: false,
       currentEditcallLogsId: null,
-      potentialDealersId: 1,
       callLogsList: null,
       meta: {
         currPage: 1,
@@ -67,16 +71,28 @@ export default {
           value: '男',
         },{
           value: '女',
-        }]
+        }],
+        roleOptions: [{
+          Name: '强',
+        },{
+          Name: '弱',
+        }],
       },
       form: {}
     }
   },
   created() {
-    this.fetchPotentialDealersCallLogsList();
+   this.$route.query.Id&& this.fetchPotentialDealersCallLogsList();
   },
   methods: {
     addCallLogs() {
+      if(!this.potentialDealersId){
+        this.$message({
+          message: "请先添加基本信息",
+          type: "warning",
+        });
+        return
+      }
       this.addCallLogsVisible = true;
       this.form = {};
     },
@@ -95,7 +111,7 @@ export default {
       this.$api({
         action: "PotentialDealersCallLogsEdit",
         id: this.currentEditcallLogsId ? this.currentEditcallLogsId : 0,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
         userId: this.form.userid,
         type: this.form.type,
         detail: this.form.detail
@@ -109,7 +125,7 @@ export default {
       this.$api({
         action: "PotentialDealersCallLogsDetail",
         id: id,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
       }).then(res => {
         res.data = lowerJSONKey(res.data);
         this.form = res.data;
@@ -118,7 +134,7 @@ export default {
     fetchPotentialDealersCallLogsList() {
       this.$api({
         action: "PotentialDealersCallLogsList",
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {

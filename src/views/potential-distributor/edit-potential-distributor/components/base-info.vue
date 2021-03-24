@@ -1,136 +1,264 @@
 <template>
   <div class="edit-potential-distributor-base">
-    <div class="ml-20 mt-25 mb-25" style="color: #333333;font-size:14px">最近更新时间：{{ baseForm.updatetime }}</div>
-    <el-form :model="baseForm" :rules="rules" ref="ruleForm" label-width="200px" class="edit-potential-distributor-base__form">
+    <div
+      v-if="baseForm.updatetime"
+      class="ml-20 mt-25 mb-25"
+      style="color: #333333; font-size: 14px"
+    >
+      最近更新时间：{{ baseForm.updatetime }}
+    </div>
+    <el-form
+      :model="baseForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="200px"
+      :class="{
+        'edit-potential-distributor-base__form ': !isCreate,
+        'edit-potential-distributor-base__create': isCreate,
+      }"
+    >
       <el-form-item label="数据来源：" prop="sources">
-        <el-select v-if="edit_flg['sources']" v-model="baseForm.sources">
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['sources'] || isCreate"
+          v-model="baseForm.sources"
+        >
           <el-option
             v-for="item in option.sourceOption"
             :key="item.id"
             :label="item.name"
-            :value="item.name">
+            :value="item.name"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('sources')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('sources')"
+        >
           <span>{{ baseForm.sources }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="经销商编码/ID:" prop="id">
-        <el-input v-if="edit_flg['dealerId']" v-model="baseForm.dealerid"></el-input>
+        <el-input
+          :disabled="isCreateSave"
+          v-if="edit_flg['dealerId'] || isCreate"
+          v-model="baseForm.dealerid"
+        ></el-input>
         <div v-else class="edit-potential-distributor-base__detail">
           <span>{{ baseForm.dealerid }}</span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商代码:" prop="dealercode">
-        <el-input v-if="edit_flg['dealercode']" v-model="baseForm.dealercode"></el-input>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('dealercode')">
+      <el-form-item label="经销商代码:" prop="dealercode" v-if="!isCreate">
+        <el-input
+          v-if="edit_flg['dealercode']"
+          v-model="baseForm.dealercode"
+        ></el-input>
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('dealercode')"
+        >
           <span>{{ baseForm.dealercode }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商状态:" prop="name">
+      <el-form-item label="经销商状态:" prop="name" v-if="!isCreate">
         <div class="edit-potential-distributor-base__detail">
           <span>{{ baseForm.dealerstatus }}</span>
         </div>
       </el-form-item>
-      <el-form-item label="潜在经销商名称:" prop="name">
-        <el-input v-if="edit_flg['dealername']" v-model="baseForm.dealername"></el-input>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('dealername')">
+      <el-form-item label="潜在经销商名称:" prop="dealername" required>
+        <el-input
+          :disabled="isCreateSave"
+          v-if="edit_flg['dealername'] || isCreate"
+          v-model="baseForm.dealername"
+        ></el-input>
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('dealername')"
+        >
           <span>{{ baseForm.dealername }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="营业范围是否医疗器械:" prop="name">
-        <el-select v-if="edit_flg['medicalinstruments']" v-model="baseForm.medicalinstruments">
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['medicalinstruments'] || isCreate"
+          v-model="baseForm.medicalinstruments"
+        >
           <el-option
             v-for="item in option.medicalInstrumentsOption"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
+            :value="item.value"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('medicalinstruments')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('medicalinstruments')"
+        >
           <span>{{ baseForm.medicalinstruments }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="是否从事高值介入产品：" prop="name">
-        <el-select v-if="edit_flg['highvalueintervention']" v-model="baseForm.highvalueintervention">
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['highvalueintervention'] || isCreate"
+          v-model="baseForm.highvalueintervention"
+        >
           <el-option
             v-for="item in option.highValueInterventionOption"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
+            :value="item.value"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('highvalueintervention')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('highvalueintervention')"
+        >
           <span>{{ baseForm.highvalueintervention }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="合作科室：" prop="name">
-        <el-select v-if="edit_flg['department']" v-model="baseForm.department" multiple>
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['department'] || isCreate"
+          v-model="baseForm.department"
+          multiple
+        >
           <el-option
             v-for="item in option.departmentOption"
             :key="item.id"
             :label="item.name"
-            :value="item.name">
+            :value="item.name"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('department')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('department')"
+        >
           <span>{{ baseForm.department }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="主营产品类型：" prop="name">
-        <el-select v-if="edit_flg['mainproducttypes']" v-model="baseForm.mainproducttypes">
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['mainproducttypes'] || isCreate"
+          v-model="baseForm.mainproducttypes"
+        >
           <el-option
             v-for="item in option.mainProductTypesOption"
             :key="item.id"
             :label="item.name"
-            :value="item.name">
+            :value="item.name"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainproducttypes')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('mainproducttypes')"
+        >
           <span>{{ baseForm.mainproducttypes }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="主营产品明细：" prop="name">
-        <el-input v-if="edit_flg['mainproducts']" v-model="baseForm.mainproducts"></el-input>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainproducts')">
+        <el-input
+          :disabled="isCreateSave"
+          v-if="edit_flg['mainproducts'] || isCreate"
+          v-model="baseForm.mainproducts"
+        ></el-input>
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('mainproducts')"
+        >
           <span>{{ baseForm.mainproducts }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="主营品牌：" prop="mainbrands">
-        <el-select v-if="edit_flg['mainbrands']" v-model="baseForm.mainbrands">
+        <el-select
+          :disabled="isCreateSave"
+          v-if="edit_flg['mainbrands'] || isCreate"
+          v-model="baseForm.mainbrands"
+        >
           <el-option
             v-for="item in option.brandOption"
             :key="item.id"
             :label="item.name"
-            :value="item.name">
+            :value="item.name"
+          >
           </el-option>
         </el-select>
-        <div v-else class="edit-potential-distributor-base__detail" @click="editInfo('mainbrands')">
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('mainbrands')"
+        >
           <span>{{ baseForm.mainbrands }}</span>
-          <span class="fz-16 mr-8 iconfont iconxiugai" style="color: #9B9B9B;"></span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
     </el-form>
-    <div class="ml-20" v-if="isEdit">
-      <el-button type="primary" @click="editPotentialDealersBase('ruleForm')">保存</el-button>
+    <div class="ml-20" v-if="isEdit || (isCreate && !isCreateSave)">
+      <el-button type="primary" @click="editPotentialDealersBase('ruleForm')"
+        >保存</el-button
+      >
       <el-button @click="resetForm('ruleForm')">取消</el-button>
     </div>
   </div>
 </template>
 <script>
-import { lowerJSONKey } from '../../../../utils/index';
+import { lowerJSONKey } from "../../../../utils/index";
 
 export default {
   data() {
     return {
+      isCreate: false,
+      isCreateSave: false,
       isEdit: false,
       edit_flg: {
         sources: false,
@@ -141,52 +269,85 @@ export default {
         highvalueintervention: false,
         mainproducttypes: false,
         mainproducts: false,
-        mainbrands: false
+        mainbrands: false,
       },
       option: {
         sourceOption: null,
-        medicalInstrumentsOption: [{
-          value: '否',
-          lable: '否'
-        },{
-          value: '是',
-          lable: '是'
-        }],
-        highValueInterventionOption:[{
-          value: '否',
-          lable: '否'
-        },{
-          value: '是',
-          lable: '是'
-        }],
+        medicalInstrumentsOption: [
+          {
+            value: "否",
+            lable: "否",
+          },
+          {
+            value: "是",
+            lable: "是",
+          },
+        ],
+        highValueInterventionOption: [
+          {
+            value: "否",
+            lable: "否",
+          },
+          {
+            value: "是",
+            lable: "是",
+          },
+        ],
         departmentOption: null,
         mainProductTypesOption: null,
-        brandOption: null
+        brandOption: null,
+        isCreate: false,
       },
-      baseForm: null,
+      baseForm: {
+        medicalinstruments: "",
+        department: "",
+        updatetime: "",
+        sources: "",
+        dealerid: "",
+        dealercode: "",
+        dealername: "",
+        medicalinstruments: "",
+        highvalueintervention: "",
+        mainproducttypes: "",
+        mainproducts: "",
+        mainbrands: "",
+      },
       rules: {
-        name: [
-          { message: '请输入活动名称', trigger: 'blur' }
-        ],
-        region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+        dealername: [
+          {
+            required: true,
+            trigger: "change",
+          },
         ],
         date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
         ],
         date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          {
+            type: "date",
+            required: true,
+            message: "请选择时间",
+            trigger: "change",
+          },
         ],
         type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个活动性质",
+            trigger: "change",
+          },
         ],
         resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
+          { required: true, message: "请选择活动资源", trigger: "change" },
         ],
-        desc: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
-        ]
-      }
+        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }],
+      },
     };
   },
   created() {
@@ -194,7 +355,9 @@ export default {
     this.fetchDepartmentList();
     this.fetchMainProductTypesOption();
     this.fetchBrandOption();
-    this.fetchPotentialDealersDetail();
+    if (this.$route.query.Id) {
+      this.fetchPotentialDealersDetail();
+    } else this.isCreate = true;
   },
   methods: {
     editInfo(params) {
@@ -204,34 +367,44 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    editPotentialDealersBase() {
-      let department = '';
-      if (typeof this.baseForm.department === 'object') {
-        this.baseForm.department.forEach((item,index) => {
-          department = index === 0 ? item : department + '/'+ item;
-        });
-      } else {
-        department = this.baseForm.department;
-      }
-      const params = {
-        action: "PotentialDealersEditBase",
-        id: this.baseForm.id,
-        sources: this.baseForm.sources,
-        dealercode: this.baseForm.dealercode,
-        dealername: this.baseForm.dealername,
-        medicalinstruments: this.baseForm.medicalinstruments,
-        highvalueintervention: this.baseForm.highvalueintervention,
-        department: department,
-        mainproducttypes: this.baseForm.mainproducttypes,
-        mainproducts: this.baseForm.mainproducts,
-        mainbrands: this.baseForm.mainbrands
-      }
-      this.$api(params).then(() => {
-        this.fetchPotentialDealersDetail();
+    editPotentialDealersBase(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let department = "";
+          if (typeof this.baseForm.department === "object") {
+            this.baseForm.department.forEach((item, index) => {
+              department = index === 0 ? item : department + "/" + item;
+            });
+          } else {
+            department = this.baseForm.department;
+          }
+          const params = {
+            action: "PotentialDealersEditBase",
+            id: this.baseForm.id || 0,
+            sources: this.baseForm.sources,
+            dealercode: this.baseForm.dealercode,
+            dealername: this.baseForm.dealername,
+            medicalinstruments: this.baseForm.medicalinstruments,
+            highvalueintervention: this.baseForm.highvalueintervention,
+            department: department,
+            mainproducttypes: this.baseForm.mainproducttypes,
+            mainproducts: this.baseForm.mainproducts,
+            mainbrands: this.baseForm.mainbrands,
+          };
+          this.$api(params).then((res) => {
+            if (!this.$route.query.Id) this.isCreateSave = true;
+            this.$emit("onBase", res.data);
+            this.baseForm.id = res.data;
+            this.fetchPotentialDealersDetail();
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
       });
     },
     initBaseInfoFlg() {
-      for (var key in this.edit_flg){
+      for (var key in this.edit_flg) {
         this.edit_flg[key] = false;
       }
       this.isEdit = false;
@@ -239,8 +412,8 @@ export default {
     fetchPotentialDealersDetail() {
       this.$api({
         action: "PotentialDealersDetail",
-        id: 1
-      }).then(res => {
+        id: this.$route.query.Id || this.baseForm.id,
+      }).then((res) => {
         this.baseForm = lowerJSONKey(res.data);
         this.initBaseInfoFlg();
       });
@@ -248,57 +421,57 @@ export default {
     fetchSourceList() {
       this.$api({
         action: "BaseList",
-        type: 'source',
+        type: "source",
         pageindex: 1,
         pagesize: 100000,
       }).then((res) => {
-        res.data.list.forEach(item => {
+        res.data.list.forEach((item) => {
           item = lowerJSONKey(item);
-        })
-        this.option['sourceOption'] = res.data.list;
+        });
+        this.option["sourceOption"] = res.data.list;
       });
     },
     fetchDepartmentList() {
       this.$api({
         action: "BaseList",
-        type: 'department',
+        type: "department",
         pageindex: 1,
         pagesize: 100000,
       }).then((res) => {
-        res.data.list.forEach(item => {
+        res.data.list.forEach((item) => {
           item = lowerJSONKey(item);
-        })
-        this.option['departmentOption'] = res.data.list;
+        });
+        this.option["departmentOption"] = res.data.list;
       });
     },
     fetchMainProductTypesOption() {
       this.$api({
         action: "BaseList",
-        type: 'product',
+        type: "product",
         pageindex: 1,
         pagesize: 100000,
       }).then((res) => {
-        res.data.list.forEach(item => {
+        res.data.list.forEach((item) => {
           item = lowerJSONKey(item);
-        })
-        this.option['mainProductTypesOption'] = res.data.list;
+        });
+        this.option["mainProductTypesOption"] = res.data.list;
       });
     },
     fetchBrandOption() {
       this.$api({
         action: "BaseList",
-        type: 'brand',
+        type: "brand",
         pageindex: 1,
         pagesize: 100000,
       }).then((res) => {
-        res.data.list.forEach(item => {
+        res.data.list.forEach((item) => {
           item = lowerJSONKey(item);
-        })
-        this.option['brandOption'] = res.data.list;
+        });
+        this.option["brandOption"] = res.data.list;
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
 .edit-potential-distributor-base {
@@ -307,16 +480,35 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    .el-form-item {
+      width: 45%;
+      display: inline-block;
+      margin: 0 20px;
+      margin-top: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e9e9e9;
+    }
   }
-  .el-form-item {
-    width: 45%;
-    display: inline-block;
-    margin-left: 20px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #E9E9E9;
+
+  &__create {
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    .el-form-item {
+      width: 45%;
+      display: inline-block;
+      margin: 0 20px;
+      margin-top: 10px;
+    }
   }
+
   .el-form-item__label {
-    text-align: left!important;
+    text-align: left !important;
   }
   .el-select {
     width: 100%;
@@ -347,5 +539,8 @@ export default {
     width: 100%;
     height: 36px;
   }
+}
+.el-form-item__error {
+  z-index: 99;
 }
 </style>

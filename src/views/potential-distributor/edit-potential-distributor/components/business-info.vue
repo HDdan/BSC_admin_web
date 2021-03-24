@@ -59,11 +59,15 @@ import Pagination from '../../../../components/Pagination';
 import { lowerJSONKey } from '../../../../utils/index';
 
 export default {
+   props: {
+    potentialDealersId: {
+      type: Number|String,
+    },
+  },
   data() {
     return {
       addRegionVisible: false,
       currentEditRegionId: null,
-      potentialDealersId: 1,
       regionList: null,
       meta: {
         currPage: 1,
@@ -84,10 +88,17 @@ export default {
   },
   created() {
     this.fetchProvince();
-    this.fetchPotentialDealersRegionsList();
+    this.$route.query.Id&&this.fetchPotentialDealersRegionsList();
   },
   methods: {
     addBusinessType() {
+       if(!this.potentialDealersId){
+        this.$message({
+          message: "请先添加基本信息",
+          type: "warning",
+        });
+        return
+      }
       this.addRegionVisible = true;
       this.form = {};
     },
@@ -110,7 +121,7 @@ export default {
       this.$api({
         action: "PotentialDealersRegionsEdit",
         id: this.currentEditRegionId ? this.currentEditRegionId : 0,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
         provice: this.form.province,
         city: this.form.city,
         iscounty: this.form.iscounty,
@@ -125,7 +136,7 @@ export default {
       this.$api({
         action: "PotentialDealersRegionsDelete",
         id: id,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
       }).then(res => {
         this.fetchPotentialDealersRegionsList();
       });
@@ -134,7 +145,7 @@ export default {
       this.$api({
         action: "PotentialDealersRegionsDetail",
         id: id,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
       }).then(res => {
         res.data = lowerJSONKey(res.data);
         this.form = res.data;
@@ -143,7 +154,7 @@ export default {
     fetchPotentialDealersRegionsList() {
       this.$api({
         action: "PotentialDealersRegionsList",
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {

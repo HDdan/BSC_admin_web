@@ -1,7 +1,7 @@
 <template>
   <div class="distributor-document-detail">
     <div class="distributor-document-detail__header mb-20">
-      <div class="distributor-document-detail__header__title fz-18">重庆医药和平医疗器械有限公司</div>
+      <!-- <div class="distributor-document-detail__header__title fz-18">重庆医药和平医疗器械有限公司</div> -->
       <div class="distributor-document-detail__header__query">
         <el-input prefix-icon="el-icon-search" placeholder="请输入内容" v-model="searchInput" class="input-with-select">
           <el-button slot="append" type="primary">检索</el-button>

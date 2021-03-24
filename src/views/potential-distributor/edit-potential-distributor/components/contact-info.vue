@@ -67,11 +67,15 @@ import Pagination from '../../../../components/Pagination';
 import { lowerJSONKey } from '../../../../utils/index';
 
 export default {
+  props: {
+    potentialDealersId: {
+      type: Number|String,
+    },
+  },
   data() {
     return {
       addPersonVisible: false,
       currentEditPersonId: null,
-      potentialDealersId: 1,
       personsList: null,
       meta: {
         currPage: 1,
@@ -92,10 +96,17 @@ export default {
   },
   created() {
     this.fetchProvince();
-    this.fetchPotentialDealersPersonsList();
+    this.$route.query.Id&&this.fetchPotentialDealersPersonsList();
   },
   methods: {
     addContactor() {
+      if (!this.potentialDealersId) {
+        this.$message({
+          message: "请先添加基本信息",
+          type: "warning",
+        });
+        return;
+      }
       this.addPersonVisible = true;
       this.form = {};
     },
@@ -118,7 +129,7 @@ export default {
       this.$api({
         action: "PotentialDealersPersonsEdit",
         id: this.currentEditPersonId ? this.currentEditPersonId : 0,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
         province: this.form.province,
         position: this.form.position,
         city: this.form.city,
@@ -138,7 +149,7 @@ export default {
       this.$api({
         action: "PotentialDealersPersonsDelete",
         id: id,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id||this.potentialDealersId,
       }).then(res => {
         this.fetchPotentialDealersPersonsList();
       });
@@ -147,7 +158,7 @@ export default {
       this.$api({
         action: "PotentialDealersPersonsDetail",
         id: id,
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
       }).then(res => {
         res.data = lowerJSONKey(res.data);
         this.form = res.data;
@@ -156,7 +167,7 @@ export default {
     fetchPotentialDealersPersonsList() {
       this.$api({
         action: "PotentialDealersPersonsList",
-        potentialdealersid: this.potentialDealersId,
+        potentialdealersid:this.$route.query.Id||this.potentialDealersId,
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {

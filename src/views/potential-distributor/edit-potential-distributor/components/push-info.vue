@@ -6,7 +6,7 @@
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
       <div class="business-info__header__query">
-        <el-button type="primary" @click="show = true">+推送记录</el-button>
+        <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="onPush">推送记录</el-button>
       </div>
     </div>
     <div class="business-info__main">
@@ -119,12 +119,17 @@
 <script>
 import Pagination from "@/components/Pagination";
 export default {
+  props: {
+    potentialDealersId: {
+      type: Number|String,
+    },
+  },
   data() {
     return {
       tableData: [],
       page: {
         currPage: 1,
-        pageSize: 10,
+        pageSize: 2,
         totalNum: 0,
       },
       intentsource: "",
@@ -139,6 +144,14 @@ export default {
     };
   },
   methods: {
+    onPush() {
+      if (this.potentialDealersId) this.show = true;
+      else
+        this.$message({
+          message: "请先添加基本信息",
+          type: "warning",
+        });
+    },
     handlePagination() {},
     clear() {
       this.intentsource = "";
@@ -160,7 +173,7 @@ export default {
     potentialDealersPushLogsList() {
       this.$api({
         action: "PotentialDealersPushLogsList",
-        potentialdealersid: this.$route.query.Id,
+        potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
       }).then((res) => {
@@ -170,7 +183,7 @@ export default {
     potentialDealersPushLogsEdit() {
       this.$api({
         action: "PotentialDealersPushLogsEdit",
-        potentialdealersid: this.$route.query.Id,
+        potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         id: 0,
         intentsource: this.intentsource,
         intentbu: this.intentbu,
@@ -180,6 +193,8 @@ export default {
         accomplish: this.accomplish,
         accomplishDate: this.accomplishDate,
       }).then((res) => {
+        console.log("9999990", res);
+        this.id = res.data;
         this.potentialDealersPushLogsList();
         this.clear();
       });
@@ -198,8 +213,8 @@ export default {
   created() {
     this.baseList("BaseList", "source");
     this.baseList("DownList", "Bu");
-
-    this.potentialDealersPushLogsList();
+    this.$route.query.Id&&this.potentialDealersPushLogsList();
+    console.log("0999999", this.$route.query.Id);
   },
   components: { Pagination },
 };
