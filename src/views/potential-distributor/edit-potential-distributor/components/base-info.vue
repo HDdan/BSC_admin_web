@@ -43,9 +43,9 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商编码/ID:" prop="id">
+      <el-form-item label="经销商编码/ID:" prop="dealerId">
         <el-input
-          :disabled="isCreateSave"
+          :disabled="true"
           v-if="edit_flg['dealerId'] || isCreate"
           v-model="baseForm.dealerid"
         ></el-input>
@@ -93,7 +93,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="营业范围是否医疗器械:" prop="name">
+      <el-form-item label="营业范围是否医疗器械:" prop="medicalinstruments">
         <el-select
           :disabled="isCreateSave"
           v-if="edit_flg['medicalinstruments'] || isCreate"
@@ -119,7 +119,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="是否从事高值介入产品：" prop="name">
+      <el-form-item label="是否从事高值介入产品：" prop="highvalueintervention">
         <el-select
           :disabled="isCreateSave"
           v-if="edit_flg['highvalueintervention'] || isCreate"
@@ -145,7 +145,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="合作科室：" prop="name">
+      <el-form-item label="合作科室：" prop="department">
         <el-select
           :disabled="isCreateSave"
           v-if="edit_flg['department'] || isCreate"
@@ -172,7 +172,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="主营产品类型：" prop="name">
+      <el-form-item label="主营产品类型：" prop="mainproducttypes">
         <el-select
           :disabled="isCreateSave"
           v-if="edit_flg['mainproducttypes'] || isCreate"
@@ -198,7 +198,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="主营产品明细：" prop="name">
+      <el-form-item label="主营产品明细：" prop="mainproducts">
         <el-input
           :disabled="isCreateSave"
           v-if="edit_flg['mainproducts'] || isCreate"
@@ -365,7 +365,11 @@ export default {
       this.isEdit = true;
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      if (this.isCreate) this.$refs[formName].resetFields();
+      else {
+        this.initBaseInfoFlg();
+        this.fetchPotentialDealersDetail();
+      }
     },
     editPotentialDealersBase(formName) {
       this.$refs[formName].validate((valid) => {
@@ -393,7 +397,7 @@ export default {
           };
           this.$api(params).then((res) => {
             if (!this.$route.query.Id) this.isCreateSave = true;
-            this.$emit("onBase", res.data);
+            this.$emit("onBase", res.data,this.baseForm.dealername);
             this.baseForm.id = res.data;
             this.fetchPotentialDealersDetail();
           });
@@ -415,6 +419,7 @@ export default {
         id: this.$route.query.Id || this.baseForm.id,
       }).then((res) => {
         this.baseForm = lowerJSONKey(res.data);
+        this.$emit("onBase", this.baseForm.id,this.baseForm.dealername);
         this.initBaseInfoFlg();
       });
     },

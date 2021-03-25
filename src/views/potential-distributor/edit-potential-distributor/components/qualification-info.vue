@@ -10,7 +10,7 @@
         'edit-potential-distributor-base__create': isCreate,
       }"
     >
-      <el-form-item label="注册资金：" prop="name">
+      <el-form-item label="注册资金：" prop="registeredcapital">
         <el-input
           v-if="edit_flg['registeredcapital'] || isCreate"
           v-model="ruleForm.registeredcapital"
@@ -27,7 +27,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="经营状态：" prop="name">
+      <el-form-item label="经营状态：" prop="operatingstatus">
         <el-input v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus"></el-input>
          <div
           v-else
@@ -41,7 +41,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="公司在医疗行业时间（年）:" prop="name">
+      <el-form-item label="公司在医疗行业时间（年）:" prop="inmedicaldate">
         <el-input v-if="edit_flg['inmedicaldate'] || isCreate" v-model="ruleForm.inmedicaldate"></el-input>
           <div
           v-else
@@ -55,7 +55,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="有稳定业务的三甲医院数量:" prop="name">
+      <el-form-item label="有稳定业务的三甲医院数量:" prop="hospitalnumber">
         <el-input v-if="edit_flg['hospitalnumber'] || isCreate" v-model="ruleForm.hospitalnumber"></el-input>
         <div
           v-else
@@ -69,7 +69,7 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="公司开票金额：" prop="name">
+      <el-form-item label="公司开票金额：" prop="invoicedamount">
         <el-input v-if="edit_flg['invoicedamount'] || isCreate" v-model="ruleForm.invoicedamount"></el-input>
         <div
           v-else
@@ -212,7 +212,11 @@ export default {
       this.isEdit = false;
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      if (this.isCreate) this.$refs[formName].resetFields();
+      else {
+        this.initBaseInfoFlg();
+        this.fetchPotentialDealersDetail();
+      }
     },
   },
 };

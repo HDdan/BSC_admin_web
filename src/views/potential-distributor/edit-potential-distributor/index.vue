@@ -1,12 +1,13 @@
 <template>
   <div class="potential-distributor-edit">
+    <div class="main-header" style="background: #fff;">{{dealername}}</div>
     <!-- <div class="potential-distributor-edit__header mb-20">
       <div class="potential-distributor-edit__header__title fz-18">重庆医药和平医疗器械有限公司</div>
     </div> -->
 
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item title="基本信息" name="1">
-        <base-info :potentialDealersId="$route.query.Id"></base-info>
+        <base-info @onBase="onBase" :potentialDealersId="$route.query.Id"></base-info>
       </el-collapse-item>
       <el-collapse-item title="业务区域" name="2">
         <business-info :potentialDealersId="$route.query.Id"></business-info>
@@ -42,10 +43,16 @@ export default {
   data() {
     return {
       activeNames: ['1','2','3','4','5','6','7'],
-      searchInput: ''
+      searchInput: '',
+      potentialDealersId:'',
+      dealername:''
     }
   },
   methods: {
+    onBase(id,name) {
+      this.potentialDealersId = id;
+      this.dealername = name
+    },
     handleChange(val) {
       console.log(val);
     }

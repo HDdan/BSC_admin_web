@@ -68,10 +68,17 @@
         >
         </el-option>
       </el-select>
-      <el-cascader ref="cascaderRegion" placeholder="业务区域" :props="regionProps" @change="selectRegion"></el-cascader>
+      <el-cascader
+        class="mr-15 mb-16"
+        style="width: 220px; line-height: inherit"
+        ref="cascaderRegion"
+        placeholder="业务区域"
+        :props="regionProps"
+        @change="selectRegion"
+      ></el-cascader>
 
       <el-select
-        class="mb-16"
+        class="mr-15 mb-16"
         v-model="params.callusername"
         placeholder="沟通专员"
       >
@@ -113,7 +120,9 @@
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
         <span>导出</span>
       </div>
-      <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary"
+      <el-button
+        icon="fz-14 mr-8 iconfont iconxinzeng"
+        type="primary"
         @click="createPotentialDistributor"
         >经销商</el-button
       >
@@ -176,8 +185,8 @@ export default {
 
       regionProps: {
         lazy: true,
-        lazyLoad: this.fetchRegion
-      }
+        lazyLoad: this.fetchRegion,
+      },
     };
   },
   created() {
@@ -190,43 +199,50 @@ export default {
   methods: {
     fetchRegion(node, resolve) {
       if (!node) {
-        return false
+        return false;
       }
 
       if (node.level === 0) {
         this.$api({
           action: "DownList",
-          type: 'province',
+          type: "province",
           parentid: 0,
           pageindex: 1,
           pagesize: 100000,
-        }).then(res => {
-          resolve(res.data.map((val) => {
-            return {
-              value: val.Id,
-              label: val.Name,
-              leaf: false
-            };
-          }))
+        }).then((res) => {
+          resolve(
+            res.data.map((val) => {
+              return {
+                value: val.Id,
+                label: val.Name,
+                leaf: false,
+              };
+            })
+          );
         });
       } else if (node.level === 1) {
         this.$api({
           action: "DownList",
-          type: 'city',
-          parentid: node.data.value
+          type: "city",
+          parentid: node.data.value,
         }).then((res) => {
-          resolve(res.data.map((val) => {
-            return {
-              value: val.Id,
-              label: val.Name,
-              leaf: true
-            };
-          }))
+          resolve(
+            res.data.map((val) => {
+              return {
+                value: val.Id,
+                label: val.Name,
+                leaf: true,
+              };
+            })
+          );
         });
       }
     },
     selectRegion() {
-      this.params.province = this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] + '/' + this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
+      this.params.province =
+        this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
+        "/" +
+        this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
     },
     potentialDealersList() {
       const params = this.params;
@@ -282,8 +298,8 @@ export default {
       this.potentialDealersList();
     },
     createPotentialDistributor() {
-      this.$router.push({ path: '/potentialDistributor/create' });
-    }
+      this.$router.push({ path: "/potentialDistributor/create" });
+    },
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="potential-distributor-create">
+     <div class="main-header" style="background: #fff;">潜在经销商-新建</div>
     <!-- <div class="potential-distributor-edit__header mb-20">
       <div class="potential-distributor-edit__header__title fz-18">重庆医药和平医疗器械有限公司</div>
     </div> -->

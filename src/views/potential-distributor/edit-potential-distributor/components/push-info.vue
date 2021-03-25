@@ -152,7 +152,10 @@ export default {
           type: "warning",
         });
     },
-    handlePagination() {},
+    handlePagination(val) {
+      this.page.currPage = val.page
+      this.potentialDealersPushLogsList()
+    },
     clear() {
       this.intentsource = "";
       this.intentbu = "";
@@ -177,6 +180,7 @@ export default {
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
       }).then((res) => {
+        this.page.totalNum = res.count
         this.tableData = res.data;
       });
     },
