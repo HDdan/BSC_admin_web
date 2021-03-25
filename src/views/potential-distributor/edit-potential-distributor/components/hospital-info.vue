@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="business-info__main">
-      <el-table :data="hospitalsList" style="width: 100%">
+      <el-table empty-text=" " :data="hospitalsList" style="width: 100%">
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="hospitalname" label="医院名称"></el-table-column>
         <el-table-column prop="hospitalcode" label="医院编号"></el-table-column>
@@ -44,13 +44,15 @@
       </el-table>
       <div v-if="addCoverHospitalsVisible" class="add-source ml-20 mr-20 mt-24">
         <el-select
+          clearable
           class="mt-34 ml-24"
           v-model="form.hospitalname"
           placeholder="医院名称"
+          @change="onHospital"
         >
           <el-option
             v-for="item in option.hospitalOption"
-            :key="item.hospitalCode"
+            :key="item.Id"
             :value="item.hospitalname"
           >
           </el-option>
@@ -61,6 +63,7 @@
           placeholder="医院编号"
         ></el-input>
         <el-select
+          clearable
           class="mt-34 ml-24"
           v-model="form.department"
           placeholder="医院科室"
@@ -96,7 +99,7 @@ import { lowerJSONKey } from "../../../../utils/index";
 export default {
   props: {
     potentialDealersId: {
-      type: Number|String,
+      type: Number | String,
     },
   },
   data() {
@@ -130,6 +133,11 @@ export default {
     this.$route.query.Id && this.fetchPotentialDealersCoverHospitalsList();
   },
   methods: {
+    onHospital(val) {
+      this.form.hospitalcode = this.option.hospitalOption.filter(
+        (i) => i.hospitalname == val
+      )[0].hospitalcode;
+    },
     addHospital() {
       if (!this.potentialDealersId) {
         this.$message({

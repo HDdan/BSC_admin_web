@@ -6,50 +6,60 @@
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
       <div class="business-info__header__query">
-        <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="onPush">推送记录</el-button>
+        <el-button
+          icon="fz-14 mr-8 iconfont iconxinzeng"
+          type="primary"
+          @click="onPush"
+          >推送记录</el-button
+        >
       </div>
     </div>
     <div class="business-info__main">
-      <el-table :data="tableData" style="width: 100%">
+      <el-table empty-text=" " :data="tableData" style="width: 100%">
         <el-table-column prop="Id" label="序号"></el-table-column>
         <el-table-column
           prop="AccomplishDate"
           label="推送时间"
         ></el-table-column>
-        <el-table-column prop="businessType" label="专员名称"></el-table-column>
+        <el-table-column prop="businessType" label="专员名称">
+          {{ getUserName }}
+        </el-table-column>
         <el-table-column prop="IntentSource" label="意向来源"></el-table-column>
         <el-table-column prop="IntentBu" label="意向BU"></el-table-column>
         <el-table-column prop="IntentSubbu" label="意向subbu"></el-table-column>
         <el-table-column prop="Clinical" label="沟通临床"></el-table-column>
         <el-table-column prop="Bargain" label="进院议价"></el-table-column>
         <el-table-column prop="Accomplish" label="落地达成"></el-table-column>
-        <el-table-column
-          prop="AccomplishDate"
-          label="落地时间"
-        ></el-table-column>
+        <el-table-column prop="Date" label="落地时间"></el-table-column>
       </el-table>
       <div class="add-source ml-20 mr-20 mt-24" v-if="show">
         <el-date-picker
           class="mt-34 ml-24"
-          v-model="accomplishDate"
+          v-model="date"
           value-format="yyyy-MM-dd"
           placeholder="推送时间"
           type="date"
         >
         </el-date-picker>
         <el-select
+          clearable
           class="mt-34 ml-24"
           v-model="intentsource"
           placeholder="意向来源"
         >
           <el-option
-            v-for="item in option.source"
+            v-for="item in option.intentsource"
             :key="item.Id"
             :value="item.Name"
           >
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="intentbu" placeholder="意向BU">
+        <el-select
+          clearable
+          class="mt-34 ml-24"
+          v-model="intentbu"
+          placeholder="意向BU"
+        >
           <el-option
             v-for="item in option.Bu"
             :key="item.Id"
@@ -58,6 +68,7 @@
           </el-option>
         </el-select>
         <el-select
+          clearable
           class="mt-10 ml-24"
           v-model="intentsubbu"
           placeholder="意向subbu"
@@ -85,9 +96,14 @@
           type="date"
         >
         </el-date-picker>
-        <el-select class="ml-24" v-model="accomplish" placeholder="落地达成">
+        <el-select
+          clearable
+          class="ml-24"
+          v-model="accomplish"
+          placeholder="落地达成"
+        >
           <el-option
-            v-for="item in option.Bu"
+            v-for="item in option.accomplish"
             :key="item.Id"
             :value="item.Name"
           >
@@ -118,14 +134,16 @@
 </template>
 <script>
 import Pagination from "@/components/Pagination";
+import { getUserName } from "@/utils/auth";
 export default {
   props: {
     potentialDealersId: {
-      type: Number|String,
+      type: Number | String,
     },
   },
   data() {
     return {
+      getUserName: getUserName(),
       tableData: [],
       page: {
         currPage: 1,
@@ -139,8 +157,54 @@ export default {
       bargain: "",
       accomplish: "",
       accomplishDate: "",
+      date: "",
       show: false,
-      option: {},
+      option: {
+        accomplish: [
+          {
+            Name: "临时授权",
+            Id: "临时授权",
+          },
+          {
+            Id: "第三方披露",
+            Name: "第三方披露",
+          },
+          {
+            Id: "正式授权",
+            Name: "正式授权",
+          },
+        ],
+        intentsource: [
+          {
+            Id: "空白招商",
+            Name: "空白招商",
+          },
+          {
+            Id: "主动来电",
+            Name: "主动来电",
+          },
+          {
+            Id: "线下招商会",
+            Name: "线下招商会",
+          },
+          {
+            Id: "云上招商会",
+            Name: "云上招商会",
+          },
+          {
+            Id: "渠道经理推荐",
+            Name: "渠道经理推荐",
+          },
+          {
+            Id: "经销商推荐",
+            Name: "经销商推荐",
+          },
+          {
+            Id: "广告宣传",
+            Name: "广告宣传",
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -153,8 +217,8 @@ export default {
         });
     },
     handlePagination(val) {
-      this.page.currPage = val.page
-      this.potentialDealersPushLogsList()
+      this.page.currPage = val.page;
+      this.potentialDealersPushLogsList();
     },
     clear() {
       this.intentsource = "";
@@ -164,6 +228,7 @@ export default {
       this.bargain = "";
       this.accomplish = "";
       this.accomplishDate = "";
+      this.date = "";
     },
     cancel() {
       this.show = false;
@@ -180,7 +245,7 @@ export default {
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,
       }).then((res) => {
-        this.page.totalNum = res.count
+        this.page.totalNum = res.count;
         this.tableData = res.data;
       });
     },
@@ -196,6 +261,7 @@ export default {
         bargain: this.bargain,
         accomplish: this.accomplish,
         accomplishDate: this.accomplishDate,
+        data: this.Date,
       }).then((res) => {
         console.log("9999990", res);
         this.id = res.data;
@@ -217,7 +283,7 @@ export default {
   created() {
     this.baseList("BaseList", "source");
     this.baseList("DownList", "Bu");
-    this.$route.query.Id&&this.potentialDealersPushLogsList();
+    this.$route.query.Id && this.potentialDealersPushLogsList();
     console.log("0999999", this.$route.query.Id);
   },
   components: { Pagination },

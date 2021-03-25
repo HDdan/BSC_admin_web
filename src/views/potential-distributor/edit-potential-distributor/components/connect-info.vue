@@ -11,12 +11,15 @@
     </div>
     <div class="business-info__main">
       <el-table
+      empty-text=" "
       :data="callLogsList"
       style="width: 100%"
       >
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="date" label="沟通时间"></el-table-column>
-        <el-table-column prop="userid" label="专员名称"></el-table-column>
+        <el-table-column label="专员名称">
+          <span>{{getUserName}}</span>
+        </el-table-column>
         <el-table-column prop="type" label="沟通类型"></el-table-column>
         <el-table-column prop="detail" label="沟通内容"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
@@ -29,7 +32,7 @@
         </el-table-column>
       </el-table>
       <div v-if="addCallLogsVisible" class="add-source ml-20 mr-20 mt-24">
-        <el-input class="mt-34 ml-24" v-model="form.userid" placeholder="专员名称"></el-input>
+        <el-input class="mt-34 ml-24"  :value="getUserName" placeholder="专员名称"></el-input>
         <el-select class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
           <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
@@ -47,7 +50,7 @@
 <script>
 import Pagination from '@/components/Pagination';
 import { lowerJSONKey } from '@/utils/index';
-
+import { getUserName } from "@/utils/auth";
 export default {
   props: {
     potentialDealersId: {
@@ -56,6 +59,7 @@ export default {
   },
   data() {
     return {
+      getUserName:getUserName(),
       addCallLogsVisible: false,
       currentEditcallLogsId: null,
       callLogsList: null,

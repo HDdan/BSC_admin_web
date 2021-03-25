@@ -30,6 +30,7 @@
       >
       </el-date-picker>
       <el-select
+        clearable
         class="mr-15 mb-16"
         v-model="params.mainproducts"
         placeholder="主营产品类型"
@@ -43,6 +44,7 @@
         </el-option>
       </el-select>
       <el-select
+        clearable
         class="mr-15 mb-16"
         v-model="params.department"
         placeholder="合作科室"
@@ -56,6 +58,7 @@
         </el-option>
       </el-select>
       <el-select
+        clearable
         class="mr-15 mb-16"
         v-model="params.sources"
         placeholder="数据来源"
@@ -69,6 +72,7 @@
         </el-option>
       </el-select>
       <el-cascader
+        clearable
         class="mr-15 mb-16"
         style="width: 220px; line-height: inherit"
         ref="cascaderRegion"
@@ -78,6 +82,7 @@
       ></el-cascader>
 
       <el-select
+        clearable
         class="mr-15 mb-16"
         v-model="params.callusername"
         placeholder="沟通专员"
@@ -91,6 +96,7 @@
         </el-option>
       </el-select>
       <el-select
+        clearable
         class="mr-16"
         v-model="params.pushusername"
         placeholder="推送专员"
@@ -239,18 +245,20 @@ export default {
       }
     },
     selectRegion() {
-      this.params.province =
-        this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
-        "/" +
-        this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
+      if (this.$refs.cascaderRegion.getCheckedNodes().length > 0) {
+        this.params.province =
+          this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
+          "/" +
+          this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
+      } else this.params.province = "";
     },
     potentialDealersList() {
       const params = this.params;
       params.action = "PotentialDealersList";
-      params.callstarttime = this.callTime[0];
-      params.callendtime = this.callTime[1];
-      params.pushstarttime = this.pushTime[0];
-      params.pushendtime = this.pushTime[1];
+      params.callstarttime = this.callTime ? this.callTime[0] : "";
+      params.callendtime = this.callTime ? this.callTime[1] : "";
+      params.pushstarttime = this.pushTime ? this.pushTime[0] : "";
+      params.pushendtime = this.pushTime ? this.pushTime[1] : "";
       params.pageindex = this.page.currPage;
       params.pagesize = this.page.pageSize;
       this.$api(params).then((res) => {

@@ -92,7 +92,6 @@
 </template>
 <script>
 import { lowerJSONKey } from "@/utils/index";
-
 export default {
   props: {
     potentialDealersId: {

@@ -1,12 +1,12 @@
 <template>
   <div class="edit-potential-distributor-base">
-    <div
+    <!-- <div
       v-if="baseForm.updatetime"
       class="ml-20 mt-25 mb-25"
       style="color: #333333; font-size: 14px"
     >
       最近更新时间：{{ baseForm.updatetime }}
-    </div>
+    </div> -->
     <el-form
       :model="baseForm"
       :rules="rules"
@@ -19,7 +19,7 @@
     >
       <el-form-item label="数据来源：" prop="sources">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['sources'] || isCreate"
           v-model="baseForm.sources"
         >
@@ -58,7 +58,7 @@
           v-if="edit_flg['dealercode']"
           v-model="baseForm.dealercode"
         ></el-input>
-        <div
+        <!-- <div
           v-else
           class="edit-potential-distributor-base__detail"
           @click="editInfo('dealercode')"
@@ -68,6 +68,9 @@
             class="fz-16 mr-8 iconfont iconxiugai"
             style="color: #9b9b9b"
           ></span>
+        </div> -->
+        <div v-else class="edit-potential-distributor-base__detail">
+          <span>{{ baseForm.dealercode }}</span>
         </div>
       </el-form-item>
       <el-form-item label="经销商状态:" prop="name" v-if="!isCreate">
@@ -77,7 +80,6 @@
       </el-form-item>
       <el-form-item label="潜在经销商名称:" prop="dealername" required>
         <el-input
-          :disabled="isCreateSave"
           v-if="edit_flg['dealername'] || isCreate"
           v-model="baseForm.dealername"
         ></el-input>
@@ -95,7 +97,7 @@
       </el-form-item>
       <el-form-item label="营业范围是否医疗器械:" prop="medicalinstruments">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['medicalinstruments'] || isCreate"
           v-model="baseForm.medicalinstruments"
         >
@@ -121,7 +123,7 @@
       </el-form-item>
       <el-form-item label="是否从事高值介入产品：" prop="highvalueintervention">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['highvalueintervention'] || isCreate"
           v-model="baseForm.highvalueintervention"
         >
@@ -147,7 +149,7 @@
       </el-form-item>
       <el-form-item label="合作科室：" prop="department">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['department'] || isCreate"
           v-model="baseForm.department"
           multiple
@@ -174,7 +176,7 @@
       </el-form-item>
       <el-form-item label="主营产品类型：" prop="mainproducttypes">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['mainproducttypes'] || isCreate"
           v-model="baseForm.mainproducttypes"
         >
@@ -200,7 +202,6 @@
       </el-form-item>
       <el-form-item label="主营产品明细：" prop="mainproducts">
         <el-input
-          :disabled="isCreateSave"
           v-if="edit_flg['mainproducts'] || isCreate"
           v-model="baseForm.mainproducts"
         ></el-input>
@@ -218,7 +219,7 @@
       </el-form-item>
       <el-form-item label="主营品牌：" prop="mainbrands">
         <el-select
-          :disabled="isCreateSave"
+          clearable
           v-if="edit_flg['mainbrands'] || isCreate"
           v-model="baseForm.mainbrands"
         >
@@ -243,7 +244,7 @@
         </div>
       </el-form-item>
     </el-form>
-    <div class="ml-20" v-if="isEdit || (isCreate && !isCreateSave)">
+    <div class="ml-20" v-if="isEdit || isCreate">
       <el-button type="primary" @click="editPotentialDealersBase('ruleForm')"
         >保存</el-button
       >
@@ -257,6 +258,7 @@ import { lowerJSONKey } from "../../../../utils/index";
 export default {
   data() {
     return {
+      potentialDealersId: this.$route.query.Id || 0,
       isCreate: false,
       isCreateSave: false,
       isEdit: false,
@@ -292,11 +294,14 @@ export default {
             value: "是",
             lable: "是",
           },
+          {
+            value: "高低值都有",
+            lable: "高低值都有",
+          },
         ],
         departmentOption: null,
         mainProductTypesOption: null,
         brandOption: null,
-        isCreate: false,
       },
       baseForm: {
         medicalinstruments: "",
@@ -319,34 +324,6 @@ export default {
             trigger: "change",
           },
         ],
-        date1: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change",
-          },
-        ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change",
-          },
-        ],
-        resource: [
-          { required: true, message: "请选择活动资源", trigger: "change" },
-        ],
-        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }],
       },
     };
   },
@@ -375,6 +352,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let department = "";
+          console.log("00000d0fd", this.baseForm);
           if (typeof this.baseForm.department === "object") {
             this.baseForm.department.forEach((item, index) => {
               department = index === 0 ? item : department + "/" + item;
@@ -384,7 +362,7 @@ export default {
           }
           const params = {
             action: "PotentialDealersEditBase",
-            id: this.baseForm.id || 0,
+            id: this.potentialDealersId,
             sources: this.baseForm.sources,
             dealercode: this.baseForm.dealercode,
             dealername: this.baseForm.dealername,
@@ -397,8 +375,10 @@ export default {
           };
           this.$api(params).then((res) => {
             if (!this.$route.query.Id) this.isCreateSave = true;
-            this.$emit("onBase", res.data,this.baseForm.dealername);
-            this.baseForm.id = res.data;
+            this.$emit("onBase", res.data, this.baseForm.dealername);
+            this.potentialDealersId = res.data
+              ? res.data
+              : this.potentialDealersId;
             this.fetchPotentialDealersDetail();
           });
         } else {
@@ -414,13 +394,15 @@ export default {
       this.isEdit = false;
     },
     fetchPotentialDealersDetail() {
+      console.log("-----ddd", this.potentialDealersId);
       this.$api({
         action: "PotentialDealersDetail",
-        id: this.$route.query.Id || this.baseForm.id,
+        id: this.$route.query.Id || this.potentialDealersId,
       }).then((res) => {
         this.baseForm = lowerJSONKey(res.data);
-        this.$emit("onBase", this.baseForm.id,this.baseForm.dealername);
+        this.$emit("onBase", this.potentialDealersId, this.baseForm.dealername);
         this.initBaseInfoFlg();
+        this.isCreate = false;
       });
     },
     fetchSourceList() {

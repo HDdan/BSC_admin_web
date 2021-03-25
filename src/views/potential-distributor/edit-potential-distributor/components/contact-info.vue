@@ -11,6 +11,7 @@
     </div>
     <div class="contact-info__main">
       <el-table
+      empty-text=" "
       :data="personsList"
       style="width: 100%"
       >
@@ -41,7 +42,7 @@
           <el-option v-for="item in option.sexOptions" :key="item.value" :value="item.value">
           </el-option>
         </el-select>
-        <el-input class="mt-10 ml-24" placeholder="手机号" v-model="form.phone" style="width: 30%"></el-input>
+        <el-input class="mt-10 ml-24" maxlength="11" placeholder="手机号" v-model="form.phone" style="width: 30%"></el-input>
         <el-input class="mt-10 ml-24" placeholder="座机号" v-model="form.fixedphone" style="width: 30%"></el-input>
         <el-select class="mt-10 ml-24" v-model="form.province" placeholder="省份" @change="fetchCity">
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
@@ -65,7 +66,17 @@
 <script>
 import Pagination from '../../../../components/Pagination';
 import { lowerJSONKey } from '../../../../utils/index';
-
+const validatePhone = (rule, value, callback) => {
+  if (value === "") {
+    callback(new Error("请输入手机号"));
+  } else {
+    if (!/^1[3456789]\d{9}$/.test(value)) {
+      callback(new Error("请输入正确的手机号"));
+    } else {
+      callback();
+    }
+  }
+};
 export default {
   props: {
     potentialDealersId: {
@@ -98,6 +109,16 @@ export default {
     this.fetchProvince();
     this.$route.query.Id&&this.fetchPotentialDealersPersonsList();
   },
+  watch: {
+    "form.phone": function(curVal, oldVal) {
+      if (!curVal) {
+        this.form.phone = "";
+        return false;
+      }
+      // 实时把非数字的输入过滤掉
+      this.form.phone = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
+    }
+  },  
   methods: {
     addContactor() {
       if (!this.potentialDealersId) {

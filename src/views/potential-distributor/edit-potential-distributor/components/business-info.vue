@@ -11,6 +11,7 @@
     </div>
     <div class="business-info__main">
       <el-table
+        empty-text=" "
         :data="regionList"
         style="width: 100%"
       >

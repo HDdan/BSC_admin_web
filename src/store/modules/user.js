@@ -6,7 +6,7 @@ import {
 import {
   api
 } from "@/api";
-import { getToken, setToken, removeToken } from "@/utils/auth";
+import { getToken, setToken, removeToken, setUserName, removeUserName } from "@/utils/auth";
 
 const state = {
   token: getToken(),
@@ -33,8 +33,9 @@ const actions = {
       })
         .then(response => {
           const { data } = response;
-          commit("SET_TOKEN", data);
-          setToken(data);
+          commit("SET_TOKEN", data.id);
+          setToken(data.id);
+          setUserName(data.name);
           resolve();
         })
         .catch(error => {
@@ -48,6 +49,7 @@ const actions = {
         .then(() => {
           commit("SET_TOKEN", "");
           removeToken();
+          removeUserName();
           // resetRouter()
 
           resolve();
@@ -62,6 +64,7 @@ const actions = {
       commit("SET_TOKEN", "");
       // commit("SET_ROLES", []);
       removeToken();
+      removeUserName();
       resolve();
     });
   },
