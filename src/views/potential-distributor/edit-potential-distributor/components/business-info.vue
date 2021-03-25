@@ -33,11 +33,11 @@
         </el-table-column>
       </el-table>
       <div v-if="addRegionVisible" class="add-source ml-20 mr-20 mt-24">
-        <el-select class="mt-34 ml-24" v-model="form.province" placeholder="业务省份" @change="fetchCity">
+        <el-select class="mt-34 ml-24" v-model="form.province" placeholder="业务省份" filterable @change="fetchCity">
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="form.city" placeholder="业务城市">
+        <el-select class="mt-34 ml-24" v-model="form.city" placeholder="业务城市" filterable>
           <el-option v-for="item in option.cityOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
@@ -190,7 +190,8 @@ export default {
       }).then((res) => {
         res.data.forEach(item => {
           item = lowerJSONKey(item);
-        })
+        });
+        res.data.unshift({ name: '全省', id: '全省' });
         this.option['cityOptions'] = res.data;
       });
     }

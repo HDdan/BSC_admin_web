@@ -14,21 +14,28 @@
         <el-input
           v-if="edit_flg['registeredcapital'] || isCreate"
           v-model="ruleForm.registeredcapital"
-        ></el-input>
+        ><span slot="suffix" class="mr-14">万元</span></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
           @click="editInfo('registeredcapital')"
         >
           <span>{{ ruleForm.registeredcapital }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
+          <div>
+            <span slot="suffix" class="mr-14" style="color: #9b9b9b">万元</span>
+            <span
+              class="fz-16 mr-8 iconfont iconxiugai"
+              style="color: #9b9b9b"
+            ></span>
+          </div>
         </div>
       </el-form-item>
       <el-form-item label="经营状态：" prop="operatingstatus">
-        <el-input v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus"></el-input>
+        <el-select v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus">
+          <el-option v-for="item in option.operatingstatus" :key="item.id" :value="item.name">
+          </el-option>
+        </el-select>
+        <!-- <el-input v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus"></el-input> -->
          <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -42,21 +49,26 @@
         </div>
       </el-form-item>
       <el-form-item label="公司在医疗行业时间（年）:" prop="inmedicaldate">
-        <el-input v-if="edit_flg['inmedicaldate'] || isCreate" v-model="ruleForm.inmedicaldate"></el-input>
+        <el-input v-if="edit_flg['inmedicaldate'] || isCreate" v-model="ruleForm.inmedicaldate"><span slot="suffix" class="mr-14">年</span></el-input>
           <div
           v-else
           class="edit-potential-distributor-base__detail"
           @click="editInfo('inmedicaldate')"
         >
           <span>{{ ruleForm.inmedicaldate }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
+          <div>
+            <span slot="suffix" class="mr-14" style="color: #9b9b9b">年</span>
+            <span
+              class="fz-16 mr-8 iconfont iconxiugai"
+              style="color: #9b9b9b"
+            ></span>
+          </div>
         </div>
       </el-form-item>
       <el-form-item label="有稳定业务的三甲医院数量:" prop="hospitalnumber">
-        <el-input v-if="edit_flg['hospitalnumber'] || isCreate" v-model="ruleForm.hospitalnumber"></el-input>
+        <el-input v-if="edit_flg['hospitalnumber'] || isCreate" v-model="ruleForm.hospitalnumber"
+        oninput="value=value.replace(/[^\d]/g,'')" 
+        ></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -70,17 +82,20 @@
         </div>
       </el-form-item>
       <el-form-item label="公司开票金额：" prop="invoicedamount">
-        <el-input v-if="edit_flg['invoicedamount'] || isCreate" v-model="ruleForm.invoicedamount"></el-input>
+        <el-input v-if="edit_flg['invoicedamount'] || isCreate" v-model="ruleForm.invoicedamount"><span slot="suffix" class="mr-14">万元</span></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
           @click="editInfo('invoicedamount')"
         >
           <span>{{ ruleForm.invoicedamount }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
+          <div>
+            <span slot="suffix" class="mr-14" style="color: #9b9b9b">万元</span>
+            <span
+              class="fz-16 mr-8 iconfont iconxiugai"
+              style="color: #9b9b9b"
+            ></span>
+          </div>
         </div>
       </el-form-item>
     </el-form>
@@ -91,7 +106,7 @@
   </div>
 </template>
 <script>
-import { lowerJSONKey } from "@/utils/index";
+import { lowerJSONKey, getInputValue } from "@/utils/index";
 export default {
   props: {
     potentialDealersId: {
@@ -116,6 +131,18 @@ export default {
         inmedicaldate: "",
         hospitalnumber: "",
         invoicedamount: "",
+      },
+      option: {
+        operatingstatus: [{
+          id: '正常经营',
+          name: '正常经营'
+        },{
+          id: '倒闭或注销',
+          name: '倒闭或注销'
+        },{
+          id: '被收购',
+          name: '被收购'
+        }]
       },
       rules: {
         name: [{ message: "请输入活动名称", trigger: "blur" }],

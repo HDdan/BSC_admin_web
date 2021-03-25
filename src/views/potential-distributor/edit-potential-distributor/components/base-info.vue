@@ -73,7 +73,7 @@
           <span>{{ baseForm.dealercode }}</span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商状态:" prop="name" v-if="!isCreate">
+      <el-form-item label="经销商状态:" prop="dealerstatus" v-if="!isCreate">
         <div class="edit-potential-distributor-base__detail">
           <span>{{ baseForm.dealerstatus }}</span>
         </div>
@@ -152,8 +152,7 @@
           clearable
           v-if="edit_flg['department'] || isCreate"
           v-model="baseForm.department"
-          multiple
-        >
+          multiple>
           <el-option
             v-for="item in option.departmentOption"
             :key="item.id"
@@ -179,6 +178,7 @@
           clearable
           v-if="edit_flg['mainproducttypes'] || isCreate"
           v-model="baseForm.mainproducttypes"
+          multiple
         >
           <el-option
             v-for="item in option.mainProductTypesOption"
@@ -222,6 +222,7 @@
           clearable
           v-if="edit_flg['mainbrands'] || isCreate"
           v-model="baseForm.mainbrands"
+          multiple
         >
           <el-option
             v-for="item in option.brandOption"
@@ -338,7 +339,7 @@ export default {
   },
   methods: {
     editInfo(params) {
-      this.edit_flg[params] = true;
+      this.$set(this.edit_flg,params,true);
       this.isEdit = true;
     },
     resetForm(formName) {
@@ -351,14 +352,29 @@ export default {
     editPotentialDealersBase(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let department = "";
-          console.log("00000d0fd", this.baseForm);
+          let department = "", mainproducttypes = "" , mainbrands = "";
           if (typeof this.baseForm.department === "object") {
             this.baseForm.department.forEach((item, index) => {
               department = index === 0 ? item : department + "/" + item;
             });
           } else {
             department = this.baseForm.department;
+          }
+
+          if (typeof this.baseForm.mainproducttypes === "object") {
+            this.baseForm.mainproducttypes.forEach((item, index) => {
+              mainproducttypes = index === 0 ? item : mainproducttypes + "/" + item;
+            });
+          } else {
+            mainproducttypes = this.baseForm.mainproducttypes;
+          }
+
+          if (typeof this.baseForm.mainbrands === "object") {
+            this.baseForm.mainbrands.forEach((item, index) => {
+              mainbrands = index === 0 ? item : mainbrands + "/" + item;
+            });
+          } else {
+            mainbrands = this.baseForm.mainbrands;
           }
           const params = {
             action: "PotentialDealersEditBase",
@@ -369,9 +385,9 @@ export default {
             medicalinstruments: this.baseForm.medicalinstruments,
             highvalueintervention: this.baseForm.highvalueintervention,
             department: department,
-            mainproducttypes: this.baseForm.mainproducttypes,
+            mainproducttypes: mainproducttypes,
             mainproducts: this.baseForm.mainproducts,
-            mainbrands: this.baseForm.mainbrands,
+            mainbrands: mainbrands,
           };
           this.$api(params).then((res) => {
             if (!this.$route.query.Id) this.isCreateSave = true;
@@ -382,7 +398,6 @@ export default {
             this.fetchPotentialDealersDetail();
           });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -394,7 +409,6 @@ export default {
       this.isEdit = false;
     },
     fetchPotentialDealersDetail() {
-      console.log("-----ddd", this.potentialDealersId);
       this.$api({
         action: "PotentialDealersDetail",
         id: this.$route.query.Id || this.potentialDealersId,
