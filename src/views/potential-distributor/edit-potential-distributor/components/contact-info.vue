@@ -1,17 +1,17 @@
 <template>
   <div class="contact-info">
     <div class="contact-info__header">
-      <div class="contact-info__header__title">
+      <div class="contact-info__header__title" v-if="$route.query.Id">
         <span>共{{ personsList_total }}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
-      <div class="contact-info__header__query">
+      <div class="contact-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addContactor">联系人</el-button>
       </div>
     </div>
     <div class="contact-info__main">
       <el-table
-      empty-text=" "
+      :empty-text="emptyText"
       :data="personsList"
       style="width: 100%"
       >
@@ -38,17 +38,17 @@
       <div v-if="addPersonVisible" class="add-source mt-24">
         <el-input class="mt-34 ml-24" placeholder="姓名" v-model="form.name" style="width: 30%"></el-input>
         <el-input class="mt-34 ml-24" placeholder="职位" v-model="form.position" style="width: 30%"></el-input>
-        <el-select class="mt-34 ml-24" v-model="form.gender" placeholder="性别">
+        <el-select clearable class="mt-34 ml-24" v-model="form.gender" placeholder="性别">
           <el-option v-for="item in option.sexOptions" :key="item.value" :value="item.value">
           </el-option>
         </el-select>
         <el-input class="mt-10 ml-24" maxlength="11" placeholder="手机号" v-model="form.phone" style="width: 30%"></el-input>
         <el-input class="mt-10 ml-24" placeholder="座机号" v-model="form.fixedphone" style="width: 30%"></el-input>
-        <el-select class="mt-10 ml-24" v-model="form.province" placeholder="省份" @change="fetchCity">
+        <el-select clearable class="mt-10 ml-24" v-model="form.province" placeholder="省份" @change="fetchCity">
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-10 ml-24" v-model="form.city" placeholder="城市">
+        <el-select clearable class="mt-10 ml-24" v-model="form.city" placeholder="城市">
           <el-option v-for="item in option.cityOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
@@ -85,6 +85,7 @@ export default {
   },
   data() {
     return {
+      emptyText:'',
       addPersonVisible: false,
       currentEditPersonId: null,
       personsList: null,
@@ -112,9 +113,10 @@ export default {
   watch: {
     "form.phone": function(curVal, oldVal) {
       if (!curVal) {
-        this.form.phone = "";
+        this.$set(this.form,"phone", '');
         return false;
       }
+      console.log("0000s0d0s",curVal)
       // 实时把非数字的输入过滤掉
       this.form.phone = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
     }
@@ -128,10 +130,12 @@ export default {
         });
         return;
       }
+      this.emptyText=' '
       this.addPersonVisible = true;
       this.form = {};
     },
     cancelPerson() {
+      if(!this.personsList||this.personsList.length==0)this.emptyText='暂无数据'
       this.addPersonVisible = false;
     },
     openEditContactor(row) {
@@ -192,10 +196,10 @@ export default {
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {
-        res.data.forEach(item => {
+        res.data.list.forEach(item => {
           item = lowerJSONKey(item);
         });
-        this.personsList = res.data;
+        this.personsList = res.data.list;
         this.personsList_total = res.count;
       });
     },
@@ -237,7 +241,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 38px 16px 0;
+    padding: 30px 16px 0;
     &__title {
       >span:nth-child(1) {
         font-size: 16px;
@@ -248,6 +252,11 @@ export default {
         font-size: 14px;
         color: #666666;
       }
+    }
+    &__query.create {
+      position: absolute;
+      right: 16px;
+      top: 18px;
     }
   }
   &__main {

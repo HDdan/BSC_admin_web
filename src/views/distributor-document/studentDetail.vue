@@ -40,7 +40,7 @@ export default {
   color: #333333;
 }
 .el-collapse-item__arrow {
-  margin: 0 0 0 10px;
+  margin: 0 0 0 10px!important;
 }
 .el-collapse-item {
   margin-bottom: 20px;

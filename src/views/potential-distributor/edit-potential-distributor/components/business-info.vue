@@ -1,17 +1,17 @@
 <template>
   <div class="business-info">
-    <div class="business-info__header">
-      <div class="business-info__header__title">
-        <span>共6条</span>
+    <div class="business-info__header" >
+      <div class="business-info__header__title" v-if="$route.query.Id">
+        <span>共{{regionList_total}}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
-      <div class="business-info__header__query">
+      <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addBusinessType">业务区域</el-button>
       </div>
     </div>
     <div class="business-info__main">
       <el-table
-        empty-text=" "
+        :empty-text="emptyText"
         :data="regionList"
         style="width: 100%"
       >
@@ -33,15 +33,15 @@
         </el-table-column>
       </el-table>
       <div v-if="addRegionVisible" class="add-source ml-20 mr-20 mt-24">
-        <el-select class="mt-34 ml-24" v-model="form.province" placeholder="业务省份" filterable @change="fetchCity">
+        <el-select class="mt-34 ml-24" clearable v-model="form.province" placeholder="业务省份" filterable @change="fetchCity">
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="form.city" placeholder="业务城市" filterable>
+        <el-select class="mt-34 ml-24" clearable v-model="form.city" placeholder="业务城市" filterable>
           <el-option v-for="item in option.cityOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" v-model="form.iscounty" placeholder="是/否县级区域">
+        <el-select class="mt-34 ml-24" clearable v-model="form.iscounty" placeholder="是/否县级区域">
           <el-option v-for="item in option.isCountyOptions" :key="item.value" :value="item.value">
           </el-option>
         </el-select>
@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      emptyText:'',
       addRegionVisible: false,
       currentEditRegionId: null,
       regionList: null,
@@ -100,10 +101,12 @@ export default {
         });
         return
       }
+      this.emptyText=' '
       this.addRegionVisible = true;
       this.form = {};
     },
     cancelRegion() {
+      if(!this.regionList||this.regionList.length==0)this.emptyText='暂无数据'
       this.addRegionVisible = false;
     },
     openAddRegion(row) {
@@ -159,10 +162,10 @@ export default {
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {
-        res.data.forEach(item => {
+        res.data.list.forEach(item => {
           item = lowerJSONKey(item);
         });
-        this.regionList = res.data;
+        this.regionList = res.data.list;
         this.regionList_total = res.count;
       });
     },
@@ -205,7 +208,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 38px 16px 0;
+    padding: 30px 16px 0;
     &__title {
       >span:nth-child(1) {
         font-size: 16px;
@@ -216,6 +219,11 @@ export default {
         font-size: 14px;
         color: #666666;
       }
+    }
+    &__query.create {
+      position: absolute;
+      right: 16px;
+      top: 18px;
     }
   }
   &__main {

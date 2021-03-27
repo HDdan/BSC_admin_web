@@ -75,21 +75,24 @@ export default {
     justify-content: space-between;
     height: 76px;
     padding: 0 20px;
-    background: #ffffff;
+    background: #ffffff!important;
     &__title {
       color: #333333;
     }
   }
   .el-collapse-item__header {
-    background: #fff;
+    background: #fff!important;
     padding-left: 20px;
-    font-size: 16px;
+    font-size: 16px!important;
     color: #333333;
+  }
+  .el-collapse-item {
+    position: relative;
   }
 }
 
 .el-collapse-item__arrow {
-  margin: 0 0 0 10px;
+  margin: 0 0 0 10px!important;
 }
 .el-collapse-item {
   margin-bottom: 20px;

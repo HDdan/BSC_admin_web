@@ -12,6 +12,7 @@
     >
       <el-form-item label="注册资金：" prop="registeredcapital">
         <el-input
+        @blur="inputMoney($event,'registeredcapital')"
           v-if="edit_flg['registeredcapital'] || isCreate"
           v-model="ruleForm.registeredcapital"
         ><span slot="suffix" class="mr-14">万元</span></el-input>
@@ -31,7 +32,7 @@
         </div>
       </el-form-item>
       <el-form-item label="经营状态：" prop="operatingstatus">
-        <el-select v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus">
+        <el-select clearable v-if="edit_flg['operatingstatus'] || isCreate" v-model="ruleForm.operatingstatus">
           <el-option v-for="item in option.operatingstatus" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
@@ -66,9 +67,7 @@
         </div>
       </el-form-item>
       <el-form-item label="有稳定业务的三甲医院数量:" prop="hospitalnumber">
-        <el-input v-if="edit_flg['hospitalnumber'] || isCreate" v-model="ruleForm.hospitalnumber"
-        oninput="value=value.replace(/[^\d]/g,'')" 
-        ></el-input>
+        <el-input v-if="edit_flg['hospitalnumber'] || isCreate" v-model="ruleForm.hospitalnumber"></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -113,6 +112,41 @@ export default {
       type: Number | String,
     },
   },
+   watch: {
+    // "ruleForm.registeredcapital": function(curVal, oldVal) {
+    //   if (!curVal) {
+    //     this.$set(this.ruleForm,"registeredcapital", '');
+    //     return false;
+    //   }
+    //   // 实时把非数字的输入过滤掉
+    //   this.ruleForm.registeredcapital = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
+    //   // this.ruleForm.registeredcapital = getInputValue(this.ruleForm.registeredcapital);
+    // },
+    "ruleForm.inmedicaldate": function(curVal, oldVal) {
+      if (!curVal) {
+        this.$set(this.ruleForm,"inmedicaldate", '');
+        return false;
+      }
+      // 实时把非数字的输入过滤掉
+      this.ruleForm.inmedicaldate = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
+    },
+     "ruleForm.hospitalnumber": function(curVal, oldVal) {
+      if (!curVal) {
+        this.$set(this.ruleForm,"hospitalnumber", '');
+        return false;
+      }
+      // 实时把非数字的输入过滤掉
+      this.ruleForm.hospitalnumber = String(curVal).match(/\d/gi) ? String(curVal).match(/\d/gi).join("") : "";
+    },
+     "ruleForm.invoicedamount": function(curVal, oldVal) {
+      if (!curVal) {
+        this.$set(this.ruleForm,"invoicedamount", '');
+        return false;
+      }
+      // 实时把非数字的输入过滤掉
+      this.ruleForm.invoicedamount = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
+    },
+  },  
   data() {
     return {
       isCreate: false,
@@ -186,6 +220,9 @@ export default {
     } else this.fetchPotentialDealersDetail();
   },
   methods: {
+    inputMoney(el,name) {
+         this.ruleForm[name] = getInputValue(el);
+     },
     editInfo(params) {
       this.edit_flg[params] = true;
       this.isEdit = true;

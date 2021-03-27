@@ -1,17 +1,17 @@
 <template>
   <div class="business-info">
     <div class="business-info__header">
-      <div class="business-info__header__title">
-        <span>共6条</span>
+      <div class="business-info__header__title" v-if="$route.query.Id">
+        <span>共{{callLogsList_total}}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
-      <div class="business-info__header__query">
+      <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addCallLogs">沟通记录</el-button>
       </div>
     </div>
     <div class="business-info__main">
       <el-table
-      empty-text=" "
+       :empty-text="emptyText"
       :data="callLogsList"
       style="width: 100%"
       >
@@ -33,7 +33,7 @@
       </el-table>
       <div v-if="addCallLogsVisible" class="add-source ml-20 mr-20 mt-24">
         <el-input class="mt-34 ml-24"  :value="getUserName" placeholder="专员名称"></el-input>
-        <el-select class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
+        <el-select clearable class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
           <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
         </el-select>
@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      emptyText:'',
       getUserName:getUserName(),
       addCallLogsVisible: false,
       currentEditcallLogsId: null,
@@ -97,10 +98,12 @@ export default {
         });
         return
       }
+      this.emptyText=' '
       this.addCallLogsVisible = true;
       this.form = {};
     },
     cancelCallLogs() {
+      if(!this.callLogsList||this.callLogsList.length==0)this.emptyText='暂无数据'
       this.addCallLogsVisible = false;
     },
     openEditCallLogs(row) {
@@ -142,10 +145,10 @@ export default {
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize
       }).then(res => {
-        res.data.forEach(item => {
+        res.data.list.forEach(item => {
           item = lowerJSONKey(item);
         });
-        this.callLogsList = res.data;
+        this.callLogsList = res.data.list;
         this.callLogsList_total = res.count;
       });
     },
@@ -159,7 +162,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 38px 16px 0;
+    padding: 30px 16px 0;
     &__title {
       >span:nth-child(1) {
         font-size: 16px;
@@ -170,6 +173,11 @@ export default {
         font-size: 14px;
         color: #666666;
       }
+    }
+    &__query.create {
+      position: absolute;
+      right: 16px;
+      top: 18px;
     }
   }
   &__main {

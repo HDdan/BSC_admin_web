@@ -1,11 +1,11 @@
 <template>
   <div class="business-info">
     <div class="business-info__header">
-      <div class="business-info__header__title">
-        <span>共6条</span>
+      <div class="business-info__header__title" v-if="$route.query.Id">
+        <span>共{{page.totalNum}}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
-      <div class="business-info__header__query">
+      <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
           icon="fz-14 mr-8 iconfont iconxinzeng"
           type="primary"
@@ -15,10 +15,10 @@
       </div>
     </div>
     <div class="business-info__main">
-      <el-table empty-text=" " :data="tableData" style="width: 100%">
+      <el-table :empty-text="emptyText" :data="tableData" style="width: 100%">
         <el-table-column prop="Id" label="序号"></el-table-column>
         <el-table-column
-          prop="AccomplishDate"
+          prop="Date"
           label="推送时间"
         ></el-table-column>
         <el-table-column prop="businessType" label="专员名称">
@@ -30,7 +30,7 @@
         <el-table-column prop="Clinical" label="沟通临床"></el-table-column>
         <el-table-column prop="Bargain" label="进院议价"></el-table-column>
         <el-table-column prop="Accomplish" label="落地达成"></el-table-column>
-        <el-table-column prop="Date" label="落地时间"></el-table-column>
+        <el-table-column prop="AccomplishDate" label="落地时间"></el-table-column>
       </el-table>
       <div class="add-source ml-20 mr-20 mt-24" v-if="show">
         <el-date-picker
@@ -143,6 +143,7 @@ export default {
   },
   data() {
     return {
+      emptyText:'',
       getUserName: getUserName(),
       tableData: [],
       page: {
@@ -209,7 +210,7 @@ export default {
   },
   methods: {
     onPush() {
-      if (this.potentialDealersId) this.show = true;
+      if (this.potentialDealersId){ this.show = true;this.emptyText=' '}
       else
         this.$message({
           message: "请先添加基本信息",
@@ -231,6 +232,7 @@ export default {
       this.date = "";
     },
     cancel() {
+      if(!this.tableData||this.tableData.length==0)this.emptyText='暂无数据'
       this.show = false;
       this.clear();
     },
@@ -246,7 +248,7 @@ export default {
         pagesize: this.page.pageSize,
       }).then((res) => {
         this.page.totalNum = res.count;
-        this.tableData = res.data;
+        this.tableData = res.data.list;
       });
     },
     potentialDealersPushLogsEdit() {
@@ -261,7 +263,7 @@ export default {
         bargain: this.bargain,
         accomplish: this.accomplish,
         accomplishDate: this.accomplishDate,
-        data: this.Date,
+        date: this.date,
       }).then((res) => {
         console.log("9999990", res);
         this.id = res.data;
@@ -295,7 +297,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 38px 16px 0;
+    padding: 30px 16px 0;
     &__title {
       > span:nth-child(1) {
         font-size: 16px;
@@ -306,6 +308,11 @@ export default {
         font-size: 14px;
         color: #666666;
       }
+    }
+    &__query.create {
+      position: absolute;
+      right: 16px;
+      top: 18px;
     }
   }
   &__main {

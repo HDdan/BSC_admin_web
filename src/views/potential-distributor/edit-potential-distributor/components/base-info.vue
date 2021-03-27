@@ -1,12 +1,12 @@
 <template>
   <div class="edit-potential-distributor-base">
-    <!-- <div
-      v-if="baseForm.updatetime"
+    <div
+      v-if="$route.query.Id"
       class="ml-20 mt-25 mb-25"
       style="color: #333333; font-size: 14px"
     >
       最近更新时间：{{ baseForm.updatetime }}
-    </div> -->
+    </div>
     <el-form
       :model="baseForm"
       :rules="rules"
@@ -518,7 +518,7 @@ export default {
     width: 100%;
   }
   .el-input__inner {
-    width: 100%;
+    width: 100%!important;
     height: 36px;
     line-height: 36px;
     // border: none;

@@ -1,11 +1,11 @@
 <template>
   <div class="business-info">
     <div class="business-info__header">
-      <div class="business-info__header__title">
+      <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{ hospitalList_total }}条</span>
         <span>最近更新时间：2021-01-07 17:24:11</span>
       </div>
-      <div class="business-info__header__query">
+      <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
           icon="fz-14 mr-8 iconfont iconxinzeng"
           type="primary"
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="business-info__main">
-      <el-table empty-text=" " :data="hospitalsList" style="width: 100%">
+      <el-table :empty-text="emptyText" :data="hospitalsList" style="width: 100%">
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="hospitalname" label="医院名称"></el-table-column>
         <el-table-column prop="hospitalcode" label="医院编号"></el-table-column>
@@ -104,6 +104,7 @@ export default {
   },
   data() {
     return {
+      emptyText:'',
       addCoverHospitalsVisible: false,
       currentEditHospitalId: null,
       hospitalsList: null,
@@ -146,10 +147,12 @@ export default {
         });
         return;
       }
+      this.emptyText=' '
       this.addCoverHospitalsVisible = true;
       this.form = {};
     },
     cancelHospital() {
+      if(!this.hospitalsList||this.hospitalsList.length==0)this.emptyText='暂无数据'
       this.addCoverHospitalsVisible = false;
     },
     openEditHospital(row) {
@@ -204,10 +207,10 @@ export default {
         pageindex: this.meta.currPage,
         pagesize: this.meta.pageSize,
       }).then((res) => {
-        res.data.forEach((item) => {
+        res.data.list.forEach((item) => {
           item = lowerJSONKey(item);
         });
-        this.hospitalsList = res.data;
+        this.hospitalsList = res.data.list;
         this.hospitalList_total = res.count;
       });
     },
@@ -247,7 +250,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 38px 16px 0;
+    padding: 30px 16px 0;
     &__title {
       > span:nth-child(1) {
         font-size: 16px;
@@ -258,6 +261,11 @@ export default {
         font-size: 14px;
         color: #666666;
       }
+    }
+    &__query.create {
+      position: absolute;
+      right: 16px;
+      top: 18px;
     }
   }
   &__main {
