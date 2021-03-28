@@ -295,7 +295,7 @@ export default {
         pageindex: 1,
         pagesize: 100000,
       }).then((res) => {
-        this.option["userlist"] = res.data;
+        this.option["userlist"] = res.data.list;
       });
     },
     handleChange(val) {

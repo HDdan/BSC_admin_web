@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="main-header">导入记录</div>
-    <SearchBar/>
+    <SearchBar @onSearch="onSearch"/>
     <Table
       :tableData="tableData.list || tableData"
       @alter="alterInfo"
@@ -45,13 +45,18 @@ export default {
       baseData: {},
       page: {
         currPage: 1,
-        pageSize: 12,
+        pageSize: 10,
         totalNum: 0,
       },
       tableData: [],
+      search:{},
     };
   },
   methods: {
+    onSearch(val){
+      this.search=val;
+      this.baselist();
+    },
     alterInfo(val) {
       this.showAddSource = true;
       this.$nextTick(() => {
@@ -79,11 +84,11 @@ export default {
       this.baselist();
     },
     baselist() {
-      this.$api({
-        action: "fileuploadlist",
-        pageindex: this.page.currPage,
-        pagesize: this.page.pageSize,
-      }).then((res) => {
+            let list=this.search
+      list.action="fileuploadlist",
+      list.pageindex=this.page.currPage,
+        list.pagesize=this.page.pageSize,
+      this.$api(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
         this.page.totalNum = res.count;

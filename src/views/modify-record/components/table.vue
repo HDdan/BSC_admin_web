@@ -8,9 +8,11 @@
     >
       <el-table-column prop="Id" label="序号" width="100"> </el-table-column>
       <el-table-column prop="Date" label="时间"> </el-table-column>
-      <el-table-column prop="UserName" label="操作者"> </el-table-column>
-      <el-table-column prop="Module" label="经销商名称"> </el-table-column>
-      <el-table-column prop="Module" label="具体操作"> </el-table-column>
+      <el-table-column prop="UserId" label="操作者"> </el-table-column>
+      <el-table-column prop="DealerName" label="经销商名称"> </el-table-column>
+      <el-table-column label="具体操作"> 
+        <template slot-scope="scope">{{ scope.row.Field }}</template>
+      </el-table-column>
     </el-table>
   </div>
 </template>

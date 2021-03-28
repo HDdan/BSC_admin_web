@@ -61,7 +61,7 @@ export default {
       baseData: {},
       page: {
         currPage: 1,
-        pageSize: 12,
+        pageSize: 10,
         totalNum: 0,
       },
       tableData: [],
@@ -100,7 +100,7 @@ export default {
         pagesize: this.page.pageSize,
       }).then((res) => {
         this.baseData = res;
-        this.tableData = res.data;
+        this.tableData = res.data.list;
         this.page.totalNum = res.count;
       });
     },
