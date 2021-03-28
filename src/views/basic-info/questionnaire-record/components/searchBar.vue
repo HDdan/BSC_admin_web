@@ -7,9 +7,22 @@
     >
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
-    <el-select clearable class="mr-15" v-model="search.bu" placeholder="BU">
+    <el-date-picker
+      value-format="yyyy-MM-dd"
+      class="mr-16"
+      v-model="search.date"
+      type="date"
+      placeholder="提交时间"
+    >
+    </el-date-picker>
+    <el-select
+      clearable
+      class="mr-15"
+      v-model="search.equipmentbusiness"
+      placeholder="设备业务"
+    >
       <el-option
-        v-for="item in option.Bu"
+        v-for="item in option.equipmentbusiness"
         :key="item.Id"
         :label="item.Name"
         :value="item.Name"
@@ -19,18 +32,48 @@
     <el-select
       clearable
       class="mr-15"
-      v-model="search.studentname"
-      placeholder="学员姓名"
+      v-model="search.covercity"
+      placeholder="覆盖城市"
     >
       <el-option
-        v-for="item in option.course"
-        :key="item"
-        :label="item"
-        :value="item"
+        v-for="item in option.province"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-select
+      clearable
+      class="mr-15 mt-16"
+      v-model="search.deparment"
+      placeholder="重点科室"
+    >
+      <el-option
+        v-for="item in option.department"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-select
+      clearable
+      class="mr-15 mt-16"
+      v-model="search.brand"
+      placeholder="重点品牌"
+    >
+      <el-option
+        v-for="item in option.Bu"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-button class="margin-top-16" type="primary" @click="onSearch"
+      >检索</el-button
+    >
   </div>
 </template>
 
@@ -55,17 +98,14 @@ export default {
           },
         ],
         province: [],
-        course:[]
       },
     };
   },
   created() {
-    // this.baseList("BaseList", "department");
-    // this.baseList("BaseList", "brand");
+    this.baseList("BaseList", "department");
+    this.baseList("BaseList", "brand");
     this.baseList("DownList", "Bu");
-    this.baseList("OborStudentNameList", "course");
-
-    // this.baseList("DownList", "province");
+    this.baseList("DownList", "province");
   },
   methods: {
     baseList(action, type, parentid) {

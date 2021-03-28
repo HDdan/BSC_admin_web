@@ -127,3 +127,14 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.el-radio-button__inner {
+  color: #4196ff;
+  position: relative;
+  z-index: 3;
+  padding: 8px 20px !important;
+  border: 1px solid #4196ff;
+  border-left: 0;
+}
+.el-radio-button:first-child .el-radio-button__inner{
+  border-left: 1px solid #4196ff;
+}

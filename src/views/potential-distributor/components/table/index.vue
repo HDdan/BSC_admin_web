@@ -8,15 +8,15 @@
     @row-click="gotoDetail"
   >
     <el-table-column prop="Id" label="序号" width="60"> </el-table-column>
-    <el-table-column prop="DealerName" label="经销商名称" width="100"> </el-table-column>
-    <el-table-column prop="Sources" label="数据来源"> </el-table-column>
-    <el-table-column prop="Province" label="业务区域"> </el-table-column>
-    <el-table-column prop="Department" label="合作科室"> </el-table-column>
-    <el-table-column prop="MainProductTypes" label="主营产品类型"> </el-table-column>
-    <el-table-column prop="CallTime" label="沟通时间"> </el-table-column>
-    <el-table-column prop="CallUserName" label="沟通专员"> </el-table-column>
-    <el-table-column prop="PushTime" label="推送时间"> </el-table-column>
-    <el-table-column prop="PushUserName" label="推送专员"> </el-table-column>
+    <el-table-column prop="DealerName" label="经销商名称" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="Sources" label="数据来源" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="Province" label="业务区域" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="Department" label="合作科室" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="MainProductTypes" label="主营产品类型" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="CallTime" label="沟通时间" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="CallUserName" label="沟通专员" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="PushTime" label="推送时间" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="PushUserName" label="推送专员" show-overflow-tooltip> </el-table-column>
   </el-table>
   </div>
 </template>

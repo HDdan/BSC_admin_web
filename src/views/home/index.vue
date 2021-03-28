@@ -21,7 +21,7 @@
       </el-dropdown>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" style="background: #fff;">
         <Left :munuList="munuList" class="home-menu" />
       </el-aside>
       <el-main>
@@ -102,6 +102,12 @@ export default {
           url: "/baseInfo",
           icon: "iconfont iconjichuzhushuju-hui",
           child: [
+             {
+              id: 411,
+              name: "OBOR主数据",
+              url: "/baseInfo/oborInfo",
+              left: "15px",
+            },
             {
               id: 30,
               name: "招商主数据",
@@ -141,16 +147,22 @@ export default {
                 },
               ],
             },
-            {
+             {
               id: 41,
               name: "拜访主数据",
-              url: "/userData41",
+              url: "/baseInfo/visitRecord",
               left: "15px",
             },
             {
               id: 42,
+              name: "面谈主数据",
+              url: "/baseInfo/interviewRecord",
+              left: "15px",
+            },
+            {
+              id: 43,
               name: "调研主数据",
-              url: "/userData42",
+              url: "/baseInfo/questionnaireRecord",
               left: "15px",
             },
           ],

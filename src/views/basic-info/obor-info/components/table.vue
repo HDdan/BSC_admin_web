@@ -9,15 +9,16 @@
       <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Bu" label="BU" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称" width="120" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="DealerType" label="经销商类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DLScore" label="迪乐评分" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="DealerCooOBORYears" label="BSC合作年限" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentName" label="DealerSales" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="DealerSales" label="DealerSales" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentPhone" label="学员电话" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="ChannelPersonType" label="渠道人类型" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentAppcode" label="学员appcode" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentType" label="学员类型" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="ChannelPersonType" label="渠道人类型" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentCity" label="学员城市" show-overflow-tooltip> </el-table-column>
+      <!-- <el-table-column prop="InvolveBu" label="学员类型" show-overflow-tooltip> </el-table-column> -->
       <el-table-column prop="AbilityType" label="能力认证" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentCooOBORYears" label="OBOR合作年限" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="OBORYears" label="OBOR合作年限" show-overflow-tooltip> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -29,10 +30,6 @@ export default {
       type: Array,
       default: [],
     },
-    type:{
-      type: String,
-      default: 'all',
-    }
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {

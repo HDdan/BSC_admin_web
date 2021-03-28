@@ -1,47 +1,32 @@
 <template>
   <div class="potential-distributor__search">
-    <el-input class="mr-16" placeholder="请输入经销商名称" v-model="input4">
+    <el-input
+      class="mr-16"
+      placeholder="请输入经销商名称"
+      v-model="search.name"
+    >
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
     <el-date-picker
-        class="mr-16"
-        v-model="value1"
-        type="daterange"
-        range-separator="-"
-        start-placeholder="修改开始时间"
-        end-placeholder="修改结束时间"
-      >
-      </el-date-picker>
-    <!-- <el-select class="mr-15" v-model="value" placeholder="板块">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
-    </el-select> -->
-    <!-- <el-time-select
       class="mr-16"
-      v-model="value"
-      :picker-options="{
-        start: '08:30',
-        step: '00:15',
-        end: '18:30',
-      }"
-      placeholder="选择时间"
+      value-format="yyyy-MM-dd"
+      v-model="dateRange"
+      type="daterange"
+      range-separator="-"
+      start-placeholder="修改开始时间"
+      end-placeholder="修改结束时间"
     >
-    </el-time-select> -->
-    <el-select class="mr-15" v-model="value" placeholder="操作者">
+    </el-date-picker>
+    <el-select clearable class="mr-15" v-model="operatId" placeholder="操作者">
       <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        v-for="item in userlistOption"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
       >
       </el-option>
     </el-select>
-    <el-button type="primary">检索</el-button>
+    <el-button type="primary" @click="onSearch">检索</el-button>
   </div>
 </template>
 
@@ -52,29 +37,37 @@ export default {
   props: {},
   data() {
     return {
-      name: "",
-      roleid: "",
-      code: "",
-      phone: "",
-      roleOptions: this.$store.getters.roleOptions,
-      id: 0,
+      search: {
+        operationuserid: "",
+        type: "",
+        detail: "",
+        name: "",
+        starttime: "",
+        endtime: "",
+      },
+      dateRange: "",
+      userlistOption: [],
+      operatId: "",
     };
   },
+  created() {
+    this.$api({
+      action: "userlist",
+      parentid: 0,
+      pageindex: 1,
+      pagesize: 100000,
+    }).then((res) => {
+      this.userlistOption = res.data.list;
+    });
+  },
   methods: {
-    add() {
-      api({
-        action: "useredit",
-        name: this.name,
-        id: this.id,
-        code: this.code,
-        phone: this.phone,
-        roleid: this.roleOptions.filter((v) => v.Name == this.roleid)[0].Id,
-      }).then((res) => {
-        this.$emit("add");
-      });
-    },
-    cancel() {
-      this.$emit("cancel");
+    onSearch() {
+      this.search.starttime = this.dateRange && this.dateRange[0];
+      this.search.endtime = this.dateRange && this.dateRange[1];
+      this.search.operationuserid =
+        this.operatId &&
+        this.userlistOption.filter((val) => val.Name == this.operatId)[0].Id;
+      this.$emit("onSearch", this.search);
     },
   },
 };

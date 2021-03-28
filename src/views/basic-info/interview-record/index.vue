@@ -1,10 +1,11 @@
 <template>
   <div class="main">
-    <div class="main-header">基础主数据</div>
+    <div class="main-header">面谈主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
-      :type="tabType"
       :tableData="tableData.list || tableData"
+      @alter="alterInfo"
+      @del="baselist"
     ></Table>
     <pagination
       :total="page.totalNum"
@@ -24,9 +25,23 @@ import Pagination from "@/components/Pagination";
 
 export default {
   components: { Table, SearchBar, Pagination, TotalAndTime },
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    btnType: {
+      type: String,
+      default: "",
+    },
+    showSearch: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
-      tabType: 'all',
+      showAddSource: false,
       baseData: {},
       page: {
         currPage: 1,
@@ -42,17 +57,36 @@ export default {
       this.search = val;
       this.baselist();
     },
+    alterInfo(val) {
+      this.showAddSource = true;
+      this.$nextTick(() => {
+        let roleData = this.$refs.roleData;
+        roleData.id = val.Id;
+        roleData.code = val.Code;
+        roleData.name = val.Name;
+        roleData.phone = val.Phone;
+        roleData.roleid = this.$store.getters.roleOptions.filter(
+          (v) => v.Id == val.RoleId
+        )[0].Name;
+      });
+    },
     handlePagination(val) {
       this.page.currPage = val.page;
       this.baselist();
+      // this.$emit("handlePagination");
+    },
+    addSource() {
+      this.showAddSource = true;
+    },
+    addSuccess() {
+      this.showAddSource = false;
+      this.baselist();
     },
     baselist() {
-      let list={};
-      list.action = "OborList";
-      list.type = "base";
+      let list = this.search;
+      list.action = "InterviewRecordlist";
       list.pageindex = this.page.currPage;
       list.pagesize = this.page.pageSize;
-      list.filter=this.search
       this.$api(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;

@@ -1,11 +1,15 @@
 <template>
   <div class="main">
     <div class="main-header">销量主数据</div>
-    <SearchBar/>
+    <SearchBar @onSearch="onSearch" />
+     <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
+    <el-radio-button label="all">所有优势医院</el-radio-button>
+    <el-radio-button label="in">项目内医院</el-radio-button>
+    <el-radio-button label="no">非项目内医院</el-radio-button>
+  </el-radio-group>
     <Table
+      :type="tabType"
       :tableData="tableData.list || tableData"
-      @alter="alterInfo"
-      @del="baselist"
     ></Table>
     <pagination
       :total="page.totalNum"
@@ -25,66 +29,38 @@ import Pagination from "@/components/Pagination";
 
 export default {
   components: { Table, SearchBar, Pagination, TotalAndTime },
-  props: {
-    title: {
-      type: String,
-      default: "",
-    },
-    btnType: {
-      type: String,
-      default: "",
-    },
-    showSearch: {
-      type: Boolean,
-      default: true,
-    },
-  },
   data() {
     return {
-      showAddSource: false,
+      tabType: 'all',
       baseData: {},
       page: {
         currPage: 1,
-        pageSize: 12,
+        pageSize: 10,
         totalNum: 0,
       },
       tableData: [],
+      search: {},
     };
   },
   methods: {
-    alterInfo(val) {
-      this.showAddSource = true;
-      this.$nextTick(() => {
-        let roleData = this.$refs.roleData;
-        roleData.id = val.Id;
-        roleData.code = val.Code;
-        roleData.name = val.Name;
-        roleData.phone = val.Phone;
-        roleData.roleid = this.$store.getters.roleOptions.filter(
-          (v) => v.Id == val.RoleId
-        )[0].Name;
-      });
+    onSearch(val) {
+      this.search = val;
+      this.baselist();
     },
     handlePagination(val) {
-      console.log("oodooso", val);
       this.page.currPage = val.page;
-      this.baselist();
-      // this.$emit("handlePagination");
-    },
-    addSource() {
-      this.showAddSource = true;
-    },
-    addSuccess() {
-      this.showAddSource = false;
       this.baselist();
     },
     baselist() {
-      this.$api({
-        action: "oborlist",
-        type:'sales',
-        pageindex: this.page.currPage,
-        pagesize: this.page.pageSize,
-      }).then((res) => {
+      let list={};
+      list.action = "OborList";
+      list.type = "sales";
+      list.pageindex = this.page.currPage;
+      list.pagesize = this.page.pageSize;
+      list.filter=this.search
+      list.filter.type=this.tabType
+      
+      this.$api(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
         this.page.totalNum = res.count;

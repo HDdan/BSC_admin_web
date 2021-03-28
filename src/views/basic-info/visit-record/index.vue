@@ -1,9 +1,8 @@
 <template>
   <div class="main">
-    <div class="main-header">基础主数据</div>
+    <div class="main-header">拜访主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
-      :type="tabType"
       :tableData="tableData.list || tableData"
     ></Table>
     <pagination
@@ -26,7 +25,7 @@ export default {
   components: { Table, SearchBar, Pagination, TotalAndTime },
   data() {
     return {
-      tabType: 'all',
+      showAddSource: false,
       baseData: {},
       page: {
         currPage: 1,
@@ -47,12 +46,10 @@ export default {
       this.baselist();
     },
     baselist() {
-      let list={};
-      list.action = "OborList";
-      list.type = "base";
+      let list = this.search;
+      list.action = "VisitRecordlist";
       list.pageindex = this.page.currPage;
       list.pagesize = this.page.pageSize;
-      list.filter=this.search
       this.$api(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;

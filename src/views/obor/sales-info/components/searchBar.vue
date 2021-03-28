@@ -1,80 +1,102 @@
 <template>
   <div class="potential-distributor__search">
-    <el-input class="mr-16" placeholder="请输入文件名" v-model="input4">
+    <el-input
+      class="mr-16"
+      placeholder="请输入经销商名称"
+      v-model="search.dealersname"
+    >
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
-    <!-- <el-date-picker
-        class="mr-16 mb-16"
-        v-model="value1"
-        type="daterange"
-        range-separator="-"
-        start-placeholder="沟通开始日期"
-        end-placeholder="结束日期"
-      >
-      </el-date-picker> -->
-    <el-select class="mr-15" v-model="value" placeholder="板块">
+    <el-select clearable class="mr-15" v-model="search.bu" placeholder="BU">
       <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        v-for="item in option.Bu"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
       >
       </el-option>
     </el-select>
-    <el-time-select
-      class="mr-16"
-      v-model="value"
-      :picker-options="{
-        start: '08:30',
-        step: '00:15',
-        end: '18:30',
-      }"
-      placeholder="选择时间"
+    <el-select
+      clearable
+      class="mr-15"
+      v-model="search.studentname"
+      placeholder="学员姓名"
     >
-    </el-time-select>
-    <el-select class="mr-15" v-model="value" placeholder="操作者">
       <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
+      class="mr-15"
+        v-for="item in option.sales"
+        :key="item"
+        :label="item"
+        :value="item"
       >
       </el-option>
     </el-select>
-    <el-button type="primary">检索</el-button>
+    <!-- <el-date-picker
+      v-model="value3"
+      type="year"
+      placeholder="选择年">
+    </el-date-picker>
+     <el-date-picker
+      class="mr-16"
+      v-model="dateRange"
+      type="monthrange"
+      range-separator="-"
+      start-placeholder="导出开始日期"
+      end-placeholder="结束日期"
+    >
+    </el-date-picker> -->
+    <el-button type="primary" @click="onSearch">检索</el-button>
   </div>
 </template>
 
 <script>
-import { api } from "@/api";
-
 export default {
   props: {},
   data() {
     return {
-      name: "",
-      roleid: "",
-      code: "",
-      phone: "",
-      roleOptions: this.$store.getters.roleOptions,
-      id: 0,
+      search: {},
+      option: {
+        department: [],
+        brand: [],
+        Bu: [],
+        equipmentbusiness: [
+          {
+            Id: "是",
+            Name: "是",
+          },
+          {
+            Id: "否",
+            Name: "否",
+          },
+        ],
+        province: [],
+        sales:[]
+      },
     };
   },
+  created() {
+    // this.baseList("BaseList", "department");
+    // this.baseList("BaseList", "brand");
+    this.baseList("DownList", "Bu");
+    this.baseList("OborStudentNameList", "sales");
+    // this.baseList("DownList", "province");
+  },
   methods: {
-    add() {
-      api({
-        action: "useredit",
-        name: this.name,
-        id: this.id,
-        code: this.code,
-        phone: this.phone,
-        roleid: this.roleOptions.filter((v) => v.Name == this.roleid)[0].Id,
-      }).then((res) => {
-        this.$emit("add");
+    baseList(action, type, parentid) {
+      let list = {
+        action: action,
+        type: type,
+        pageindex: 1,
+        pagesize: 10000,
+      };
+      if (parentid) list.parentid = parentid;
+      this.$api(list).then((res) => {
+        this.$set(this.option, type, res.data.list || res.data);
+        // this.option[type] = res.data.list || res.data;
       });
     },
-    cancel() {
-      this.$emit("cancel");
+    onSearch() {
+      this.$emit("onSearch", this.search);
     },
   },
 };

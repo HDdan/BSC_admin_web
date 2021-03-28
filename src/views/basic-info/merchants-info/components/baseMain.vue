@@ -13,20 +13,34 @@
 
       <div class="info-search__right" v-if="showSearch">
         <el-select
-          v-if="action == 'baselist'"
+          v-if="apiType == 'hospital'"
           class="mr-20"
-          v-model="value"
+          v-model="name"
           placeholder="请选择"
         >
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in option"
+            :key="item.Id"
+            :label="item.HospitalName"
+            :value="item.HospitalName"
           >
           </el-option>
         </el-select>
-        <el-button v-if="action == 'baselist'" type="primary">检索</el-button>
+          <el-select
+          v-if="apiType != 'hospital'"
+          class="mr-20"
+          v-model="name"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in option"
+            :key="item.Id"
+            :label="item.Name"
+            :value="item.Name"
+          >
+          </el-option>
+        </el-select>
+        <el-button v-if="action == 'baselist'" type="primary" @click="baselist">检索</el-button>
         <el-upload
           v-if="action == 'baselist'"
           class="potential-distributor__upload mr-18 ml-4"
@@ -111,6 +125,7 @@ export default {
   },
   data() {
     return {
+      name:'',
       showAddSource: false,
       baseData: {},
       page: {
@@ -119,6 +134,7 @@ export default {
         totalNum: 0,
       },
       tableData: [],
+      option:[]
     };
   },
   methods: {
@@ -144,6 +160,7 @@ export default {
       }).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
+        this.option= this.tableData.list||this.tableData
         this.page.totalNum = res.count;
       });
     },

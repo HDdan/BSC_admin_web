@@ -1,18 +1,39 @@
 <template>
   <div class="potential-distributor__search">
-    <el-input
-      class="mr-16"
-      placeholder="请输入经销商名称"
-      v-model="search.dealersname"
-    >
-      <i slot="prefix" class="el-input__icon el-icon-search"></i>
-    </el-input>
-
     <el-select
       clearable
       class="mr-15"
-      v-model="search.bu"
-      placeholder="BU"
+      v-model="search.coverprovince"
+      placeholder="覆盖省份"
+      @change="changeProvince"
+    >
+      <el-option
+        v-for="item in option.province"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-select
+      clearable
+      class="mr-15"
+      v-model="search.deparment"
+      placeholder="重点科室"
+    >
+      <el-option
+        v-for="item in option.department"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-select
+      clearable
+      class="mr-15"
+      v-model="search.brand"
+      placeholder="重点品牌"
     >
       <el-option
         v-for="item in option.Bu"
@@ -22,49 +43,7 @@
       >
       </el-option>
     </el-select>
-    <el-select
-      clearable
-      class="mr-15"
-      v-model="search.channelpersontype"
-      placeholder="渠道人类型"
-    >
-      <el-option
-        v-for="item in option.ChannelPersonType"
-        :key="item.Id"
-        :label="item.Name"
-        :value="item.Name"
-      >
-      </el-option>
-    </el-select>
-    <el-select
-      clearable
-      class="mr-15"
-      v-model="search.studenttype"
-      placeholder="学员类型"
-    >
-      <el-option
-        v-for="item in option.studentType"
-        :key="item.Id"
-        :label="item.Name"
-        :value="item.Name"
-      >
-      </el-option>
-    </el-select>
-    <el-select
-      clearable
-      class="mr-15 mt-16"
-      v-model="search.studentname"
-      placeholder="学员姓名"
-    >
-      <el-option
-        v-for="item in option.base"
-        :key="item"
-        :label="item"
-        :value="item"
-      >
-      </el-option>
-    </el-select>
-    <el-button class="margin-top-16" type="primary" @click="onSearch"
+    <el-button type="primary" @click="onSearch"
       >检索</el-button
     >
   </div>
@@ -75,11 +54,26 @@ export default {
   props: {},
   data() {
     return {
-      search: {},
+      search: {
+      },
       option: {
         department: [],
         brand: [],
         Bu: [],
+        businesstype: [
+          {
+            Id: "地市经销商",
+            Name: "地市经销商",
+          },
+          {
+            Id: "区域集团型经销商",
+            Name: "区域集团型经销商",
+          },
+          {
+            Id: "省级经销商",
+            Name: "省级经销商",
+          },
+        ],
         equipmentbusiness: [
           {
             Id: "是",
@@ -90,24 +84,25 @@ export default {
             Name: "否",
           },
         ],
+        visitRecord: [],
         province: [],
-        ChannelPersonType:[],
-        studentType:[],
-        base:[]
       },
     };
   },
   created() {
-    // this.baseList("BaseList", "department");
-    // this.baseList("BaseList", "brand");
+    this.baseList("BaseList", "department");
+    this.baseList("BaseList", "brand");
     this.baseList("DownList", "Bu");
-    this.baseList("DownList", "ChannelPersonType");
-    this.baseList("DownList", "studentType");
-    this.baseList("OborStudentNameList", "base");
-
-    // this.baseList("DownList", "province");
+    this.baseList("DownList", "province");
+    this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+    changeProvince(val) {
+        this.$set(this.search,'covercity','')
+
+      let province = this.option.province.filter((v) => v.Name == val);
+      if (province.length>0) this.baseList("DownList", "city", province[0].Id);
+    },
     baseList(action, type, parentid) {
       let list = {
         action: action,
@@ -117,7 +112,7 @@ export default {
       };
       if (parentid) list.parentid = parentid;
       this.$api(list).then((res) => {
-        this.$set(this.option, type, res.data.list || res.data);
+        this.$set(this.option,type,res.data.list || res.data)
         // this.option[type] = res.data.list || res.data;
       });
     },
