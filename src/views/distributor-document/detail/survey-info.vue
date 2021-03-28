@@ -3,33 +3,36 @@
     <div class="survey-info__header">
       <div class="survey-info__header__title">
         <span>共6条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="survey-info__header__query">
-        <el-date-picker
-          class="mr-16"
-          v-model="searchInput"
-          type="date">
-        </el-date-picker>
-        <el-button type="primary">检索</el-button>
+        <el-select v-model="searchInput" >
+          <el-option
+            v-for="item in timeList"
+            :key="item.id"
+            :label="item.date"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <el-button type="primary" @click="searchData">检索</el-button>
       </div>
     </div>
-    <div class="survey-info__content">
+    <div class="survey-info__content" v-if="businessInfo">
       <div class="survey-info__content__business">
         <div class="survey-info__content__business__title">基本信息：</div>
         <el-divider></el-divider>
         <div class="survey-info__content__business__form">
           <el-form class="survey-info__content__business__form__content" :model="businessInfo" >
             <el-form-item label="经销商名称:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.activityName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.dealerName">
               </el-input>
             </el-form-item>
             <el-form-item label="经销商编码/ID：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.id">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.dealerCode">
               </el-input>
             </el-form-item>
             <el-form-item label="提交时间:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.code">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.date">
               </el-input>
             </el-form-item>
           </el-form>
@@ -41,26 +44,26 @@
         <div class="survey-info__content__business__form">
           <el-form class="survey-info__content__business__form__content" :model="businessInfo" >
             <el-form-item label="希望增加的合作领域:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.activityName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.addFields">
               </el-input>
             </el-form-item>
             <el-form-item label="经营品种是否包含了医疗设备类产品:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.id">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.medicalEquipment">
               </el-input>
             </el-form-item>
             <el-form-item label="合作原因:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.code">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.cooperateType">
               </el-input>
             </el-form-item>
             <el-form-item label="公司老板年龄：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.status">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.bossAge">
               </el-input>
             </el-form-item>
             <el-form-item class="textarea" label="目前公司发展最大的瓶颈:">
               <el-input
                 class="mr-16 mb-16"
                 type="textarea"
-                v-model="businessInfo.activityNam"
+                v-model="businessInfo.question1"
               ></el-input>
             </el-form-item>
           </el-form>
@@ -72,31 +75,31 @@
         <div class="survey-info__content__business__form">
           <el-form class="survey-info__content__business__form__content" :model="businessInfo" >
             <el-form-item label="销售团队人总数：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.activityName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.teamNum">
               </el-input>
             </el-form-item>
             <el-form-item label="带人销售经理总人数：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.id">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.teamSmNum">
               </el-input>
             </el-form-item>
             <el-form-item label="上年度公司进货金额（含税）万元：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.code">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.purchaseAmount">
               </el-input>
             </el-form-item>
             <el-form-item label="是否作为托管方有托管医院：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.status">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.TGHospital">
               </el-input>
             </el-form-item>
             <el-form-item label="业务覆盖城市：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.potentialName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.coverCity">
               </el-input>
             </el-form-item>
             <el-form-item label="城市是否有业务员：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.isSales">
               </el-input>
             </el-form-item>
             <el-form-item label="稳定业务的三甲医院数量：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.sss">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.hospitalNumber">
               </el-input>
             </el-form-item>
           </el-form>
@@ -108,83 +111,83 @@
         <div class="survey-info__content__business__form">
           <el-form class="survey-info__content__business__form__content" :model="businessInfo" >
             <el-form-item label="重点合作医院1：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.activityName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital1">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院2：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.id">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital2">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院3：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.code">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital3">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院4：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.status">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital4">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院5：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.potentialName">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital5">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院6：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital6">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院7：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital7">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作医院8：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focushospital8">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作科室1:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focusdepartment1">
               </el-input>
             </el-form-item>
             <el-form-item label="业务占比1：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.rate1">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌1-1：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand11">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌1-2：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand12">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作科室2:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focusdepartment2">
               </el-input>
             </el-form-item>
             <el-form-item label="业务占比2：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.rate2">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌2-1：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand21">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌2-2：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand22">
               </el-input>
             </el-form-item>
             <el-form-item label="重点合作科室3:">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.focusdepartment3">
               </el-input>
             </el-form-item>
             <el-form-item label="业务占比3：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.rate3">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌3-1：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand31">
               </el-input>
             </el-form-item>
             <el-form-item label="主要品牌3-2：">
-              <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="businessInfo.businessRangleFlg">
+              <el-input class="mr-16 mb-16" v-model="businessInfo.mainBrand32">
               </el-input>
             </el-form-item>
           </el-form>
@@ -199,14 +202,14 @@
               <el-input
                 class="mr-16 mb-16"
                 type="textarea"
-                v-model="businessInfo.activityNam"
+                v-model="businessInfo.question2"
               ></el-input>
             </el-form-item>
             <el-form-item class="textarea" label="您会参加哪些医疗器械展会：">
               <el-input
                 class="mr-16 mb-16"
                 type="textarea"
-                v-model="businessInfo.activityNam"
+                v-model="businessInfo.question3"
               ></el-input>
             </el-form-item>
           </el-form>
@@ -216,18 +219,43 @@
   </div>
 </template>
 <script>
+import { lowerJSONKey } from "@/utils/index";
+
 export default {
   data() {
     return {
+      updateTime: null,
       searchInput: '',
-      businessInfo: {
-        activityName: '',
-        id: '',
-        code: '',
-        status: '',
-        businessCity: '',
-        input4: ''
-      }
+      businessInfo: null
+    }
+  },
+  created() {
+    this.fetchDealersQuestionnaireRecode();
+    // this.fetchDealersQuestionnaireRecodeDetail();
+  },
+  methods: {
+    searchData() {
+      this.fetchDealersQuestionnaireRecodeDetail();
+    },
+    fetchDealersQuestionnaireRecode() {
+      this.$api({
+        action: 'DealersQuestionnaireRecorde',
+        dealerscode: this.$route.query.dealerscode
+      }).then(res => {
+        this.updateTime = res.data.lastupdatetime;
+        this.timeList = res.data.list;
+      });
+    },
+    fetchDealersQuestionnaireRecodeDetail() {
+      this.$api({
+        action: 'DealersQuestionnaireRecordeDetail',
+        dealerscode: this.$route.query.dealerscode,
+        id: this.searchInput
+      }).then(res => {
+        this.totalCount = res.count;
+        this.businessInfo = lowerJSONKey(res.data);
+        console.log("rs", res);
+      });
     }
   }
 }

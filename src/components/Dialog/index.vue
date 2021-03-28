@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="提示"
+    title="导出"
     :visible.sync="visible"
     width="500px"
     :show-close="false"
@@ -60,6 +60,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      default: '',
+    }
   },
   data() {
     return {
@@ -75,7 +79,6 @@ export default {
       this.visible = true;
       this.checkAll=false
       this.checkedCities=[]
-
     },
   },
   methods: {

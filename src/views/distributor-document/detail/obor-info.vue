@@ -65,7 +65,19 @@ export default {
       }
     }
   },
+  created() {
+    this.fetchDealersOborList();
+  },
   methods: {
+    fetchDealersOborList() {
+      this.$api({
+        action: 'DealersOborList',
+        pageindex: 1,
+        pagesize: 10
+      }).then(res => {
+        console.log("Res", res);
+      });
+    },
     gotoStudentDetail() {
       this.$router.push({ path: '/distributorDocument/studentDetail' });
       console.log("huahuhuuuu");

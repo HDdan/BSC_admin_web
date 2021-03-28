@@ -1,41 +1,74 @@
 <template>
   <div class="push-info">
     <div class="push-info__header ml-16 mt-38 mb-27">
-      <span>共6条</span>
-      <span>最近更新时间：2021-01-07 17:24:11</span>
+      <span>共{{ tableData.count }}条</span>
+      <span>最近更新时间：{{ updateTime }}</span>
     </div>
     <div class="push-info__main">
       <el-table
       border
-      :data="tableData"
+      :data="tableData.list"
       style="width: 100%"
       >
         <el-table-column prop="id" label="序号"></el-table-column>
-        <el-table-column prop="name" label="推送时间"></el-table-column>
-        <el-table-column prop="businessType" label="专员名称"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向来源"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向BU"></el-table-column>
-        <el-table-column prop="businessRegion" label="意向subbu"></el-table-column>
-        <el-table-column prop="businessRegion" label="沟通临床"></el-table-column>
-        <el-table-column prop="businessRegion" label="进院议价"></el-table-column>
-        <el-table-column prop="businessRegion" label="落地达成"></el-table-column>
-        <el-table-column prop="businessRegion" label="落地时间"></el-table-column>
+        <el-table-column prop="accomplishdate" label="推送时间"></el-table-column>
+        <el-table-column prop="businessType" label="专员名称">{{ getUserName }}</el-table-column>
+        <el-table-column prop="intentsource" label="意向来源"></el-table-column>
+        <el-table-column prop="intentbu" label="意向BU"></el-table-column>
+        <el-table-column prop="intentsubbu" label="意向subbu"></el-table-column>
+        <el-table-column prop="clinical" label="沟通临床"></el-table-column>
+        <el-table-column prop="bargain" label="进院议价"></el-table-column>
+        <el-table-column prop="accomplish" label="落地达成"></el-table-column>
+        <el-table-column prop="date" label="落地时间"></el-table-column>
       </el-table>
-      <!-- <pagination v-if="tableData.meta && tableData.meta.totalNum>0" :total="tableData.meta.totalNum" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" /> -->
+      <pagniation v-if="tableData.count>0" :total="tableData.count" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />
     </div>
   </div>
 </template>
 <script>
 import Pagniation from '@/components/pagination';
 
+import { getUserName } from "@/utils/auth";
+import { lowerJSONKey } from "../../../../utils/index"
+
+
 export default {
   data() {
     return {
+      updateTime: null,
+      getUserName: getUserName(),
       tableData: {
-        list: [],
-        meta: {}
+        count: 0,
+        list: null,
+        meta: {
+          currPage: 1,
+          pageSize: 10
+        }
       }
     }
+  },
+  created() {
+    this.potentialDealersPushLogsList();
+  },
+  methods: {
+    handlePagination() {
+
+    },
+    potentialDealersPushLogsList() {
+      this.$api({
+        action: "PotentialDealersPushLogsList",
+        potentialdealersid: this.$route.query.potentialdealersid,
+        pageindex: this.tableData.meta.currPage,
+        pagesize: this.tableData.meta.pageSize,
+      }).then((res) => {
+        this.updateTime = res.data.lastupdatetime;
+        res.data.list.forEach(i => {
+         i = lowerJSONKey(i);
+        });
+        this.tableData.list = res.data.list;
+        this.tableData.count = res.count;
+      });
+    },
   },
   components: { Pagniation }
 }

@@ -48,7 +48,7 @@
       <i class="mr-3 iconfont icondaorujilu-hui"></i>
       <span>导入</span>
     </el-upload>
-    <div class="distributor-document-query__upload">
+    <div class="distributor-document-query__upload" @click="exportDistributorFile">
           <i class="mr-10 iconfont icondaorujilu-hui"></i>
       <span>导出</span>
     </div>
@@ -134,6 +134,7 @@ export default {
     display: inline-block;
     align-items: center;
     color: #9B9B9B;
+    cursor: pointer;
   }
 }
 

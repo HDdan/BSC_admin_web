@@ -1,111 +1,138 @@
 <template>
   <div class="base-info">
-    <el-form class="base-info__el-form" :model="baseInfo" >
-      <el-form-item label="活动名称：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.activityName">
-        </el-input>
+    <el-form class="base-info__el-form" :model="baseInfo" v-if="baseInfo">
+      <el-form-item label="经销商名称:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.dealername }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="经销商编码/ID：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.id">
+      <!-- <el-form-item label="经销商状态：">
+        <el-input class="mr-16 mb-16" v-model="baseInfo.id">
         </el-input>
+      </el-form-item> -->
+      <el-form-item label="SAPID:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.sapid }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="经销商代码：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.code">
-        </el-input>
+      <el-form-item label="涉及BU:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.involvebu }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="经销商状态：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.status">
+      <!-- <el-form-item label="合作起始年份:">
+        <el-input class="mr-16 mb-16" v-model="baseInfo.contactdate">
         </el-input>
+      </el-form-item> -->
+      <el-form-item label="业务分型:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.businesstype }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="潜在经销商名称：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.potentialName">
-        </el-input>
+      <el-form-item label="业务区域：">
+         <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.advantageregion }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="营业范围是否医疗器械: ">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.businessRangleFlg">
-        </el-input>
+      <el-form-item label="能力分型配送：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.ps }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="是否从事高值介入产品：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.sss">
-        </el-input>
+      <el-form-item label="分销分型配：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.fx }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="业务省份：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.businessProvince">
-        </el-input>
+      <el-form-item label="直销分型配送：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.zx }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="业务城市：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.businessCity">
-        </el-input>
+      <el-form-item label="服务分型配送：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.fw }}</div>
+        </div>
       </el-form-item>
-
-      <el-form-item label="合作科室：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="发展意愿：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.developmentinterests }}</div>
+        </div>
       </el-form-item>
-
-      <el-form-item label="主营产品类型：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="设备业务占比：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.equipmentrate }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="主营产品明细：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="非临客户维护能力：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.clientmaintain }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="主营品牌：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="老板年龄：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.bossage }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="联系人：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="销售人数：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.salesnum }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="联系人职位：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="销售经理人数：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.smnum }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="联系人电话：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <!-- <el-form-item label="销售单人销货金额（含税）：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.advantageregion }}</div>
+        </div>
+      </el-form-item> -->
+      <!-- <el-form-item label="SubBU基准:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.inMedicalDate }}</div>
+        </div>
+      </el-form-item> -->
+      <!-- <el-form-item label="省级基准:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.hospitalNumber }}</div>
+        </div>
+      </el-form-item> -->
+      <el-form-item label="稳定业务三甲医院数量：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.hospitalnumber }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="注册资金：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="招商团队最近接触时间：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.contactdate ? baseInfo.contactdate : '无接触' }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="经营状态：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="重点科室及品牌：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.advantagedepbrand }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="公司在医疗行业时间（年）:">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="自身进货金额（含税）：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.lastyearamount }}</div>
+        </div>
       </el-form-item>
-      <el-form-item label="有稳定业务的三甲医院数量:">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
-      </el-form-item>
-      <el-form-item label="公司开票年份：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
-      </el-form-item
-      ><el-form-item label="公司开票金额：">
-        <el-input class="mr-16 mb-16" placeholder="请输入内容" v-model="baseInfo.input4">
-        </el-input>
+      <el-form-item label="自身销货金额（含税）：">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.lastyearsalesamount }}</div>
+        </div>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      baseInfo: {
-        activityName: '',
-        id: '',
-        code: '',
-        status: '',
-        businessCity: '',
-        input4: ''
-      }
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
     }
   }
 }
@@ -121,10 +148,6 @@ export default {
     width: 25%;
     min-width: 220px;
     margin-bottom: 0;
-  }
-  .el-input {
-    width: 94%;
-    height: 36px;
   }
 }
 </style>
