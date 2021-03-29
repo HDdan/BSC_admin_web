@@ -2,7 +2,7 @@
   <div class="edit-potential-distributor-base">
     <div
       v-if="$route.query.Id"
-      class="ml-20 mt-25 mb-25"
+      class="ml-20 mt-25"
       style="color: #333333; font-size: 14px"
     >
       最近更新时间：{{ baseForm.updatetime }}

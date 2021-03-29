@@ -365,7 +365,7 @@ const comdify = function (n) {
     let str = n.split('.');
     let re = /\d{1,3}(?=(\d{3})+$)/g;
     let n1 = str[0].replace(re, "$&,");
-    return str.length > 1 && str[1] ? `${n1}.${str[1]}` : `${n1}.00`;
+    return str.length > 1 && str[1] ? `${n1}.${str[1]}` : `${n1}`;
 };
 //去除千分位中的‘，’
 const delcommafy = function (num){

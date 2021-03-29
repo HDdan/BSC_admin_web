@@ -3,7 +3,7 @@
     <div class="contact-info__header">
       <div class="contact-info__header__title" v-if="$route.query.Id">
         <span>共{{ personsList_total }}条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="contact-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addContactor">联系人</el-button>
@@ -86,6 +86,7 @@ export default {
   data() {
     return {
       emptyText:'',
+      lastupdatetime:'',
       addPersonVisible: false,
       currentEditPersonId: null,
       personsList: null,
@@ -200,6 +201,7 @@ export default {
           item = lowerJSONKey(item);
         });
         this.personsList = res.data.list;
+        this.lastupdatetime = res.data.lastupdatetime;
         this.personsList_total = res.count;
       });
     },

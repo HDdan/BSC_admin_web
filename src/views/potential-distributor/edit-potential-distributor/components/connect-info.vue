@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{callLogsList_total}}条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addCallLogs">沟通记录</el-button>
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       emptyText:'',
+      lastupdatetime:'',
       getUserName:getUserName(),
       addCallLogsVisible: false,
       currentEditcallLogsId: null,
@@ -149,6 +150,7 @@ export default {
           item = lowerJSONKey(item);
         });
         this.callLogsList = res.data.list;
+        this.lastupdatetime = res.data.lastupdatetime;
         this.callLogsList_total = res.count;
       });
     },

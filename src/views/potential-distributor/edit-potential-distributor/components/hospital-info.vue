@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{ hospitalList_total }}条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
@@ -126,6 +126,7 @@ export default {
         ],
       },
       form: {},
+      lastupdatetime:''
     };
   },
   created() {
@@ -211,6 +212,7 @@ export default {
           item = lowerJSONKey(item);
         });
         this.hospitalsList = res.data.list;
+        this.lastupdatetime = res.data.lastupdatetime;
         this.hospitalList_total = res.count;
       });
     },

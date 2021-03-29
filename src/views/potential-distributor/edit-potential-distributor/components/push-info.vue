@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{page.totalNum}}条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
@@ -144,6 +144,7 @@ export default {
   data() {
     return {
       emptyText:'',
+      lastupdatetime:'',
       getUserName: getUserName(),
       tableData: [],
       page: {
@@ -249,6 +250,7 @@ export default {
       }).then((res) => {
         this.page.totalNum = res.count;
         this.tableData = res.data.list;
+        this.lastupdatetime = res.data.lastupdatetime;
       });
     },
     potentialDealersPushLogsEdit() {
@@ -262,7 +264,7 @@ export default {
         clinical: this.clinical,
         bargain: this.bargain,
         accomplish: this.accomplish,
-        accomplishDate: this.accomplishDate,
+        accomplishdate: this.accomplishDate,
         date: this.date,
       }).then((res) => {
         console.log("9999990", res);

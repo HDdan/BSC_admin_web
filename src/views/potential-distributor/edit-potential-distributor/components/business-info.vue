@@ -3,7 +3,7 @@
     <div class="business-info__header" >
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{regionList_total}}条</span>
-        <span>最近更新时间：2021-01-07 17:24:11</span>
+        <span>最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addBusinessType">业务区域</el-button>
@@ -68,6 +68,7 @@ export default {
   data() {
     return {
       emptyText:'',
+      lastupdatetime:'',
       addRegionVisible: false,
       currentEditRegionId: null,
       regionList: null,
@@ -166,6 +167,7 @@ export default {
           item = lowerJSONKey(item);
         });
         this.regionList = res.data.list;
+        this.lastupdatetime = res.data.lastupdatetime;
         this.regionList_total = res.count;
       });
     },
