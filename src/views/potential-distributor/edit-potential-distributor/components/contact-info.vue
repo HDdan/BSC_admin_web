@@ -146,6 +146,7 @@ export default {
     },
     delContactor(row) {
       this.currentEditPersonId = row.id;
+      if(this.personsList.length==1 && this.meta.currPage>0)this.meta.currPage--
       this.deletePotentialDealersPersonsDelete(row.id);
     },
     handlePagination() {
@@ -222,6 +223,7 @@ export default {
     fetchCity(value) {
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
+      this.form.city = ''
       this.$api({
         action: "DownList",
         type: 'city',

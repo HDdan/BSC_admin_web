@@ -116,7 +116,8 @@ export default {
       this.fetchPotentialDealersRegionsDetail(row.id);
     },
     delRegion(row) {
-      this.currentEditRegionId = row.id;
+      this.currentEditRegionId = row.id
+      if(this.regionList.length==1 && this.meta.currPage>0)this.meta.currPage--
       this.deletePotentialDealersRegion(row.id);
     },
     handlePagination() {
@@ -157,6 +158,7 @@ export default {
       });
     },
     fetchPotentialDealersRegionsList() {
+      console.log("---d0-0s")
       this.$api({
         action: "PotentialDealersRegionsList",
         potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
@@ -188,6 +190,7 @@ export default {
     fetchCity(value) {
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
+      this.form.city = ''
       this.$api({
         action: "DownList",
         type: 'city',

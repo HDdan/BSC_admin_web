@@ -163,6 +163,7 @@ export default {
     },
     delHospital(row) {
       this.currentEditHospitalId = row.id;
+      if(this.hospitalsList.length==1 && this.meta.currPage>0)this.meta.currPage--
       this.deletePotentialDealersCoverHospitalsDelete(row.id);
     },
     handlePagination() {

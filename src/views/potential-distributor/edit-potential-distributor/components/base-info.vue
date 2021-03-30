@@ -58,7 +58,7 @@
           v-if="edit_flg['dealercode']"
           v-model="baseForm.dealercode"
         ></el-input>
-        <!-- <div
+        <div
           v-else
           class="edit-potential-distributor-base__detail"
           @click="editInfo('dealercode')"
@@ -68,10 +68,10 @@
             class="fz-16 mr-8 iconfont iconxiugai"
             style="color: #9b9b9b"
           ></span>
-        </div> -->
-        <div v-else class="edit-potential-distributor-base__detail">
-          <span>{{ baseForm.dealercode }}</span>
         </div>
+        <!-- <div v-else class="edit-potential-distributor-base__detail">
+          <span>{{ baseForm.dealercode }}</span>
+        </div> -->
       </el-form-item>
       <el-form-item label="经销商状态:" prop="dealerstatus" v-if="!isCreate">
         <div class="edit-potential-distributor-base__detail">
