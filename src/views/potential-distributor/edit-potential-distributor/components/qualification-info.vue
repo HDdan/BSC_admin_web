@@ -80,23 +80,45 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="公司开票金额：" prop="invoicedamount">
-        <el-input v-if="edit_flg['invoicedamount'] || isCreate" v-model="ruleForm.invoicedamount"><span slot="suffix" class="mr-14">万元</span></el-input>
-        <div
-          v-else
-          class="edit-potential-distributor-base__detail"
-          @click="editInfo('invoicedamount')"
-        >
-          <span>{{ ruleForm.invoicedamount }}</span>
-          <div>
-            <span slot="suffix" class="mr-14" style="color: #9b9b9b">万元</span>
-            <span
-              class="fz-16 mr-8 iconfont iconxiugai"
-              style="color: #9b9b9b"
-            ></span>
+      <div v-for="(item,index) in invoicedAmount" :key="index" style="width: 100%;display:flex;align-item:center;">
+        <el-form-item label="公司开票年份：" prop="invoicedyear" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}" >
+          <el-input onkeyup="value=value.replace(/[^\d]/g,'')" v-if="edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate" v-model="invoicedYear[index]" />
+          <div v-else
+            class="edit-potential-distributor-base__detail"
+            @click="editInfo('invoicedyear')"
+          >
+            <span>{{ invoicedYear[index] }}</span>
+            <div>
+              <span
+                class="fz-16 mr-8 iconfont iconxiugai"
+                style="color: #9b9b9b"
+              ></span>
+            </div>
           </div>
+        </el-form-item>
+        <el-form-item label="公司开票金额：" prop="invoicedamount" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}">
+          <el-input v-if="edit_flg['invoicedamount'] || edit_flg['invoicedyear'] || isCreate" v-model="invoicedAmount[index]">
+            <span slot="suffix" class="mr-14">万元</span></el-input>
+          <div
+            v-else
+            class="edit-potential-distributor-base__detail"
+            @click="editInfo('invoicedamount')"
+          >
+            <span>{{ invoicedAmount[index] }}</span>
+            <div>
+              <span slot="suffix" class="mr-14" style="color: #9b9b9b">万元</span>
+              <span
+                class="fz-16 mr-8 iconfont iconxiugai"
+                style="color: #9b9b9b"
+              ></span>
+            </div>
+          </div>
+        </el-form-item>
+        <div style="display:flex;align-items:center;" v-if="edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate">
+          <img @click="deleteInvoicedConfig(index)" v-if="index<invoicedAmount.length -1" width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
+          <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
         </div>
-      </el-form-item>
+      </div>
     </el-form>
     <div class="ml-20" v-if="isEdit || isCreate">
       <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -138,6 +160,14 @@ export default {
       // 实时把非数字的输入过滤掉
       this.ruleForm.hospitalnumber = String(curVal).match(/\d/gi) ? String(curVal).match(/\d/gi).join("") : "";
     },
+    "ruleForm.invoicedyear": function(curVal, oldVal) {
+      if (!curVal) {
+        this.$set(this.ruleForm,"invoicedyear", '');
+        return false;
+      }
+      // 实时把非数字的输入过滤掉
+      this.ruleForm.invoicedyear = String(curVal).match(/\d/gi) ? String(curVal).match(/\d/gi).join("") : "";
+    },
      "ruleForm.invoicedamount": function(curVal, oldVal) {
       if (!curVal) {
         this.$set(this.ruleForm,"invoicedamount", '');
@@ -158,6 +188,7 @@ export default {
         inmedicaldate: false,
         hospitalnumber: false,
         invoicedamount: false,
+        invoicedyear: false
       },
       ruleForm: {
         registeredcapital: "",
@@ -165,7 +196,10 @@ export default {
         inmedicaldate: "",
         hospitalnumber: "",
         invoicedamount: "",
+        invoicedyear: ""
       },
+      invoicedYear: [],
+      invoicedAmount: [],
       option: {
         operatingstatus: [{
           id: '正常经营',
@@ -220,6 +254,14 @@ export default {
     } else this.fetchPotentialDealersDetail();
   },
   methods: {
+    addInvoicedConfig() {
+      this.invoicedAmount.push('');
+      this.invoicedYear.push('');
+    },
+    deleteInvoicedConfig(index){
+      this.invoicedAmount.splice(index,1);
+      this.invoicedYear.splice(index,1);
+    },
     inputMoney(el,name) {
          this.ruleForm[name] = getInputValue(el);
      },
@@ -239,12 +281,14 @@ export default {
           }
           this.potentialDealersQualificationEdit();
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
     },
     potentialDealersQualificationEdit() {
+      this.$set(this.ruleForm, "invoicedamount", this.invoicedAmount.toString());
+      this.$set(this.ruleForm, "invoicedyear", this.invoicedYear.toString());
+
       this.$api.execobj({
         action: "PotentialDealersQualificationEdit",
         id: this.potentialDealersId ? this.potentialDealersId : 0,
@@ -253,6 +297,7 @@ export default {
         inmedicaldate: this.ruleForm.inmedicaldate,
         hospitalnumber: this.ruleForm.hospitalnumber,
         invoicedamount: this.ruleForm.invoicedamount,
+        invoicedyear: this.ruleForm.invoicedyear
       }).then(() => {
         if (!this.$route.query.Id) this.isCreateSave = true;
         this.fetchPotentialDealersDetail();
@@ -264,6 +309,14 @@ export default {
         id: this.$route.query.Id||this.potentialDealersId,
       }).then((res) => {
         this.ruleForm = lowerJSONKey(res.data);
+        if (this.ruleForm.invoicedyear) {
+          this.invoicedYear = this.ruleForm.invoicedyear.split(',');
+        }
+
+        if (this.ruleForm.invoicedamount) {
+          this.invoicedAmount = this.ruleForm.invoicedamount.split(',');
+        }
+
         this.initBaseInfoFlg();
         this.isCreate=false
       });
