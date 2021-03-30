@@ -17,9 +17,7 @@
       >
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="date" label="沟通时间"></el-table-column>
-        <el-table-column label="专员名称">
-          <span>{{getUserName}}</span>
-        </el-table-column>
+        <el-table-column prop="username" label="专员名称"></el-table-column>
         <el-table-column prop="type" label="沟通类型"></el-table-column>
         <el-table-column prop="detail" label="沟通内容"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
@@ -32,7 +30,7 @@
         </el-table-column>
       </el-table>
       <div v-if="addCallLogsVisible" class="add-source ml-20 mr-20 mt-24">
-        <el-input class="mt-34 ml-24"  :value="getUserName" placeholder="专员名称"></el-input>
+        <el-input readonly class="mt-34 ml-24"  v-model="form.username" placeholder="专员名称"></el-input>
         <el-select clearable class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
           <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
@@ -84,7 +82,9 @@ export default {
           Name: '弱',
         }],
       },
-      form: {}
+      form: {
+        username:getUserName()
+      }
     }
   },
   created() {
@@ -102,6 +102,7 @@ export default {
       this.emptyText=' '
       this.addCallLogsVisible = true;
       this.form = {};
+      this.form.username=getUserName()
     },
     cancelCallLogs() {
       if(!this.callLogsList||this.callLogsList.length==0)this.emptyText='暂无数据'
@@ -122,7 +123,8 @@ export default {
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
         userId: this.form.userid,
         type: this.form.type,
-        detail: this.form.detail
+        detail: this.form.detail,
+        username:this.form.username,
       }).then(() => {
         this.fetchPotentialDealersCallLogsList();
         this.addCallLogsVisible = false;

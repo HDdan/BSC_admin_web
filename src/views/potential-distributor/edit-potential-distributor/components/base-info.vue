@@ -178,6 +178,7 @@
           clearable
           v-if="edit_flg['mainproducttypes'] || isCreate"
           v-model="baseForm.mainproducttypes"
+          @change="changeProduct"
           multiple
         >
           <el-option
@@ -338,6 +339,9 @@ export default {
     } else this.isCreate = true;
   },
   methods: {
+    changeProduct(val){
+      this.baseForm.mainproducts=this.option["mainProductTypesOption"].filter((i)=>i.name==val)[0].detail
+    },
     editInfo(params) {
       this.$set(this.edit_flg,params,true);
       this.isEdit = true;

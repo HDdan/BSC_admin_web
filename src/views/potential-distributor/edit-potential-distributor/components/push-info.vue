@@ -21,8 +21,7 @@
           prop="Date"
           label="推送时间"
         ></el-table-column>
-        <el-table-column prop="businessType" label="专员名称">
-          {{ getUserName }}
+        <el-table-column prop="UserName" label="专员名称">
         </el-table-column>
         <el-table-column prop="IntentSource" label="意向来源"></el-table-column>
         <el-table-column prop="IntentBu" label="意向BU"></el-table-column>
