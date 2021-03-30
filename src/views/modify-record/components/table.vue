@@ -66,7 +66,7 @@ export default {
     }
   },
   created(){
-  this.$api({
+  this.$api.execobj({
       action: "userlist",
       parentid: 0,
       pageindex: 1,

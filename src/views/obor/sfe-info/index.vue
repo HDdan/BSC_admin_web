@@ -59,7 +59,7 @@ export default {
       list.pagesize = this.page.pageSize;
       list.filter=this.search
       list.filter.type=this.tabType
-      this.$api(list).then((res) => {
+      this.$api.execobj(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
         this.page.totalNum = res.count;

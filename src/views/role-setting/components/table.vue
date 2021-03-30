@@ -66,7 +66,7 @@ export default {
       this.$emit("alter", data);
     },
     del(id) {
-      this.$api({
+      this.$api.execobj({
         action: "userdelete",
         id: id,
       }).then((res) => {

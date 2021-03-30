@@ -2,10 +2,8 @@ import {
   login,
   getUsers,
   getPageLogs
-} from "@/api/user";
-import {
-  api
-} from "@/api";
+} from "@/api/group/user";
+import api from "@/api";
 import { getToken, setToken, removeToken, setUserName, removeUserName } from "@/utils/auth";
 
 const state = {

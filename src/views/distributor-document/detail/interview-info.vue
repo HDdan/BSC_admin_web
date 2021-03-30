@@ -369,7 +369,7 @@ export default {
       this.fetchDealersInterviewRecodeDetail();
     },
     fetchDealersInterviewRecode() {
-      this.$api({
+      this.$api.user.execobj({
         action: 'DealersInterviewRecorde',
         dealerscode: this.$route.query.dealerscode
       }).then(res => {
@@ -378,7 +378,7 @@ export default {
       });
     },
     fetchDealersInterviewRecodeDetail() {
-      this.$api({
+      this.$api.user.execobj({
         action: 'DealersInterviewRecordeDetail',
         dealerscode: this.$route.query.dealerscode,
         id: this.searchInput

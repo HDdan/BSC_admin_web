@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     fetchDealersDetail() {
-      this.$api({
+      this.$api.execobj({
         action: 'DealersDetail',
         id: this.$route.query.id
       }).then(res => {

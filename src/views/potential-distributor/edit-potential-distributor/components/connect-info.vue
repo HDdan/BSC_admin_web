@@ -117,7 +117,7 @@ export default {
       this.fetchPotentialDealersCallLogsList();
     },
     editPotentialDealersCallLogs() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCallLogsEdit",
         id: this.currentEditcallLogsId ? this.currentEditcallLogsId : 0,
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
@@ -132,7 +132,7 @@ export default {
       });
     },
     fetchPotentialDealersCallLogsDetail(id) {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCallLogsDetail",
         id: id,
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
@@ -142,7 +142,7 @@ export default {
       });
     },
     fetchPotentialDealersCallLogsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCallLogsList",
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
         pageindex: this.meta.currPage,

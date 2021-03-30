@@ -241,7 +241,7 @@ export default {
       this.potentialDealersPushLogsEdit();
     },
     potentialDealersPushLogsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPushLogsList",
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         pageindex: this.page.currPage,
@@ -253,7 +253,7 @@ export default {
       });
     },
     potentialDealersPushLogsEdit() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPushLogsEdit",
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         id: 0,
@@ -273,7 +273,7 @@ export default {
       });
     },
     baseList(action, type) {
-      this.$api({
+      this.$api.execobj({
         action: action,
         type: type,
         pageindex: 1,

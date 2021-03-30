@@ -393,7 +393,7 @@ export default {
             mainproducts: this.baseForm.mainproducts,
             mainbrands: mainbrands,
           };
-          this.$api(params).then((res) => {
+          this.$api.execobj(params).then((res) => {
             if (!this.$route.query.Id) this.isCreateSave = true;
             this.$emit("onBase", res.data, this.baseForm.dealername);
             this.potentialDealersId = res.data
@@ -413,7 +413,7 @@ export default {
       this.isEdit = false;
     },
     fetchPotentialDealersDetail() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersDetail",
         id: this.$route.query.Id || this.potentialDealersId,
       }).then((res) => {
@@ -424,7 +424,7 @@ export default {
       });
     },
     fetchSourceList() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "source",
         pageindex: 1,
@@ -437,7 +437,7 @@ export default {
       });
     },
     fetchDepartmentList() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "department",
         pageindex: 1,
@@ -450,7 +450,7 @@ export default {
       });
     },
     fetchMainProductTypesOption() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "product",
         pageindex: 1,
@@ -463,7 +463,7 @@ export default {
       });
     },
     fetchBrandOption() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "brand",
         pageindex: 1,

@@ -245,7 +245,7 @@ export default {
       });
     },
     potentialDealersQualificationEdit() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersQualificationEdit",
         id: this.potentialDealersId ? this.potentialDealersId : 0,
         registeredcapital: this.ruleForm.registeredcapital,
@@ -259,7 +259,7 @@ export default {
       });
     },
     fetchPotentialDealersDetail() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersDetail",
         id: this.$route.query.Id||this.potentialDealersId,
       }).then((res) => {

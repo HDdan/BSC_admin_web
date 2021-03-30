@@ -34,7 +34,7 @@
 <script>
 import Left from "./components/left.vue";
 import "./index.scss";
-import { login } from "@/api/user";
+import { login } from "@/api/group/user";
 import Watermark from "@/utils/watermark"; //路径不要写错
 export default {
   components: {

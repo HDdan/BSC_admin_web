@@ -94,7 +94,7 @@ export default {
       this.baselist();
     },
     baselist() {
-      this.$api({
+      this.$api.execobj({
         action: "userlist",
         pageindex: this.page.currPage,
         pagesize: this.page.pageSize,

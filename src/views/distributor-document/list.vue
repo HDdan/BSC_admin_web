@@ -40,7 +40,7 @@ export default {
     },
     handleExportDistributorFile() {
       console.log("fsfs");
-      this.$api({
+      this.$api.execobj({
         action: "FileUploadList",
         pageindex: 1,
         pagesize: 10,
@@ -52,7 +52,7 @@ export default {
       console.log("pagination");
     },
     fetchDealersList() {
-      this.$api({
+      this.$api.execobj({
         action: "DealersList",
         pageindex: 1,
         pagesize: 10,

@@ -112,9 +112,12 @@
       <el-button type="primary" @click="potentialDealersList">检索</el-button>
       <el-upload
         class="potential-distributor__upload mr-18 ml-40"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="http://dealer.qtdatas.com/api/Boke/Upload"
         multiple
-        :limit="3"
+        :limit="1"
+        :before-upload="beforeFileUpload"
+        :http-request="handleFilePreview"
+        :show-file-list="false"
       >
         <i class="mr-3 iconfont icondaorujilu-hui"></i>
         <span>导入</span>
@@ -140,7 +143,7 @@
       :limit.sync="page.pageSize"
       @pagination="handlePagination"
     />
-    <Dialog :dialogVisible="dialogVisible" />
+    <Dialog :dialogVisible="dialogVisible" :filterList="exportFilterList" @confirm="handleExportFile"/>
   </div>
 </template>
 
@@ -148,6 +151,7 @@
 import Table from "./components/table";
 import Dialog from "@/components/Dialog";
 import Pagination from "@/components/Pagination/index";
+import { getToken } from '@/utils/auth'
 
 import "./index.scss";
 export default {
@@ -193,6 +197,10 @@ export default {
         lazy: true,
         lazyLoad: this.fetchRegion,
       },
+      exportFilterList: [{ label: '基本信息', id: 'base' },
+      { label: '覆盖医院', id: 'hospital' },
+      { label: '招商沟通记录', id: 'call' },
+      { label: '推送记录', id: 'push' }]
     };
   },
   created() {
@@ -203,13 +211,55 @@ export default {
     this.userlist();
   },
   methods: {
+    beforeFileUpload(file) {
+      let type = file.name.toLowerCase()
+      let isXLSX = /\.(xlsx)$/.test(type)
+      if (!isXLSX) {
+        this.$message.error('上传文件暂时只支持XLSX格式')
+      }
+      return isXLSX;
+    },
+    handleFilePreview(param) {
+      let formData = new FormData();
+      formData.append('file', param.file);
+      formData.append('userid', getToken());
+      formData.append('type', 'potentialDealers');
+      this.$api.upload(formData).then(() => {
+        this.$message.success('导入成功');
+      }).catch(() => {
+        this.$message.error('导入失败');
+      });
+    },
+    handleExportFile(checkedFilterCondition) {
+      const param = {
+        action: "FileDownLoad",
+        type: 'potentialDealers',
+        filter: {
+          name: this.params.name,
+          callstarttime: this.params.callstarttime,
+          callendtime: this.params.callendtime,
+          pushstarttime: this.params.pushstarttime,
+          pushendtime: this.params.pushendtime,
+          mainproducts: this.params.mainproducts,
+          department: this.params.department,
+          sources: this.params.sources,
+          province: this.params.province,
+          module: checkedFilterCondition.toString()
+        }
+      }
+      this.$api.execobj(param).then(() => {
+        this.$message.success('导出成功');
+      }).catch(() => {
+        this.$message.error('导出失败');
+      });
+    },
     fetchRegion(node, resolve) {
       if (!node) {
         return false;
       }
 
       if (node.level === 0) {
-        this.$api({
+        this.$api.execobj({
           action: "DownList",
           type: "province",
           parentid: 0,
@@ -227,7 +277,7 @@ export default {
           );
         });
       } else if (node.level === 1) {
-        this.$api({
+        this.$api.execobj({
           action: "DownList",
           type: "city",
           parentid: node.data.value,
@@ -261,13 +311,13 @@ export default {
       params.pushendtime = this.pushTime ? this.pushTime[1] : "";
       params.pageindex = this.page.currPage;
       params.pagesize = this.page.pageSize;
-      this.$api(params).then((res) => {
+      this.$api.execobj(params).then((res) => {
         this.tableData = res.data;
         this.page.totalNum = res.count;
       });
     },
     baseList(type) {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: type,
         pageindex: 1,
@@ -279,7 +329,7 @@ export default {
       });
     },
     downList(type) {
-      this.$api({
+      this.$api.execobj({
         action: "DownList",
         type: type,
         parentid: 0,
@@ -290,7 +340,7 @@ export default {
       });
     },
     userlist() {
-      this.$api({
+      this.$api.execobj({
         action: "userlist",
         pageindex: 1,
         pagesize: 100000,

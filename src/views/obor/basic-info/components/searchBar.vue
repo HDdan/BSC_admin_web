@@ -116,7 +116,7 @@ export default {
         pagesize: 10000,
       };
       if (parentid) list.parentid = parentid;
-      this.$api(list).then((res) => {
+      this.$api.execobj(list).then((res) => {
         this.$set(this.option, type, res.data.list || res.data);
         // this.option[type] = res.data.list || res.data;
       });

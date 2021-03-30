@@ -7,7 +7,7 @@ import { getToken,removeToken } from '@/utils/auth'
 // create an axios instance
 const self=this
 const service = axios.create({
-  baseURL: "http://dealer.qtdatas.com/api/Boke/Execobj", // url = base url + request url
+  // baseURL: "http://dealer.qtdatas.com/api/Boke", // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 50000 // request timeout
 })

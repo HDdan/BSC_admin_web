@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     fetchDealersOborList() {
-      this.$api({
+      this.$api.execobj({
         action: 'DealersOborList',
         pageindex: 1,
         pagesize: 10

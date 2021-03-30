@@ -55,7 +55,7 @@ export default {
 
     },
     potentialDealersPushLogsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPushLogsList",
         potentialdealersid: this.$route.query.potentialdealersid,
         pageindex: this.tableData.meta.currPage,

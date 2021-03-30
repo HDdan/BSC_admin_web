@@ -71,7 +71,7 @@ export default {
     };
   },
   created() {
-    this.$api({
+    this.$api.execobj({
       action: "DownList",
       type: "module",
       parentid: 0,
@@ -80,7 +80,7 @@ export default {
     }).then((res) => {
       this.moduleOption = res.data;
     });
-    this.$api({
+    this.$api.execobj({
       action: "userlist",
       parentid: 0,
       pageindex: 1,

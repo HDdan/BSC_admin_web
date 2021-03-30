@@ -238,7 +238,7 @@ export default {
       this.fetchDealersQuestionnaireRecodeDetail();
     },
     fetchDealersQuestionnaireRecode() {
-      this.$api({
+      this.$api.execobj({
         action: 'DealersQuestionnaireRecorde',
         dealerscode: this.$route.query.dealerscode
       }).then(res => {
@@ -247,7 +247,7 @@ export default {
       });
     },
     fetchDealersQuestionnaireRecodeDetail() {
-      this.$api({
+      this.$api.execobj({
         action: 'DealersQuestionnaireRecordeDetail',
         dealerscode: this.$route.query.dealerscode,
         id: this.searchInput

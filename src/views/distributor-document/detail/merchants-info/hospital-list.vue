@@ -45,7 +45,7 @@ export default {
 
     },
     fetchPotentialDealersUpdataLogList() {
-      this.$api({
+      this.$api.execobj({
         action: 'PotentialDealersCoverHospitalsList',
         potentialdealersid: this.$route.query.potentialdealersid,
         pageindex: this.tableData.meta.currPage,

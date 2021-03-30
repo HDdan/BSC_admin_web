@@ -1,20 +1,7 @@
 import request from '@/utils/request'
-import { getToken } from '@/utils/auth'
 const BASE_URL = 'http://dealer.qtdatas.com/api/Boke';
 
-// export function api(data) {
-//   data.userid = getToken();
-//   return request({
-//     method: 'post',
-//     data,
-//   })
-// }
-
-
 export default {
-  install (Vue) {
-    Vue.prototype.$api = this
-  },
   execobj(data) {
     data.userid = getToken();
     return request({
@@ -24,7 +11,7 @@ export default {
     })
   },
   upload(data) {
-    
+    data.userid = getToken();
     return request({
       url: `${BASE_URL}/Upload`,
       method: 'post',
@@ -32,3 +19,4 @@ export default {
     })
   }
 }
+

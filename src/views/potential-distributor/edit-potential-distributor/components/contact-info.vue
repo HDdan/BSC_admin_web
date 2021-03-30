@@ -153,7 +153,7 @@ export default {
       this.fetchPotentialDealersPersonsList();
     },
     editPotentialDealersPersonsEdit() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPersonsEdit",
         id: this.currentEditPersonId ? this.currentEditPersonId : 0,
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
@@ -173,7 +173,7 @@ export default {
       });
     },
     deletePotentialDealersPersonsDelete(id) {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPersonsDelete",
         id: id,
         potentialdealersid:this.$route.query.Id||this.potentialDealersId,
@@ -182,7 +182,7 @@ export default {
       });
     },
     fetchPotentialDealersPersonsDetail(id) {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPersonsDetail",
         id: id,
         potentialdealersid: this.$route.query.Id||this.potentialDealersId,
@@ -192,7 +192,7 @@ export default {
       });
     },
     fetchPotentialDealersPersonsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersPersonsList",
         potentialdealersid:this.$route.query.Id||this.potentialDealersId,
         pageindex: this.meta.currPage,
@@ -207,7 +207,7 @@ export default {
       });
     },
     fetchProvince() {
-      this.$api({
+      this.$api.execobj({
         action: "DownList",
         type: 'province',
         parentid: 0,
@@ -223,8 +223,8 @@ export default {
     fetchCity(value) {
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-      this.form.city = ''
-      this.$api({
+      this.form.city = '';
+      this.$api.execobj({
         action: "DownList",
         type: 'city',
         parentid: currentProvinceId

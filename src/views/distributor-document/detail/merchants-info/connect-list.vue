@@ -47,7 +47,7 @@ export default {
 
     },
     fetchPotentialDealersCallLogsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCallLogsList",
         potentialdealersid: this.$route.query.potentialdealersid,
         pageindex: this.tableData.meta.currPage,

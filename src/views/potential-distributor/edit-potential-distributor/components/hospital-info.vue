@@ -170,7 +170,7 @@ export default {
       this.fetchPotentialDealersCoverHospitalsList();
     },
     editPotentialDealersCoverHospitals() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCoverHospitalsEdit",
         id: this.currentEditHospitalId ? this.currentEditHospitalId : 0,
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
@@ -184,7 +184,7 @@ export default {
       });
     },
     deletePotentialDealersCoverHospitalsDelete(id) {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCoverHospitalsDelete",
         id: id,
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
@@ -193,7 +193,7 @@ export default {
       });
     },
     fetchPotentialDealersCoverHospitalsDetail(id) {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCoverHospitalsDetail",
         id: id,
         potentialdealersid: this.potentialDealersId,
@@ -203,7 +203,7 @@ export default {
       });
     },
     fetchPotentialDealersCoverHospitalsList() {
-      this.$api({
+      this.$api.execobj({
         action: "PotentialDealersCoverHospitalsList",
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         pageindex: this.meta.currPage,
@@ -218,7 +218,7 @@ export default {
       });
     },
     fetchDepartmentList() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "department",
         pageindex: 1,
@@ -231,7 +231,7 @@ export default {
       });
     },
     fetchHospitalList() {
-      this.$api({
+      this.$api.execobj({
         action: "BaseList",
         type: "hospital",
         pageindex: 1,

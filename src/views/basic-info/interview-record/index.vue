@@ -87,7 +87,7 @@ export default {
       list.action = "InterviewRecordlist";
       list.pageindex = this.page.currPage;
       list.pagesize = this.page.pageSize;
-      this.$api(list).then((res) => {
+      this.$api.execobj(list).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
         this.page.totalNum = res.count;
