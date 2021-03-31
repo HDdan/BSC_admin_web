@@ -45,7 +45,7 @@
           <el-option v-for="item in option.isCountyOptions" :key="item.value" :value="item.value">
           </el-option>
         </el-select>
-        <el-input class="mt-10 ml-24" placeholder="可以用作波科销售的业务人数" v-model="form.bscsalesnum" style="width: 30%"></el-input>
+        <el-input class="mt-10 ml-24" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="可以用作波科销售的业务人数" v-model="form.bscsalesnum" style="width: 30%"></el-input>
         <div class="add-source__btn ml-24 mt-30">
           <el-button type="primary" @click="editPotentialDealersRegions">添加</el-button>
           <el-button @click="cancelRegion">取消</el-button>
@@ -124,19 +124,25 @@ export default {
       this.fetchPotentialDealersRegionsList();
     },
     editPotentialDealersRegions() {
-      this.$api.execobj({
-        action: "PotentialDealersRegionsEdit",
-        id: this.currentEditRegionId ? this.currentEditRegionId : 0,
-        potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
-        provice: this.form.province,
-        city: this.form.city,
-        iscounty: this.form.iscounty,
-        bscsalesnum: this.form.bscsalesnum,
-      }).then(() => {
-        this.fetchPotentialDealersRegionsList();
-        this.addRegionVisible = false;
-        this.currentEditRegionId = null;
-      });
+      if (this.form.city && this.form.province) {
+        this.$api.execobj({
+          action: "PotentialDealersRegionsEdit",
+          id: this.currentEditRegionId ? this.currentEditRegionId : 0,
+          potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
+          provice: this.form.province,
+          city: this.form.city,
+          iscounty: this.form.iscounty,
+          bscsalesnum: this.form.bscsalesnum,
+        }).then(() => {
+          this.fetchPotentialDealersRegionsList();
+          this.addRegionVisible = false;
+          this.currentEditRegionId = null;
+        });
+      } else if (this.form.province) {
+        this.$message.error('请选择业务城市');
+      } else {
+        this.$message.error('请选择业务省份');
+      }
     },
     deletePotentialDealersRegion(id) {
       this.$api.execobj({
@@ -189,7 +195,7 @@ export default {
     fetchCity(value) {
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-      this.form.city = '';
+      this.$set(this.form,"city", '');
       this.$api.execobj({
         action: "DownList",
         type: 'city',

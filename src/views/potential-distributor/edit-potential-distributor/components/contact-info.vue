@@ -21,7 +21,12 @@
         <el-table-column prop="gender" label="性别"></el-table-column>
         <el-table-column prop="phone" label="手机号"></el-table-column>
         <el-table-column prop="fixedphone" label="座机"></el-table-column>
-        <el-table-column prop="address" label="联系地址"></el-table-column>
+        <el-table-column prop="address" label="联系地址">
+          <template slot-scope="scope">
+            <div v-if="scope.row.address">{{ scope.row.province + '/' + scope.row.city +  '/' + scope.row.address   }}</div>
+            <div v-else>{{ scope.row.province + '/' + scope.row.city }}</div>
+          </template>
+        </el-table-column>
         <el-table-column prop="remark" label="备注"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
           <template slot-scope="scope">
@@ -43,7 +48,7 @@
           </el-option>
         </el-select>
         <el-input class="mt-10 ml-24" maxlength="11" placeholder="手机号" v-model="form.phone" style="width: 30%"></el-input>
-        <el-input class="mt-10 ml-24" placeholder="座机号" v-model="form.fixedphone" style="width: 30%"></el-input>
+        <el-input class="mt-10 ml-24" placeholder="座机号" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="form.fixedphone" style="width: 30%"></el-input>
         <el-select clearable class="mt-10 ml-24" v-model="form.province" placeholder="省份" @change="fetchCity">
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
@@ -117,12 +122,14 @@ export default {
         this.$set(this.form,"phone", '');
         return false;
       }
-      console.log("0000s0d0s",curVal)
       // 实时把非数字的输入过滤掉
       this.form.phone = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join("") : "";
     }
   },  
   methods: {
+    contactAddress() {
+      
+    },
     addContactor() {
       if (!this.potentialDealersId) {
         this.$message({
@@ -153,24 +160,30 @@ export default {
       this.fetchPotentialDealersPersonsList();
     },
     editPotentialDealersPersonsEdit() {
-      this.$api.execobj({
-        action: "PotentialDealersPersonsEdit",
-        id: this.currentEditPersonId ? this.currentEditPersonId : 0,
-        potentialdealersid: this.$route.query.Id||this.potentialDealersId,
-        province: this.form.province,
-        position: this.form.position,
-        city: this.form.city,
-        name: this.form.name,
-        gender: this.form.gender,
-        phone: this.form.phone,
-        fixedPhone: this.form.fixedphone,
-        address: this.form.address,
-        remark: this.form.remark
-      }).then(() => {
-        this.fetchPotentialDealersPersonsList();
-        this.addPersonVisible = false;
-        this.currentEditPersonId = null;
-      });
+      if (this.form.city && this.form.province) {
+        this.$api.execobj({
+          action: "PotentialDealersPersonsEdit",
+          id: this.currentEditPersonId ? this.currentEditPersonId : 0,
+          potentialdealersid: this.$route.query.Id||this.potentialDealersId,
+          province: this.form.province,
+          position: this.form.position,
+          city: this.form.city,
+          name: this.form.name,
+          gender: this.form.gender,
+          phone: this.form.phone,
+          fixedPhone: this.form.fixedphone,
+          address: this.form.address,
+          remark: this.form.remark
+        }).then(() => {
+          this.fetchPotentialDealersPersonsList();
+          this.addPersonVisible = false;
+          this.currentEditPersonId = null;
+        });
+      } else if (this.form.province) {
+        this.$message.error('请选择业务城市');
+      } else {
+        this.$message.error('请选择业务省份');
+      }
     },
     deletePotentialDealersPersonsDelete(id) {
       this.$api.execobj({

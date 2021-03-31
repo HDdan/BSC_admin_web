@@ -81,7 +81,7 @@
         </div>
       </el-form-item>
       <div v-for="(item,index) in invoicedAmount" :key="index" style="width: 100%;display:flex;align-item:center;">
-        <el-form-item label="公司开票年份：" prop="invoicedyear" >
+        <el-form-item :label="`公司开票年份${index+1}:`" prop="invoicedyear" >
           <el-input onkeyup="value=value.replace(/[^\d]/g,'')" v-if="edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate" v-model="invoicedYear[index]" />
           <div v-else
             class="edit-potential-distributor-base__detail"
@@ -96,7 +96,7 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="公司开票金额：" prop="invoicedamount" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}">
+        <el-form-item :label="`公司开票金额：${index+1}:`" prop="invoicedamount" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}">
           <el-input v-if="edit_flg['invoicedamount'] || edit_flg['invoicedyear'] || isCreate" v-model="invoicedAmount[index]">
             <span slot="suffix" class="mr-14">万元</span></el-input>
           <div
@@ -286,8 +286,16 @@ export default {
       });
     },
     potentialDealersQualificationEdit() {
-      this.$set(this.ruleForm, "invoicedamount", this.invoicedAmount.toString());
-      this.$set(this.ruleForm, "invoicedyear", this.invoicedYear.toString());
+      let amount = '',year = '';
+      this.invoicedAmount.forEach(item => {
+        amount = amount + '/' + item;
+      });
+      this.invoicedYear.forEach(item => {
+        year = year + '/' + item;
+      });
+
+      this.$set(this.ruleForm, "invoicedamount", amount);
+      this.$set(this.ruleForm, "invoicedyear", year);
 
       this.$api.execobj({
         action: "PotentialDealersQualificationEdit",

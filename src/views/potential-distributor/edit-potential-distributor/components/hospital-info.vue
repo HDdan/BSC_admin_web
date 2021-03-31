@@ -48,6 +48,7 @@
           class="mt-34 ml-24"
           v-model="form.hospitalname"
           placeholder="医院名称"
+          filterable
           @change="onHospital"
         >
           <el-option
