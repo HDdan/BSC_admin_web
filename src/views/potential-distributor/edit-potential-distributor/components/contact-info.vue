@@ -238,6 +238,7 @@ export default {
       this.$set(this.form,"city", '');
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
+      this.$set(this.form,"city",'');
       this.$api.execobj({
         action: "DownList",
         type: 'city',
