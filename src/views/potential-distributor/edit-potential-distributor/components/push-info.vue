@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{page.totalNum}}条</span>
-        <span>最近更新时间：{{ lastupdatetime }}</span>
+        <span v-if="lastupdatetime">最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
@@ -73,7 +73,7 @@
           placeholder="意向subbu"
         >
           <el-option
-            v-for="item in option.Bu"
+            v-for="item in option.subBu"
             :key="item.Id"
             :value="item.Name"
           >
@@ -286,6 +286,7 @@ export default {
   created() {
     this.baseList("BaseList", "source");
     this.baseList("DownList", "Bu");
+    this.baseList("DownList", "subBu");
     this.$route.query.Id && this.potentialDealersPushLogsList();
     console.log("0999999", this.$route.query.Id);
   },

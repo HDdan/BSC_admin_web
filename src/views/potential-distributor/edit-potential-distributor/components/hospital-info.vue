@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{ hospitalList_total }}条</span>
-        <span>最近更新时间：{{ lastupdatetime }}</span>
+        <span v-if="lastupdatetime">最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button
@@ -152,6 +152,7 @@ export default {
       this.emptyText=' '
       this.addCoverHospitalsVisible = true;
       this.form = {};
+      this.currentEditHospitalId = 0
     },
     cancelHospital() {
       if(!this.hospitalsList||this.hospitalsList.length==0)this.emptyText='暂无数据'

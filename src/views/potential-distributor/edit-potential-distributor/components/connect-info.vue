@@ -3,7 +3,7 @@
     <div class="business-info__header">
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{callLogsList_total}}条</span>
-        <span>最近更新时间：{{ lastupdatetime }}</span>
+        <span v-if="lastupdatetime">最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addCallLogs">沟通记录</el-button>

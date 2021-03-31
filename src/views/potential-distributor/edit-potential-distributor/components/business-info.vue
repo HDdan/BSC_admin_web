@@ -3,7 +3,7 @@
     <div class="business-info__header" >
       <div class="business-info__header__title" v-if="$route.query.Id">
         <span>共{{regionList_total}}条</span>
-        <span>最近更新时间：{{ lastupdatetime }}</span>
+        <span v-if="lastupdatetime">最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="business-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addBusinessType">业务区域</el-button>
@@ -105,6 +105,8 @@ export default {
       this.emptyText=' '
       this.addRegionVisible = true;
       this.form = {};
+      this.currentEditRegionId = 0
+
     },
     cancelRegion() {
       if(!this.regionList||this.regionList.length==0)this.emptyText='暂无数据'
@@ -193,9 +195,9 @@ export default {
       });
     },
     fetchCity(value) {
+      this.$set(this.form,"city", '');
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-      this.$set(this.form,"city", '');
       this.$api.execobj({
         action: "DownList",
         type: 'city',

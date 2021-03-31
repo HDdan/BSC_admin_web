@@ -3,7 +3,7 @@
     <div class="contact-info__header">
       <div class="contact-info__header__title" v-if="$route.query.Id">
         <span>共{{ personsList_total }}条</span>
-        <span>最近更新时间：{{ lastupdatetime }}</span>
+        <span v-if="lastupdatetime">最近更新时间：{{ lastupdatetime }}</span>
       </div>
       <div class="contact-info__header__query" :class="{'create': !$route.query.Id}">
         <el-button icon="fz-14 mr-8 iconfont iconxinzeng" type="primary" @click="addContactor">联系人</el-button>
@@ -141,6 +141,7 @@ export default {
       this.emptyText=' '
       this.addPersonVisible = true;
       this.form = {};
+      this.currentEditPersonId = 0
     },
     cancelPerson() {
       if(!this.personsList||this.personsList.length==0)this.emptyText='暂无数据'
@@ -234,9 +235,9 @@ export default {
       });
     },
     fetchCity(value) {
+      this.$set(this.form,"city", '');
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-      this.form.city = '';
       this.$api.execobj({
         action: "DownList",
         type: 'city',

@@ -1,7 +1,7 @@
 <template>
   <div class="edit-potential-distributor-base">
     <div
-      v-if="$route.query.Id"
+      v-if="$route.query.Id&&baseForm.updatetime"
       class="ml-20 mt-25"
       style="color: #333333; font-size: 14px"
     >
