@@ -1,11 +1,5 @@
-import {
-  login,
-  getUsers,
-  getPageLogs
-} from "@/api/group/user";
 import api from "@/api";
 import { getToken, setToken, removeToken, setUserName, removeUserName } from "@/utils/auth";
-
 const state = {
   token: getToken(),
   roleOptions:[]
@@ -24,7 +18,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { action,loginname, password } = userInfo;
     return new Promise((resolve, reject) => {
-      login({
+      api.execobj({
         action:action,
         loginname: loginname,
         password: password
@@ -68,7 +62,7 @@ const actions = {
   },
   roleOptions({commit}){
     return new Promise((resolve, reject) => {
-      api({
+      execobj({
         action:"rolelist",
       })
         .then(response => {

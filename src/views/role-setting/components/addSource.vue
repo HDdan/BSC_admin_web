@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { api } from "@/api";
 
 export default {
   props: {},
@@ -50,7 +49,7 @@ export default {
   },
   methods: {
     add() {
-      api({
+      this.$api.execobj({
         action: "useredit",
         name: this.name,
         id: this.id,

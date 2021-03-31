@@ -16,7 +16,7 @@ export default {
     Vue.prototype.$api = this
   },
   execobj(data) {
-    data.userid = getToken();
+    if(getToken())data.userid = getToken();
     return request({
       url: `${BASE_URL}/Execobj`,
       method: 'post',

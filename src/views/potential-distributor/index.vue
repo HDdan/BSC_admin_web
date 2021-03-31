@@ -225,9 +225,9 @@ export default {
       formData.append('userid', getToken());
       formData.append('type', 'potentialDealers');
       this.$api.upload(formData).then(() => {
-        this.$message.success('导入成功');
+        // this.$message.success('导入成功');
       }).catch(() => {
-        this.$message.error('导入失败');
+        // this.$message.error('导入失败');
       });
     },
     handleExportFile(checkedFilterCondition) {
@@ -248,9 +248,9 @@ export default {
         }
       }
       this.$api.execobj(param).then(() => {
-        this.$message.success('导出成功');
+        // this.$message.success('导出成功');
       }).catch(() => {
-        this.$message.error('导出失败');
+        // this.$message.error('导出失败');
       });
     },
     fetchRegion(node, resolve) {

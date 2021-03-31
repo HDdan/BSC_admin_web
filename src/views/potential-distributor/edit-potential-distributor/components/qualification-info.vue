@@ -81,7 +81,7 @@
         </div>
       </el-form-item>
       <div v-for="(item,index) in invoicedAmount" :key="index" style="width: 100%;display:flex;align-item:center;">
-        <el-form-item label="公司开票年份：" prop="invoicedyear" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}" >
+        <el-form-item label="公司开票年份：" prop="invoicedyear" >
           <el-input onkeyup="value=value.replace(/[^\d]/g,'')" v-if="edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate" v-model="invoicedYear[index]" />
           <div v-else
             class="edit-potential-distributor-base__detail"
@@ -198,8 +198,8 @@ export default {
         invoicedamount: "",
         invoicedyear: ""
       },
-      invoicedYear: [],
-      invoicedAmount: [],
+      invoicedYear: [null],
+      invoicedAmount: [null],
       option: {
         operatingstatus: [{
           id: '正常经营',
@@ -309,14 +309,8 @@ export default {
         id: this.$route.query.Id||this.potentialDealersId,
       }).then((res) => {
         this.ruleForm = lowerJSONKey(res.data);
-        if (this.ruleForm.invoicedyear) {
-          this.invoicedYear = this.ruleForm.invoicedyear.split(',');
-        }
-
-        if (this.ruleForm.invoicedamount) {
-          this.invoicedAmount = this.ruleForm.invoicedamount.split(',');
-        }
-
+        this.invoicedYear = this.ruleForm.invoicedyear.split('/')||[];
+        this.invoicedAmount = this.ruleForm.invoicedamount.split('/')||[];
         this.initBaseInfoFlg();
         this.isCreate=false
       });

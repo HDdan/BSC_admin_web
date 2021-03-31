@@ -71,14 +71,18 @@ export default {
       }
     },
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
+      let list=[]
+      this.filterList.forEach(el => {
+        list.push(el.id)
+      });
+      this.checkedCities = val ? list : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
+      this.checkAll = checkedCount === this.filterList.length;
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.filterList.length;
     },
   },
 };

@@ -94,7 +94,6 @@
 
 <script>
 import Table from "./table.vue";
-import { api } from "@/api";
 import "../index.scss";
 import AddSource from "./addSource.vue";
 import Pagination from "@/components/Pagination";
@@ -152,7 +151,7 @@ export default {
       this.baselist();
     },
     baselist() {
-      api({
+      this.$api.execobj({
         action: this.action,
         type: this.apiType,
         pageindex: this.page.currPage,

@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { api } from "@/api";
 
 export default {
     props:{
@@ -31,7 +30,7 @@ export default {
   },
   methods: {
     add() {
-      api({
+      this.$api.execobj({
         action: 'basemain',
         name: this.input,
         type: this.apiType,
