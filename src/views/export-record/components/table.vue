@@ -18,15 +18,9 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <span style="display: flex">
-            <div
-              class="mr-15"
-              style="color: #4196ff; cursor: pointer"
-              @click="download(scope.row.Url)"
-            >
-              下载
-            </div>
-          </span>
+            <a class="mr-15" style="color: #4196ff; cursor: pointer" :href="'http://'+scope.row.Url" download="''">
+                下载
+            </a>
         </template>
       </el-table-column>
     </el-table>

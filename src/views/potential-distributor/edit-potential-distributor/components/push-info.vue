@@ -82,7 +82,7 @@
         <el-date-picker
           class="ml-24"
           v-model="clinical"
-          value-format="yyyy-MM-dd"
+          value-format="yyyy-MM-d"
           placeholder="沟通临床"
           type="date"
         >
@@ -90,7 +90,7 @@
         <el-date-picker
           class="ml-24"
           v-model="bargain"
-          value-format="yyyy-MM-dd"
+          value-format="yyyy-MM-d"
           placeholder="进院议价"
           type="date"
         >
@@ -111,7 +111,7 @@
         <el-date-picker
           class="mt-10 ml-24"
           v-model="accomplishDate"
-          value-format="yyyy-MM-dd"
+          value-format="yyyy-MM-d"
           placeholder="落地时间"
           type="date"
         >

@@ -3,6 +3,7 @@
     :title="'科室主数据'"
     :btnType="'科室数据'"
     :apiType="'department'"
+    :placeholder="'医院科室'"
   ></base-main>
 </template>
 

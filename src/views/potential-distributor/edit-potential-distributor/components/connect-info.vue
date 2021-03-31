@@ -18,7 +18,7 @@
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="date" label="沟通时间"></el-table-column>
         <el-table-column prop="username" label="专员名称"></el-table-column>
-        <el-table-column prop="type" label="沟通类型"></el-table-column>
+        <!-- <el-table-column prop="type" label="沟通类型"></el-table-column> -->
         <el-table-column prop="detail" label="沟通内容"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
           <template slot-scope="scope">
@@ -31,10 +31,10 @@
       </el-table>
       <div v-if="addCallLogsVisible" class="add-source ml-20 mr-20 mt-24">
         <el-input readonly class="mt-34 ml-24"  v-model="form.username" placeholder="专员名称"></el-input>
-        <el-select clearable class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
+        <!-- <el-select clearable class="mt-34 ml-24" v-model="form.type" placeholder="沟通类型">
           <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
-        </el-select>
+        </el-select> -->
         <el-input class="mt-10 ml-24" type="textarea" v-model="form.detail" placeholder="请简述沟通内容……"></el-input>
         <div class="add-source__btn ml-24 mt-30">
           <el-button type="primary" @click="editPotentialDealersCallLogs">添加</el-button>

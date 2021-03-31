@@ -4,10 +4,11 @@
     <div class="info-search mt-30 mb-20 ml-20 mr-20">
       <div>
         <span class="fz-16 mr-20" style="color: #333333"
-          >共{{ this.baseData.count || 0 }}条</span
+          >共{{ baseData.count || 0 }}条</span
         >
         <span class="fz-14" style="color: #666666"
-          >最近更新时间：{{ this.baseData.data.lastupdatetime }}</span
+         v-if="baseData.data"
+          >最近更新时间：{{ baseData.data.lastupdatetime }}</span
         >
       </div>
 
@@ -43,15 +44,10 @@
         <el-button v-if="action == 'baselist'" type="primary" @click="baselist">检索</el-button>
         <el-upload
           v-if="action == 'baselist'"
+          action="''"
           class="potential-distributor__upload mr-18 ml-4"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
           multiple
           :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
         >
           <i class="mr-3 iconfont icondaorujilu-hui"></i>
           <span>导入</span>
@@ -77,11 +73,11 @@
       :action="action"
     ></Table>
     <add-source
-      :action="action"
       :apiType="apiType"
       @add="addSuccess"
       v-if="showAddSource"
       @cancel="showAddSource = !showAddSource"
+      :placeholder="placeholder"
     ></add-source>
     <pagination
       :total="page.totalNum"
@@ -121,6 +117,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    placeholder:{
+      type:String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -129,7 +129,7 @@ export default {
       baseData: {},
       page: {
         currPage: 1,
-        pageSize: 12,
+        pageSize: 10,
         totalNum: 0,
       },
       tableData: [],

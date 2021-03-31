@@ -16,7 +16,7 @@
           placeholder="请输入密码"
           v-model="password"
         ></el-input>
-        <div class="login-page__left__content__submit" @click="login">登陆</div>
+        <div class="login-page__left__content__submit" @click="login">登录</div>
       </div>
     </div>
     <div class="login-page__right">

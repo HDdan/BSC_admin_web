@@ -41,12 +41,6 @@
         label="医院科室"
       >
       </el-table-column>
-      <el-table-column
-        v-if="apiType == 'department'"
-        prop="Name"
-        label="医院科室"
-      >
-      </el-table-column>
       <el-table-column v-if="apiType == 'brand'" prop="Name" label="主营品牌">
       </el-table-column>
       <el-table-column v-if="action == 'userlist'" prop="Name" label="姓名">
