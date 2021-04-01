@@ -181,9 +181,9 @@ export default {
           this.currentEditPersonId = null;
         });
       } else if (this.form.province) {
-        this.$message.error('请选择业务城市');
+        this.$message.error('请选择城市');
       } else {
-        this.$message.error('请选择业务省份');
+        this.$message.error('请选择省份');
       }
     },
     deletePotentialDealersPersonsDelete(id) {
