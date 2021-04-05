@@ -19,6 +19,11 @@
       <!-- <el-table-column prop="InvolveBu" label="学员类型" show-overflow-tooltip> </el-table-column> -->
       <el-table-column prop="AbilityType" label="能力认证" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="OBORYears" label="OBOR合作年限" show-overflow-tooltip> </el-table-column>
+      <el-table-column label="操作" width="60">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+      </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -32,6 +37,15 @@ export default {
     },
   },
   methods: {
+    handleClick(val){
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: 'obordata',
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";

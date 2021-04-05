@@ -19,7 +19,11 @@
       <el-table-column prop="Phone" label="业务分型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Phone" label="覆盖省份数量" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Phone" label="覆盖地市数量" show-overflow-tooltip> </el-table-column>
-
+      <el-table-column label="操作" width="60">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+      </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -33,6 +37,15 @@ export default {
     },
   },
   methods: {
+  handleClick(val){
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: 'visitRecord',
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";

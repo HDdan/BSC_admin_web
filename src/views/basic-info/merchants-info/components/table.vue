@@ -54,7 +54,7 @@
       <el-table-column
       label="操作">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
+        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -79,8 +79,13 @@ export default {
   },
   methods: {
     handleClick(val){
-      console.log("0099s9",val)
-      this.$emit('del')
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: this.apiType,
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {

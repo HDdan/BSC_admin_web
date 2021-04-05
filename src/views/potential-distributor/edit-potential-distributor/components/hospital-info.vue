@@ -64,6 +64,7 @@
           placeholder="医院编号"
         ></el-input>
         <el-select
+          multiple
           clearable
           class="mt-34 ml-24"
           v-model="form.department"
@@ -176,12 +177,20 @@ export default {
       this.fetchPotentialDealersCoverHospitalsList();
     },
     editPotentialDealersCoverHospitals() {
+      let department=this.form.department
+       if (typeof this.form.department === "object") {
+            this.form.department.forEach((item, index) => {
+              department = index === 0 ? item : department + "/" + item;
+            });
+          } else {
+            department = this.form.department;
+          }
       this.$api.execobj({
         action: "PotentialDealersCoverHospitalsEdit",
         id: this.currentEditHospitalId ? this.currentEditHospitalId : 0,
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
         hospitalname: this.form.hospitalname,
-        department: this.form.department,
+        department: department,
         hospitalcode: this.form.hospitalcode,
       }).then(() => {
         this.fetchPotentialDealersCoverHospitalsList();
@@ -210,6 +219,7 @@ export default {
       }).then((res) => {
         res.data = lowerJSONKey(res.data);
         this.form = res.data;
+        this.form.department=this.form.department.split('/')
       });
     },
     fetchPotentialDealersCoverHospitalsList() {

@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 
 const TokenKey = 'AdminLoginToken'
 const NameKey = 'AdminLoginName'
+const IsAdmin = 'isAdmin'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -25,4 +26,16 @@ export function setUserName(name) {
 
 export function removeUserName() {
   return Cookies.remove(NameKey)
+}
+
+export function getIsAdmin() {
+  return Cookies.get(IsAdmin)
+}
+
+export function setIsAdmin(name) {
+  return Cookies.set(IsAdmin, name)
+}
+
+export function removeIsAdmin() {
+  return Cookies.remove(IsAdmin)
 }

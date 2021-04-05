@@ -16,6 +16,11 @@
       <el-table-column prop="Phone" label="手机" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Controller" label="被访谈者是否为公司实际控制人" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="InvolveBu" label="本次洽谈合作涉及的BU" show-overflow-tooltip> </el-table-column>
+      <el-table-column label="操作" width="60">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+      </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -29,6 +34,15 @@ export default {
     },
   },
   methods: {
+    handleClick(val){
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: 'questionnaireRecord',
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";

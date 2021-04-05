@@ -12,10 +12,12 @@
     >
       <el-form-item label="注册资金：" prop="registeredcapital">
         <el-input
+        maxlength="7"
+        @input="changeMoney"
         @blur="inputMoney($event,'registeredcapital')"
           v-if="edit_flg['registeredcapital'] || isCreate"
           v-model="ruleForm.registeredcapital"
-        ><span slot="suffix" class="mr-14">万元</span></el-input>
+        ><span slot="suffix" class="mr-14">{{unitMoney}}</span></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -23,7 +25,7 @@
         >
           <span>{{ ruleForm.registeredcapital }}</span>
           <div>
-            <span slot="suffix" class="mr-14" style="color: #9b9b9b">万元</span>
+            <span slot="suffix" class="mr-14" style="color: #9b9b9b">{{unitMoney}}</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
@@ -96,7 +98,7 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item :label="`公司开票金额：${index+1}:`" prop="invoicedamount" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}">
+        <el-form-item :label="`公司开票金额${index+1}:`" prop="invoicedamount" :style="{width: edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate ? '40%' : '45%'}">
           <el-input v-if="edit_flg['invoicedamount'] || edit_flg['invoicedyear'] || isCreate" v-model="invoicedAmount[index]">
             <span slot="suffix" class="mr-14">万元</span></el-input>
           <div
@@ -179,6 +181,7 @@ export default {
   },  
   data() {
     return {
+      unitMoney:'万',
       isCreate: false,
       isCreateSave: false,
       isEdit: false,
@@ -254,6 +257,19 @@ export default {
     } else this.fetchPotentialDealersDetail();
   },
   methods: {
+    changeMoney(val){
+      let str=val.replace(/,/gi, '');
+      str = str.split('.');
+      switch(str[0].length){
+        case 1 :this.unitMoney='万';break
+        case 2 :this.unitMoney='十万';break
+        case 3 :this.unitMoney='百万';break
+        case 4 :this.unitMoney='千万';break
+        case 5 :this.unitMoney='亿';break
+        case 6 :this.unitMoney='十亿';break
+        case 7 :this.unitMoney='百亿';break
+      }
+    },
     addInvoicedConfig() {
       this.invoicedAmount.push('');
       this.invoicedYear.push('');
@@ -263,7 +279,7 @@ export default {
       this.invoicedYear.splice(index,1);
     },
     inputMoney(el,name) {
-         this.ruleForm[name] = getInputValue(el);
+        this.ruleForm[name] = getInputValue(el);
      },
     editInfo(params) {
       this.edit_flg[params] = true;
@@ -321,6 +337,7 @@ export default {
         this.invoicedAmount = this.ruleForm.invoicedamount.split('/')||[];
         this.initBaseInfoFlg();
         this.isCreate=false
+        this.changeMoney(this.ruleForm.registeredcapital)
       });
     },
     initBaseInfoFlg() {

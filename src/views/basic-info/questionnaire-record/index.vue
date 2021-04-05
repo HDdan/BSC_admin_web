@@ -3,6 +3,7 @@
     <div class="main-header">调研主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
+      @del="baselist"
       :tableData="tableData.list || tableData"
     ></Table>
     <pagination

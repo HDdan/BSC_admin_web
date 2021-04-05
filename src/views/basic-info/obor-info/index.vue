@@ -3,6 +3,7 @@
     <div class="main-header">OBOR主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
+      @del="baselist"
       :tableData="tableData.list || tableData"
     ></Table>
     <pagination

@@ -1,5 +1,5 @@
 import api from "@/api";
-import { getToken, setToken, removeToken, setUserName, removeUserName } from "@/utils/auth";
+import { getToken, setToken, removeToken, setUserName, removeUserName,setIsAdmin,removeIsAdmin } from "@/utils/auth";
 const state = {
   token: getToken(),
   roleOptions:[]
@@ -28,6 +28,7 @@ const actions = {
           commit("SET_TOKEN", data.id);
           setToken(data.id);
           setUserName(data.name);
+          setIsAdmin(data.isadmin);
           resolve();
         })
         .catch(error => {
@@ -42,6 +43,7 @@ const actions = {
           commit("SET_TOKEN", "");
           removeToken();
           removeUserName();
+          removeIsAdmin()
           // resetRouter()
 
           resolve();
@@ -57,6 +59,7 @@ const actions = {
       // commit("SET_ROLES", []);
       removeToken();
       removeUserName();
+      removeIsAdmin()
       resolve();
     });
   },

@@ -33,6 +33,7 @@
       </el-table>
       <div class="add-source ml-20 mr-20 mt-24" v-if="show">
         <el-date-picker
+          :picker-options="pickerOptions"
           class="mt-34 ml-24"
           v-model="date"
           value-format="yyyy-MM-dd"
@@ -145,6 +146,11 @@ export default {
   data() {
     return {
       dialogVisible: false,
+       pickerOptions: {
+         disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+        }, 
       emptyText:'',
       lastupdatetime:'',
       getUserName: getUserName(),
@@ -297,7 +303,7 @@ export default {
     this.baseList("DownList", "Bu");
     this.baseList("DownList", "subBu");
     this.$route.query.Id && this.potentialDealersPushLogsList();
-    console.log("0999999", this.$route.query.Id);
+    // console.log("----d-dd",getIsAdmin())
   },
   components: { Pagination, ConfirmActionDialog },
 };

@@ -43,8 +43,13 @@
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch"
-      >检索</el-button
+    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-button
+      icon="fz-14 mr-8 iconfont iconxinzeng"
+      type="primary"
+      @click="add"
+      style="padding: 0 6px; box-sizing: content-box;height: 34px;"
+      >OBOR数据</el-button
     >
   </div>
 </template>
@@ -54,8 +59,7 @@ export default {
   props: {},
   data() {
     return {
-      search: {
-      },
+      search: {},
       option: {
         department: [],
         brand: [],
@@ -97,11 +101,15 @@ export default {
     this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+    add(){
+      this.$router.push({ path: '/baseInfo/oborInfo/add' });
+    },
     changeProvince(val) {
-        this.$set(this.search,'covercity','')
+      this.$set(this.search, "covercity", "");
 
       let province = this.option.province.filter((v) => v.Name == val);
-      if (province.length>0) this.baseList("DownList", "city", province[0].Id);
+      if (province.length > 0)
+        this.baseList("DownList", "city", province[0].Id);
     },
     baseList(action, type, parentid) {
       let list = {
@@ -112,7 +120,7 @@ export default {
       };
       if (parentid) list.parentid = parentid;
       this.$api.execobj(list).then((res) => {
-        this.$set(this.option,type,res.data.list || res.data)
+        this.$set(this.option, type, res.data.list || res.data);
         // this.option[type] = res.data.list || res.data;
       });
     },

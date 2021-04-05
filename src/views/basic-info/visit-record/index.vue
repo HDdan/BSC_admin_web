@@ -3,6 +3,7 @@
     <div class="main-header">拜访主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
+      @del="baselist"
       :tableData="tableData.list || tableData"
     ></Table>
     <pagination

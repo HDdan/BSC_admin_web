@@ -14,6 +14,11 @@
       <el-table-column prop="MedicalEquipment" label="经营品种是否包含了医疗设备类产品" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="CooperateType" label="合作原因" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="BossAge" label="公司老板年龄" show-overflow-tooltip> </el-table-column>
+      <el-table-column label="操作" width="60">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row.id)" type="text" size="medium">删除</el-button>
+      </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -27,6 +32,15 @@ export default {
     },
   },
   methods: {
+    handleClick(val){
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: 'interviewRecord',
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";
