@@ -60,7 +60,7 @@ export default {
         },
         {
           id: 31,
-          name: "OBOR主数据",
+          name: "OBOR数据",
           url: "/obor",
           icon: "iconfont iconjingxiaoshangdangan-hui",
           child: [

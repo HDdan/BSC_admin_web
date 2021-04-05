@@ -51,6 +51,12 @@
       </el-table-column>
       <el-table-column v-if="action == 'userlist'" prop="Code" label="权限角色">
       </el-table-column>
+      <el-table-column
+      label="操作">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
+      </template>
+    </el-table-column>
     </el-table>
   </div>
 </template>
@@ -72,6 +78,10 @@ export default {
     },
   },
   methods: {
+    handleClick(val){
+      console.log("0099s9",val)
+      this.$emit('del')
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";

@@ -1,7 +1,7 @@
 <template>
   <div class="potential-distributor__search">
     <el-input
-      class="mr-16"
+      class="mr-16 mb-16"
       placeholder="请输入经销商名称"
       v-model="search.dealersname"
     >
@@ -9,7 +9,7 @@
     </el-input>
     <el-date-picker
       value-format="yyyy-MM-dd"
-      class="mr-16"
+      class="mr-16 mb-16"
       v-model="search.date"
       type="date"
       placeholder="提交时间"
@@ -17,7 +17,7 @@
     </el-date-picker>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.equipmentbusiness"
       placeholder="设备业务"
     >
@@ -31,7 +31,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.covercity"
       placeholder="覆盖城市"
     >
@@ -45,7 +45,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.deparment"
       placeholder="重点科室"
     >
@@ -59,7 +59,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.brand"
       placeholder="重点品牌"
     >
@@ -71,7 +71,7 @@
       >
       </el-option>
     </el-select>
-    <el-button class="margin-top-16" type="primary" @click="onSearch"
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
   </div>

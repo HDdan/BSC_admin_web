@@ -1,7 +1,7 @@
 <template>
   <div class="potential-distributor__search">
     <el-input
-      class="mr-16"
+      class="mr-16 mb-16"
       placeholder="请输入文件名"
       v-model="search.filename"
     >
@@ -9,7 +9,7 @@
     </el-input>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.module"
       placeholder="板块"
     >
@@ -33,13 +33,13 @@
     </el-date-picker> -->
     <el-date-picker
       value-format="yyyy-MM-dd"
-      class="mr-16"
+      class="mr-16 mb-16"
       v-model="search.starttime"
       type="date"
       placeholder="选择时间"
     >
     </el-date-picker>
-    <el-select clearable class="mr-15" v-model="operatId" placeholder="操作者">
+    <el-select clearable class="mr-15 mb-16" v-model="operatId" placeholder="操作者">
       <el-option
         v-for="item in userlistOption"
         :key="item.Id"
@@ -48,7 +48,7 @@
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch">检索</el-button>
   </div>
 </template>
 

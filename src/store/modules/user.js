@@ -62,7 +62,7 @@ const actions = {
   },
   roleOptions({commit}){
     return new Promise((resolve, reject) => {
-      execobj({
+      api.execobj({
         action:"rolelist",
       })
         .then(response => {

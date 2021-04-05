@@ -174,6 +174,10 @@ export default {
             Id: "正式授权",
             Name: "正式授权",
           },
+          {
+            Id: "未合作",
+            Name: "未合作",
+          },
         ],
         intentsource: [
           {

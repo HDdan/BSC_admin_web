@@ -1,11 +1,11 @@
 <template>
   <div class="main">
     <div class="main-header">线上线下赋能主数据</div>
-    <SearchBar @onSearch="onSearch" />
-     <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
+    <SearchBar class="margin-bottom-20" @onSearch="onSearch" />
+     <!-- <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
     <el-radio-button label="count">参加次数</el-radio-button>
     <el-radio-button label="score">培训成绩</el-radio-button>
-  </el-radio-group>
+  </el-radio-group> -->
     <Table
       :type="tabType"
       :tableData="tableData.list || tableData"

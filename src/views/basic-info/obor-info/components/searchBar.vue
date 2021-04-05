@@ -2,7 +2,7 @@
   <div class="potential-distributor__search">
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.coverprovince"
       placeholder="覆盖省份"
       @change="changeProvince"
@@ -17,7 +17,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.deparment"
       placeholder="重点科室"
     >
@@ -31,7 +31,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.brand"
       placeholder="重点品牌"
     >

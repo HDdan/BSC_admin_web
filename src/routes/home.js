@@ -1,18 +1,18 @@
 import Home from '@/views/home'
-import potentialDistributor from '@/views/potential-distributor'
-import distributorDocumentList from '@/views/distributor-document/list'
-import distributorDocumentDetail from '@/views/distributor-document/detail'
-import distributorDocumentStudentDetail from '@/views/distributor-document/studentDetail'
-import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
-import createPotentialDistributor from '@/views/potential-distributor/create-potential-distributor'
-import source from '@/views/basic-info/merchants-info/source'
-import basicInfo from '@/views/obor/basic-info'
-import salesInfo from '@/views/obor/sales-info'
-import sfeInfo from '@/views/obor/sfe-info'
-import lableInfo from '@/views/obor/lable-info'
-import courseInfo from '@/views/obor/course-info'
-import department from '@/views/basic-info/merchants-info/department'
-import brand from '@/views/basic-info/merchants-info/brand'
+// import potentialDistributor from '../views/potential-distributor'
+// import distributorDocumentList from '@/views/distributor-document/list'
+// import distributorDocumentDetail from '@/views/distributor-document/detail'
+// import distributorDocumentStudentDetail from '@/views/distributor-document/studentDetail'
+// import editPotentialDistributor from '@/views/potential-distributor/edit-potential-distributor'
+// import createPotentialDistributor from '@/views/potential-distributor/create-potential-distributor'
+// import source from '@/views/basic-info/merchants-info/source'
+// import basicInfo from '@/views/obor/basic-info'
+// import salesInfo from '@/views/obor/sales-info'
+// import sfeInfo from '@/views/obor/sfe-info'
+// import lableInfo from '@/views/obor/lable-info'
+// import courseInfo from '@/views/obor/course-info'
+// import department from '@/views/basic-info/merchants-info/department'
+// import brand from '@/views/basic-info/merchants-info/brand'
 import hospital from '@/views/basic-info/merchants-info/hospital'
 import product from '@/views/basic-info/merchants-info/product'
 import interviewRecord from '@/views/basic-info/interview-record/'
@@ -32,72 +32,72 @@ export default [
       {
         path: '/potentialDistributor',
         name: 'potentialDistributor',
-        component: potentialDistributor,
+        component: resolve => require(['../views/potential-distributor'], resolve),
       },
       {
         path: '/distributorDocument',
         name: 'distributorDocumentList',
-        component: distributorDocumentList,
+        component: resolve => require(['../views/distributor-document/list'], resolve),
       },
       {
           path: '/distributorDocument/detail',
           name: 'distributorDocumentDetail',
-          component: distributorDocumentDetail,
+          component: resolve => require(['../views/distributor-document/detail'], resolve),
       },
       {
         path: '/distributorDocument/studentDetail',
         name: 'distributorDocumentStudentDetail',
-        component: distributorDocumentStudentDetail,
+        component: resolve => require(['../views/distributor-document/studentDetail'], resolve),
       },
       {
         path: '/potentialDistributor/edit',
         name: 'editPotentialDistributor',
-        component: editPotentialDistributor,
+        component: resolve => require(['../views/potential-distributor/edit-potential-distributor'], resolve),
       },
       {
         path: '/potentialDistributor/create',
         name: 'createPotentialDistributor',
-        component: createPotentialDistributor,
+        component: resolve => require(['../views/potential-distributor/create-potential-distributor'], resolve),
       },
       {
         path: '/obor/basicInfo',
         name: 'basicInfo',
-        component: basicInfo,
+        component: resolve => require(['../views/obor/basic-info'], resolve),
       },
       {
         path: '/obor/salesInfo',
         name: 'salesInfo',
-        component: salesInfo,
+        component: resolve => require(['../views/obor/sales-info'], resolve),
       },
       {
         path: '/obor/sfeInfo',
         name: 'sfeInfo',
-        component: sfeInfo,
+        component: resolve => require(['../views/obor/sfe-info'], resolve),
       },
       {
         path: '/obor/lableInfo',
         name: 'lableInfo',
-        component: lableInfo,
+        component: resolve => require(['../views/obor/lable-info'], resolve),
       },
       {
         path: '/obor/courseInfo',
         name: 'courseInfo',
-        component: courseInfo,
+        component: resolve => require(['../views/obor/course-info'], resolve),
       },
       {
         path: '/baseInfo/merchantsInfo/source',
         name: 'source',
-        component: source,
+        component: resolve => require(['../views/basic-info/merchants-info/source'], resolve),
       },
       {
         path: '/baseInfo/merchantsInfo/department',
         name: 'department',
-        component: department,
+        component: resolve => require(['../views/basic-info/merchants-info/department'], resolve),
       },
       {
         path: '/baseInfo/merchantsInfo/brand',
         name: 'brand',
-        component: brand,
+        component: resolve => require(['../views/basic-info/merchants-info/brand'], resolve),
       },
       {
         path: '/baseInfo/merchantsInfo/hospital',

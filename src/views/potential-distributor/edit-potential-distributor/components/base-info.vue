@@ -53,7 +53,7 @@
           <span>{{ baseForm.dealerid }}</span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商代码:" prop="dealercode" v-if="!isCreate">
+      <el-form-item label="SAPID:" prop="dealercode" v-if="!isCreate">
         <el-input
           v-if="edit_flg['dealercode']"
           v-model="baseForm.dealercode"

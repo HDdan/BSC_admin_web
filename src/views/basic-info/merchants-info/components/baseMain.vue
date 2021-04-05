@@ -71,6 +71,7 @@
       :tableData="tableData.list || tableData"
       :apiType="apiType"
       :action="action"
+      @del="baselist"
     ></Table>
     <add-source
       :apiType="apiType"

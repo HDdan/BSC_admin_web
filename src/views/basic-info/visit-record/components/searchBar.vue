@@ -1,7 +1,7 @@
 <template>
   <div class="potential-distributor__search">
     <el-input
-      class="mr-16"
+      class="mr-16 mb-16"
       placeholder="请输入经销商名称"
       v-model="search.dealersname"
     >
@@ -9,7 +9,7 @@
     </el-input>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.managername"
       placeholder="拜访经理"
     >
@@ -34,7 +34,7 @@
     </el-date-picker> -->
     <el-date-picker
       value-format="yyyy-MM-dd"
-      class="mr-16"
+      class="mr-16 mb-16"
       v-model="search.date"
       type="date"
       placeholder="面谈日期"
@@ -51,7 +51,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.businesstype"
       placeholder="业务分型"
     >
@@ -65,7 +65,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.equipmentbusiness"
       placeholder="设备业务"
     >
@@ -79,7 +79,7 @@
     </el-select>
      <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.clientmaintain"
       placeholder="非临能力"
     >
@@ -93,7 +93,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.coverprovince"
       placeholder="覆盖省份"
       @change="changeProvince"
@@ -108,7 +108,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.covercity"
       placeholder="覆盖地市"
     >
@@ -122,7 +122,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.deparment"
       placeholder="重点科室"
     >
@@ -136,7 +136,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15 mt-16"
+      class="mr-15 mb-16"
       v-model="search.brand"
       placeholder="重点品牌"
     >
@@ -148,7 +148,7 @@
       >
       </el-option>
     </el-select>
-    <el-button class="margin-top-16" type="primary" @click="onSearch"
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
   </div>

@@ -15,7 +15,7 @@
       <el-table-column prop="NoProjectHospitalNum" label="非项目医院数" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="SupDepartmentNum" label="优势科室数" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="WorkYears" label="从业年限" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="TeamLeader" label="是否带团队" show-overflow-tooltip> </el-table-column>
+      <!-- <el-table-column prop="TeamLeader" label="是否带团队" show-overflow-tooltip> </el-table-column> -->
       <el-table-column prop="TeamSize" label="团队规模" show-overflow-tooltip> </el-table-column>
     </el-table>
   </div>

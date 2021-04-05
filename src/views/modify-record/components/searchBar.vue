@@ -1,14 +1,14 @@
 <template>
   <div class="potential-distributor__search">
     <el-input
-      class="mr-16"
+      class="mr-16 mb-16"
       placeholder="请输入经销商名称"
       v-model="search.name"
     >
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
     <el-date-picker
-      class="mr-16"
+      class="mr-16 mb-16"
       value-format="yyyy-MM-dd"
       v-model="dateRange"
       type="daterange"
@@ -17,7 +17,7 @@
       end-placeholder="修改结束时间"
     >
     </el-date-picker>
-    <el-select clearable class="mr-15" v-model="operatId" placeholder="操作者">
+    <el-select clearable class="mr-15 mb-16" v-model="operatId" placeholder="操作者">
       <el-option
         v-for="item in userlistOption"
         :key="item.Id"
@@ -26,12 +26,11 @@
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch">检索</el-button>
   </div>
 </template>
 
 <script>
-import { api } from "@/api";
 
 export default {
   props: {},
