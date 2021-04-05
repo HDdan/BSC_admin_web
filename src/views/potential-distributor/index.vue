@@ -34,6 +34,7 @@
         class="mr-15 mb-16"
         v-model="params.mainproducts"
         placeholder="主营产品类型"
+        multiple
       >
         <el-option
           v-for="item in option.product"
@@ -48,6 +49,7 @@
         class="mr-15 mb-16"
         v-model="params.department"
         placeholder="合作科室"
+        multiple
       >
         <el-option
           v-for="item in option.department"
@@ -282,15 +284,19 @@ export default {
           type: "city",
           parentid: node.data.value,
         }).then((res) => {
-          resolve(
-            res.data.map((val) => {
-              return {
-                value: val.Id,
-                label: val.Name,
-                leaf: true,
-              };
-            })
-          );
+          let city = res.data.map((val) => {
+            return {
+              value: val.Id,
+              label: val.Name,
+              leaf: true,
+            };
+          });
+          city.unshift({
+            value: 0,
+            label: '全省',
+            leaf: true,
+          });
+          resolve(city);
         });
       }
     },
@@ -303,12 +309,23 @@ export default {
       } else this.params.province = "";
     },
     potentialDealersList() {
-      const params = this.params;
+      const params = JSON.parse(JSON.stringify(this.params));
+      
+      let mainproducts = '';
+      this.params.mainproducts && this.params.mainproducts.forEach((item, index) => {
+        mainproducts = index === 0 ? item : mainproducts + "/" + item;
+      });
+      let department = '';
+      this.params.department && this.params.department.forEach((item, index) => {
+        department = index === 0 ? item : department + "/" + item;
+      });
       params.action = "PotentialDealersList";
       params.callstarttime = this.callTime ? this.callTime[0] : "";
       params.callendtime = this.callTime ? this.callTime[1] : "";
       params.pushstarttime = this.pushTime ? this.pushTime[0] : "";
       params.pushendtime = this.pushTime ? this.pushTime[1] : "";
+      params.mainproducts = mainproducts;
+      params.department = department;
       params.pageindex = this.page.currPage;
       params.pagesize = this.page.pageSize;
       this.$api.execobj(params).then((res) => {
@@ -361,3 +378,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.potential-distributor__search {
+  display: block!important;
+}
+.potential-distributor__upload {
+  display: inline-block!important;
+}
+</style>

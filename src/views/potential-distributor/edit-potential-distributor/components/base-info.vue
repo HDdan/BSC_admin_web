@@ -53,11 +53,31 @@
           <span>{{ baseForm.dealerid }}</span>
         </div>
       </el-form-item>
-      <el-form-item label="SAPID:" prop="dealercode" v-if="!isCreate">
+      <el-form-item label="创建时间:" prop="createtime">
         <el-input
-          v-if="edit_flg['dealercode']"
-          v-model="baseForm.dealercode"
+          :disabled="true"
+          v-if="edit_flg['createtime'] || isCreate"
+          v-model="baseForm.createtime"
         ></el-input>
+        <div v-else class="edit-potential-distributor-base__detail">
+          <span>{{ baseForm.createtime }}</span>
+        </div>
+      </el-form-item>
+      <el-form-item label="SAPID:" prop="dealercode" v-if="!isCreate">
+        <el-select
+          clearable
+          v-if="edit_flg['dealercode'] || isCreate"
+          v-model="baseForm.dealercode"
+          filterable
+        >
+          <el-option
+            v-for="item in option.dealersListOption"
+            :key="item.Id"
+            :label="item.SAPID"
+            :value="item.Id"
+          >
+          </el-option>
+        </el-select>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -74,8 +94,29 @@
         </div> -->
       </el-form-item>
       <el-form-item label="经销商状态:" prop="dealerstatus" v-if="!isCreate">
-        <div class="edit-potential-distributor-base__detail">
+        <el-select
+          clearable
+          v-if="edit_flg['dealerstatus'] || isCreate"
+          v-model="baseForm.dealerstatus"
+        >
+          <el-option
+            v-for="item in option.dealersListOption"
+            :key="item.Id"
+            :label="item.SAPID"
+            :value="item.Id"
+          >
+          </el-option>
+        </el-select>
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('dealerstatus')"
+        >
           <span>{{ baseForm.dealerstatus }}</span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
         </div>
       </el-form-item>
       <el-form-item label="潜在经销商名称:" prop="dealername" required>
@@ -218,6 +259,7 @@
           ></span>
         </div>
       </el-form-item>
+      <div style="width: 100%;disply: flex;">
       <el-form-item label="主营品牌：" prop="mainbrands">
         <el-select
           clearable
@@ -245,6 +287,38 @@
           ></span>
         </div>
       </el-form-item>
+      <el-form-item label="品牌对应科室：" prop="mainbrands" style="width: 40%">
+        <el-select
+          clearable
+          v-if="edit_flg['mainbrands'] || isCreate"
+          v-model="baseForm.mainbrands"
+          multiple
+        >
+          <el-option
+            v-for="item in option.brandOption"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name"
+          >
+          </el-option>
+        </el-select>
+        <div
+          v-else
+          class="edit-potential-distributor-base__detail"
+          @click="editInfo('mainbrands')"
+        >
+          <span>{{ baseForm.mainbrands }}</span>
+          <span
+            class="fz-16 mr-8 iconfont iconxiugai"
+            style="color: #9b9b9b"
+          ></span>
+        </div>
+      </el-form-item>
+      <div style="display:flex;align-items:center;" v-if="edit_flg['mainbrands'] || edit_flg['mainbrands'] || isCreate">
+        <img width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
+        <!-- <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" /> -->
+      </div>
+      </div>
     </el-form>
     <div class="ml-20" v-if="isEdit || isCreate">
       <el-button type="primary" @click="editPotentialDealersBase('ruleForm')"
@@ -267,6 +341,7 @@ export default {
       edit_flg: {
         sources: false,
         dealerId: false,
+        createtime: false,
         dealercode: false,
         dealername: false,
         medicalinstruments: false,
@@ -277,6 +352,7 @@ export default {
       },
       option: {
         sourceOption: null,
+        dealersListOption: null,
         medicalInstrumentsOption: [
           {
             value: "否",
@@ -330,6 +406,7 @@ export default {
     };
   },
   created() {
+    this.fetchDealersList();
     this.fetchSourceList();
     this.fetchDepartmentList();
     this.fetchMainProductTypesOption();
@@ -421,6 +498,15 @@ export default {
         this.$emit("onBase", this.potentialDealersId, this.baseForm.dealername);
         this.initBaseInfoFlg();
         this.isCreate = false;
+      });
+    },
+    fetchDealersList() {
+      this.$api.execobj({
+        action: "DealersList",
+        pageindex: 1,
+        pagesize: 10000
+      }).then(res => {
+        this.option.dealersListOption = res.data;
       });
     },
     fetchSourceList() {

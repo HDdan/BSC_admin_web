@@ -129,10 +129,12 @@
         @pagination="handlePagination"
       />
     </div>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后添加！'" @confirm="addData"></confirm-action-dialog>
   </div>
 </template>
 <script>
 import Pagination from "@/components/Pagination";
+import ConfirmActionDialog from '../../../../components/ConfirmActionDialog';
 import { getUserName } from "@/utils/auth";
 export default {
   props: {
@@ -142,6 +144,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       emptyText:'',
       lastupdatetime:'',
       getUserName: getUserName(),
@@ -241,6 +244,9 @@ export default {
       this.clear();
     },
     add() {
+      this.dialogVisible = true;
+    },
+    addData() {
       this.show = false;
       this.potentialDealersPushLogsEdit();
     },
@@ -270,7 +276,6 @@ export default {
         accomplishdate: this.accomplishDate,
         date: this.date,
       }).then((res) => {
-        console.log("9999990", res);
         this.id = res.data;
         this.potentialDealersPushLogsList();
         this.clear();
@@ -294,7 +299,7 @@ export default {
     this.$route.query.Id && this.potentialDealersPushLogsList();
     console.log("0999999", this.$route.query.Id);
   },
-  components: { Pagination },
+  components: { Pagination, ConfirmActionDialog },
 };
 </script>
 <style lang="scss">

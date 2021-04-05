@@ -66,10 +66,13 @@
       </div>
       <pagination v-if="personsList_total>0" :total="personsList_total" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
     </div>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="deleteData"></confirm-action-dialog>
   </div>
 </template>
 <script>
 import Pagination from '../../../../components/Pagination';
+import ConfirmActionDialog from '../../../../components/ConfirmActionDialog';
+
 import { lowerJSONKey } from '../../../../utils/index';
 const validatePhone = (rule, value, callback) => {
   if (value === "") {
@@ -90,6 +93,8 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      currentActionId: '',
       emptyText:'',
       lastupdatetime:'',
       addPersonVisible: false,
@@ -187,9 +192,13 @@ export default {
       }
     },
     deletePotentialDealersPersonsDelete(id) {
+      this.dialogVisible = true;
+      this.currentActionId = id;
+    },
+    deleteData() {
       this.$api.execobj({
         action: "PotentialDealersPersonsDelete",
-        id: id,
+        id: this.currentActionId,
         potentialdealersid:this.$route.query.Id||this.potentialDealersId,
       }).then(res => {
         this.fetchPotentialDealersPersonsList();
@@ -238,7 +247,6 @@ export default {
       this.$set(this.form,"city", '');
       const currentProvince = this.option['provinceOptions'].filter(item => item.name === value);
       const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-      this.$set(this.form,"city",'');
       this.$api.execobj({
         action: "DownList",
         type: 'city',
@@ -251,7 +259,7 @@ export default {
       });
     }
   },
-  components: { Pagination }
+  components: { Pagination, ConfirmActionDialog }
 }
 </script>
 <style lang="scss">

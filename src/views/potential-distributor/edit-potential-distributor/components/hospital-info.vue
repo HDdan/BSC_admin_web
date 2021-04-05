@@ -91,9 +91,11 @@
         @pagination="handlePagination"
       />
     </div>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="deleteData"></confirm-action-dialog>
   </div>
 </template>
 <script>
+import ConfirmActionDialog from '../../../../components/ConfirmActionDialog';
 import Pagination from "../../../../components/Pagination";
 import { lowerJSONKey } from "../../../../utils/index";
 
@@ -105,6 +107,8 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      currentActionId: '',
       emptyText:'',
       addCoverHospitalsVisible: false,
       currentEditHospitalId: null,
@@ -186,9 +190,13 @@ export default {
       });
     },
     deletePotentialDealersCoverHospitalsDelete(id) {
+      this.dialogVisible = true;
+      this.currentActionId = id;
+    },
+    deleteData() {
       this.$api.execobj({
         action: "PotentialDealersCoverHospitalsDelete",
-        id: id,
+        id: this.currentActionId,
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
       }).then((res) => {
         this.fetchPotentialDealersCoverHospitalsList();
@@ -246,7 +254,7 @@ export default {
       });
     },
   },
-  components: { Pagination },
+  components: { Pagination, ConfirmActionDialog },
 };
 </script>
 <style lang="scss">

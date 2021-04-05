@@ -37,7 +37,7 @@
           <el-option v-for="item in option.provinceOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
-        <el-select class="mt-34 ml-24" clearable v-model="form.city" placeholder="业务城市" filterable>
+        <el-select class="mt-34 ml-24" clearable v-model="form.city" placeholder="业务城市" filterable multiple>
           <el-option v-for="item in option.cityOptions" :key="item.id" :value="item.name">
           </el-option>
         </el-select>
@@ -53,10 +53,12 @@
       </div>
       <pagination v-if="regionList_total>0" :total="regionList_total" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
     </div>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="deleteData"></confirm-action-dialog>
   </div>
 </template>
 <script>
 import Pagination from '../../../../components/Pagination';
+import ConfirmActionDialog from '../../../../components/ConfirmActionDialog';
 import { lowerJSONKey } from '../../../../utils/index';
 
 export default {
@@ -67,6 +69,8 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      currentActionId: '',
       emptyText:'',
       lastupdatetime:'',
       addRegionVisible: false,
@@ -126,20 +130,30 @@ export default {
       this.fetchPotentialDealersRegionsList();
     },
     editPotentialDealersRegions() {
+      let city = '';
+      const index = this.form.city.findIndex(item => item == '全省');
+      if (index > -1) {
+        city = '全省';
+      } else {
+        this.form.city.forEach((item,index) => {
+          city = index === 0 ? item : city + '/' + item;
+        });
+      }
+
       if (this.form.city && this.form.province) {
         this.$api.execobj({
           action: "PotentialDealersRegionsEdit",
           id: this.currentEditRegionId ? this.currentEditRegionId : 0,
           potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
           provice: this.form.province,
-          city: this.form.city,
+          city: city,
           iscounty: this.form.iscounty,
           bscsalesnum: this.form.bscsalesnum,
         }).then(() => {
           this.fetchPotentialDealersRegionsList();
           this.addRegionVisible = false;
           this.currentEditRegionId = null;
-        });
+        })
       } else if (this.form.province) {
         this.$message.error('请选择业务城市');
       } else {
@@ -147,9 +161,13 @@ export default {
       }
     },
     deletePotentialDealersRegion(id) {
+      this.dialogVisible = true;
+      this.currentActionId = id;
+    },
+    deleteData() {
       this.$api.execobj({
         action: "PotentialDealersRegionsDelete",
-        id: id,
+        id: this.currentActionId,
         potentialdealersid:this.$route.query.Id|| this.potentialDealersId,
       }).then(res => {
         this.fetchPotentialDealersRegionsList();
@@ -163,6 +181,20 @@ export default {
       }).then(res => {
         res.data = lowerJSONKey(res.data);
         this.form = res.data;
+        this.form.city = this.form.city.split('/');
+        const currentProvince = this.option['provinceOptions'].filter(item => item.name === this.form.province);
+        const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
+        this.$api.execobj({
+          action: "DownList",
+          type: 'city',
+          parentid: currentProvinceId
+        })
+      }).then((res) => {
+        res.data.forEach(item => {
+          item = lowerJSONKey(item);
+        });
+        res.data.unshift({ name: '全省', id: '全省' });
+        this.option['cityOptions'] = res.data;
       });
     },
     fetchPotentialDealersRegionsList() {
@@ -211,7 +243,7 @@ export default {
       });
     }
   },
-  components: { Pagination }
+  components: { Pagination, ConfirmActionDialog }
 }
 </script>
 <style lang="scss">
