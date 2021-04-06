@@ -30,6 +30,11 @@
         <el-table-column prop="Bargain" label="进院议价"></el-table-column>
         <el-table-column prop="Accomplish" label="落地达成"></el-table-column>
         <el-table-column prop="AccomplishDate" label="落地时间"></el-table-column>
+        <el-table-column label="操作" width="60">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">修改</el-button>
+        </template>
+        </el-table-column>
       </el-table>
       <div class="add-source ml-20 mr-20 mt-24" v-if="show">
         <el-date-picker
@@ -46,6 +51,7 @@
           class="mt-34 ml-24"
           v-model="intentsource"
           placeholder="意向来源"
+          :disabled='!isAdmin'
         >
           <el-option
             v-for="item in option.intentsource"
@@ -59,6 +65,7 @@
           class="mt-34 ml-24"
           v-model="intentbu"
           placeholder="意向BU"
+          :disabled='!isAdmin'
         >
           <el-option
             v-for="item in option.Bu"
@@ -72,6 +79,7 @@
           class="mt-10 ml-24"
           v-model="intentsubbu"
           placeholder="意向subbu"
+          :disabled='!isAdmin'
         >
           <el-option
             v-for="item in option.subBu"
@@ -86,6 +94,7 @@
           value-format="yyyy-MM-d"
           placeholder="沟通临床"
           type="date"
+          @change="onClinical"
         >
         </el-date-picker>
         <el-date-picker
@@ -94,6 +103,7 @@
           value-format="yyyy-MM-d"
           placeholder="进院议价"
           type="date"
+          @change="onBargain"
         >
         </el-date-picker>
         <el-select
@@ -115,6 +125,7 @@
           value-format="yyyy-MM-d"
           placeholder="落地时间"
           type="date"
+          @change="onAccomplishDate"
         >
         </el-date-picker>
         <div class="add-source__btn ml-24 mt-30">
@@ -136,7 +147,8 @@
 <script>
 import Pagination from "@/components/Pagination";
 import ConfirmActionDialog from '../../../../components/ConfirmActionDialog';
-import { getUserName } from "@/utils/auth";
+import { getUserName, getIsAdmin } from "@/utils/auth";
+import { lowerJSONKey } from '@/utils/index';
 export default {
   props: {
     potentialDealersId: {
@@ -145,6 +157,7 @@ export default {
   },
   data() {
     return {
+      isAdmin:getIsAdmin()&&getIsAdmin()=='true'?true:false,
       dialogVisible: false,
        pickerOptions: {
          disabledDate(time) {
@@ -222,8 +235,86 @@ export default {
     };
   },
   methods: {
+    handleClick(id){
+       this.$api.execobj({
+        action: "PotentialDealersPushLogsDetail",
+        potentialdealersid: this.$route.query.Id || this.potentialDealersId,
+        id:id
+      }).then((res) => {
+        this.show=true
+        const data = lowerJSONKey(res.data);
+        this.intentsource = data.intentsource;
+        this.intentbu = data.intentbu;
+        this.intentsubbu = data.intentsubbu;
+        this.clinical = data.clinical;
+        this.bargain = data.bargain;
+        this.accomplish = data.accomplish;
+        this.accomplishDate = data.accomplishdate;
+        this.date = data.date;
+      });
+    },
+    onAccomplishDate(val){
+      if(!val) return
+      if(!this.date){
+        this.$message({
+          message: "请先填写推送时间",
+          type: "warning",
+        });
+        this.accomplishDate=''
+        return
+      }
+      const time = new Date(this.date.replace(/-/g, '/')).getTime();
+      const time1 = new Date(val.replace(/-/g, '/')).getTime();
+      if(time>time1){
+        this.$message({
+          message: "填写错误，落地时间需大于推送时间",
+          type: "warning",
+        });
+        this.accomplishDate=''
+      }
+    },
+    onClinical(val){
+      if(!val) return
+      if(!this.date){
+        this.$message({
+          message: "请先填写推送时间",
+          type: "warning",
+        });
+        this.clinical=''
+        return
+      }
+      const time = new Date(this.date.replace(/-/g, '/')).getTime();
+      const time1 = new Date(val.replace(/-/g, '/')).getTime();
+      if(time>time1){
+        this.$message({
+          message: "填写错误，沟通临床需大于推送时间",
+          type: "warning",
+        });
+        this.clinical=''
+      }
+    },
+    onBargain(val){
+      if(!val) return
+      if(!this.date){
+        this.$message({
+          message: "请先填写推送时间",
+          type: "warning",
+        });
+        this.bargain=''
+        return
+      }
+      const time = new Date(this.date.replace(/-/g, '/')).getTime();
+      const time1 = new Date(val.replace(/-/g, '/')).getTime();
+      if(time>time1){
+        this.$message({
+          message: "填写错误，进院议价需大于推送时间",
+          type: "warning",
+        });
+        this.bargain=''
+      }
+    },
     onPush() {
-      if (this.potentialDealersId){ this.show = true;this.emptyText=' '}
+      if (this.potentialDealersId){ this.show = true;this.emptyText=' '; this.clear()}
       else
         this.$message({
           message: "请先添加基本信息",

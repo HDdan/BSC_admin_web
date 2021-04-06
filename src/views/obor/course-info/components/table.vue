@@ -17,7 +17,11 @@
       <el-table-column prop="EfficientTrainingCamp" label="线下赋能高效训练营" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="BoutiqueTrainingCamp" label="线下赋能精英训练营" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="OfflineTrainNum" label="线下培训总次数" show-overflow-tooltip> </el-table-column>
-     
+      <el-table-column label="操作" width="60">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+      </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -35,6 +39,15 @@ export default {
     }
   },
   methods: {
+     handleClick(val){
+      this.$api.execobj({
+        action: 'BaseDelete',
+        type: 'course',
+        id:val
+      }).then((res) => {
+        this.$emit('del')
+      });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";

@@ -166,6 +166,11 @@ export default {
       this.fetchPotentialDealersPersonsList();
     },
     editPotentialDealersPersonsEdit() {
+       var reg = /^1[0-9]{10}$/
+      if(!reg.test(this.form.phone)){
+        this.$message.error('手机号码错误');
+        return
+      }
       if (this.form.city && this.form.province) {
         this.$api.execobj({
           action: "PotentialDealersPersonsEdit",

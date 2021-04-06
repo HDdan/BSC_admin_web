@@ -8,6 +8,7 @@
     <el-radio-button label="ground">地推项目</el-radio-button>
   </el-radio-group>
     <Table
+      @del="baselist"
       :type="tabType"
       :tableData="tableData.list || tableData"
     ></Table>

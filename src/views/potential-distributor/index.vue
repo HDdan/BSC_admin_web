@@ -99,7 +99,7 @@
       </el-select>
       <el-select
         clearable
-        class="mr-16"
+        class="mr-16 mb-16"
         v-model="params.pushusername"
         placeholder="推送专员"
       >
@@ -111,7 +111,7 @@
         >
         </el-option>
       </el-select>
-      <el-button type="primary" @click="potentialDealersList">检索</el-button>
+      <el-button class="margin-bottom-16" type="primary" @click="potentialDealersList">检索</el-button>
       <el-upload
         class="potential-distributor__upload mr-18 ml-40"
         action="http://dealer.qtdatas.com/api/Boke/Upload"
@@ -132,6 +132,7 @@
         <span>导出</span>
       </div>
       <el-button
+        class="margin-bottom-16"
         icon="fz-14 mr-8 iconfont iconxinzeng"
         type="primary"
         @click="createPotentialDistributor"

@@ -3,6 +3,7 @@
     <div class="main-header">优势标签主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
+      @del="baselist"
       :type="tabType"
       :tableData="tableData.list || tableData"
     ></Table>

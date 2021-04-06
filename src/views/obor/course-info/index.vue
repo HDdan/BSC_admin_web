@@ -7,6 +7,7 @@
     <el-radio-button label="score">培训成绩</el-radio-button>
   </el-radio-group> -->
     <Table
+      @del="baselist"
       :type="tabType"
       :tableData="tableData.list || tableData"
     ></Table>
