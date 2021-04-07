@@ -112,18 +112,14 @@
         </el-option>
       </el-select>
       <el-button class="margin-bottom-16" type="primary" @click="potentialDealersList">检索</el-button>
-      <el-upload
-        class="potential-distributor__upload mr-18 ml-40"
-        action="http://dealer.qtdatas.com/api/Boke/Upload"
-        multiple
-        :limit="1"
-        :before-upload="beforeFileUpload"
-        :http-request="handleFilePreview"
-        :show-file-list="false"
+      <div
+        class="potential-distributor__upload mr-24 ml-24"
+        @click="dialogFileVisible = !dialogFileVisible"
+        @dialogImportVisible="dialogImportVisible"
       >
-        <i class="mr-3 iconfont icondaorujilu-hui"></i>
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
         <span>导入</span>
-      </el-upload>
+      </div>
       <div
         class="potential-distributor__upload mr-24"
         @click="dialogVisible = !dialogVisible"
@@ -147,25 +143,29 @@
       @pagination="handlePagination"
     />
     <Dialog :dialogVisible="dialogVisible" :filterList="exportFilterList" @confirm="handleExportFile"/>
+    <import-file-dialog :dialogVisible="dialogFileVisible"></import-file-dialog>
   </div>
 </template>
 
 <script>
 import Table from "./components/table";
 import Dialog from "@/components/Dialog";
+import ImportFileDialog from "@/components/ImportFileDialog";
+
 import Pagination from "@/components/Pagination/index";
-import { getToken } from '@/utils/auth'
 
 import "./index.scss";
 export default {
   components: {
     Table,
     Dialog,
+    ImportFileDialog,
     Pagination,
   },
   data() {
     return {
       dialogVisible: false,
+      dialogFileVisible: false,
       tableData: [],
       departmentOptions: [],
       callTime: [],
@@ -214,6 +214,9 @@ export default {
     this.userlist();
   },
   methods: {
+    dialogImportVisible(value) {
+      this.dialogFileVisible = value;
+    },
     beforeFileUpload(file) {
       let type = file.name.toLowerCase()
       let isXLSX = /\.(xlsx)$/.test(type)
