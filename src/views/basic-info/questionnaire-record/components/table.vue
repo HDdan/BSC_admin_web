@@ -35,7 +35,7 @@ export default {
     handleClick(val){
       this.$api.execobj({
         action: 'BaseDelete',
-        type: 'interviewRecord',
+        type: 'questionnaireRecord',
         id:val
       }).then((res) => {
         this.$emit('del')

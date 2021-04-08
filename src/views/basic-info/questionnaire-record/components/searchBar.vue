@@ -74,6 +74,13 @@
     <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
+    <el-button
+      icon="fz-14 mr-8 iconfont iconxinzeng"
+      type="primary"
+      @click="add"
+      style="padding: 0 6px; box-sizing: content-box;height: 34px;"
+      >调研数据</el-button
+    >
   </div>
 </template>
 
@@ -108,6 +115,9 @@ export default {
     this.baseList("DownList", "province");
   },
   methods: {
+    add(){
+      this.$router.push({ path: '/baseInfo/questionnaireRecord/add' });
+    },
     baseList(action, type, parentid) {
       let list = {
         action: action,

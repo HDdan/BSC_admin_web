@@ -112,7 +112,12 @@ export default [
       {
         path: '/baseInfo/interviewRecord',
         name: 'interviewRecord',
-        component: interviewRecord,
+        component: resolve => require(['../views/basic-info/interview-record'], resolve),
+      },
+      {
+        path: '/baseInfo/interviewRecord/add',
+        name: 'interviewRecordAdd',
+        component: resolve => require(['../views/basic-info/interview-record/add.vue'], resolve),
       },
       {
         path: '/baseInfo/visitRecord',
@@ -121,13 +126,18 @@ export default [
       }, 
       {
         path: '/baseInfo/visitRecord/add',
-        name: 'visitRecord',
+        name: 'visitRecordAdd',
         component: resolve => require(['../views/basic-info/visit-record/add.vue'], resolve),
       },
       {
         path: '/baseInfo/questionnaireRecord',
         name: 'questionnaireRecord',
-        component: questionnaireRecord,
+        component: resolve => require(['../views/basic-info/questionnaire-record'], resolve),
+      },
+      {
+        path: '/baseInfo/questionnaireRecord/add',
+        name: 'questionnaireRecordAdd',
+        component: resolve => require(['../views/basic-info/questionnaire-record/add.vue'], resolve),
       },
       {
         path: '/baseInfo/oborInfo',

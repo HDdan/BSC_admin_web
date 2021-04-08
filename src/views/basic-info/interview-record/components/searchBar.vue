@@ -151,6 +151,12 @@
     <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
+    <el-button
+      icon="fz-14 mr-8 iconfont iconxinzeng"
+      type="primary"
+      @click="add"
+      style="padding: 0 6px; box-sizing: content-box;height: 34px;"
+      >面谈数据</el-button>
   </div>
 </template>
 
@@ -211,6 +217,9 @@ export default {
     this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+    add(){
+      this.$router.push({ path: '/baseInfo/interviewRecord/add' });
+    },
     changeProvince(val) {
       this.$set(this.search, "covercity", "");
 
