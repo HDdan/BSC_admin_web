@@ -143,7 +143,7 @@
       @pagination="handlePagination"
     />
     <Dialog :dialogVisible="dialogVisible" :filterList="exportFilterList" @confirm="handleExportFile"/>
-    <import-file-dialog :dialogVisible="dialogFileVisible"></import-file-dialog>
+    <import-file-dialog :dialogVisible="dialogFileVisible" :type="'potentialDealers'"></import-file-dialog>
   </div>
 </template>
 

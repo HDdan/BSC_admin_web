@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     handlePagination() {
-      this.$emit("handlePagination");
+      this.$emit("handlePagination", this.meta);
     },
     gotoDetail(row, column, event) {
       this.$router.push({ path: '/distributorDocument/detail', query: {

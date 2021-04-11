@@ -33,6 +33,10 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -44,6 +48,7 @@ export default {
   watch: {
     dialogVisible: function (val) {
       this.visible = true;
+      this.input = '';
     },
   },
   methods: {
@@ -63,7 +68,8 @@ export default {
       let formData = new FormData();
       formData.append('file', param.file);
       formData.append('userid', getToken());
-      formData.append('type', 'potentialDealers');
+      formData.append('reason', this.input);
+      formData.append('type', this.type);
       this.$api.upload(formData).then(() => {
         this.cancel();
       }).catch(() => {

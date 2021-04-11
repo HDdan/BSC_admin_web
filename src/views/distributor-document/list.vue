@@ -8,7 +8,7 @@
        @exportDistributorFile="openExportDistributorDialog"></query-form>
       <list-table :tableData="tableData" @handlePagination="handlePagination"></list-table>
     </div>
-    <Dialog :dialogVisible="dialogVisible" @confirm="handleExportDistributorFile" />
+    <!-- <Dialog :dialogVisible="dialogVisible" @confirm="handleExportDistributorFile" /> -->
   </div>
 </template>
 <script>
