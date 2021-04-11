@@ -80,3 +80,8 @@ export default {
   components: { Pagination }
 }
 </script>
+<style lang="scss" scoped>
+.el-table tr {
+  cursor: pointer!important;
+}
+</style>

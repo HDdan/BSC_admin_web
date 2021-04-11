@@ -3,7 +3,7 @@
     <div class="visit-info__header">
       <div class="visit-info__header__title">
         <span>共{{ totalCount }}条</span>
-        <span>最近更新时间：{{ updateTime }}</span>
+        <span v-if="updateTime">最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="visit-info__header__query">
         <el-select v-model="searchInput" @change="changeSelectTime">

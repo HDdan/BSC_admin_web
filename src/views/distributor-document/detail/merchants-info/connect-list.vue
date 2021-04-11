@@ -2,7 +2,7 @@
   <div class="connect-info">
     <div class="connect-info__header ml-16 mt-38 mb-27">
       <span>共{{ tableData.count }}条</span>
-      <span>最近更新时间：{{ updateTime }}</span>
+      <span v-if="updateTime">最近更新时间：{{ updateTime }}</span>
     </div>
     <div class="connect-info__main">
       <el-table

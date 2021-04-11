@@ -60,19 +60,22 @@
         :value="item.Id">
       </el-option>
     </el-select>
-    <el-button type="primary" @click="handleQuery">检索</el-button>
-    <div class="distributor-document-query__divider ml-10"></div>
-    <div
-      class="distributor-document-query__upload mr-10 ml-10"
-      @click="dialogFileVisible = !dialogFileVisible"
-    >
-      <i class="mr-10 iconfont icondaorujilu-hui"></i>
-      <span>导入</span>
+    <div class="mb-16" style="display: flex;align-items: center;">
+      <el-button type="primary" @click="handleQuery">检索</el-button>
+      <div class="distributor-document-query__divider ml-10"></div>
+      <div
+        class="distributor-document-query__upload mr-10 ml-10"
+        @click="dialogFileVisible = !dialogFileVisible"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>导入</span>
+      </div>
+      <div class="distributor-document-query__upload" @click="exportDistributorFile">
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <span>导出</span>
+      </div>
     </div>
-    <div class="distributor-document-query__upload" @click="exportDistributorFile">
-      <i class="mr-10 iconfont icondaochujilu-hui"></i>
-      <span>导出</span>
-    </div>
+    
     <import-file-dialog :dialogVisible="dialogFileVisible" @dialogImportVisible="dialogImportVisible" :type='"dealers"'></import-file-dialog>
   </div>
 </template>
@@ -221,8 +224,9 @@ export default {
 </script>
 <style lang="scss">
 .distributor-document-query {
-  // display: flex;
+  display: flex;
   align-items: center;
+  flex-wrap: wrap;
   // height: 36px;
   .el-date-editor.el-input, .el-date-editor.el-input__inner {
     width: 200px;

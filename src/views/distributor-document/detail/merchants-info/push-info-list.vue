@@ -2,7 +2,7 @@
   <div class="push-info">
     <div class="push-info__header ml-16 mt-38 mb-27">
       <span>共{{ tableData.count }}条</span>
-      <span>最近更新时间：{{ updateTime }}</span>
+      <span v-if="updateTime">最近更新时间：{{ updateTime }}</span>
     </div>
     <div class="push-info__main">
       <el-table

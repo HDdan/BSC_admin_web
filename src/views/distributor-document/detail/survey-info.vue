@@ -2,8 +2,8 @@
   <div class="survey-info">
     <div class="survey-info__header">
       <div class="survey-info__header__title">
-        <span>共6条</span>
-        <span>最近更新时间：{{ updateTime }}</span>
+        <span>共{{totalCount}}条</span>
+        <span v-if="updateTime">最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="survey-info__header__query">
         <el-select v-model="searchInput" @change="changeSelectTime">
@@ -234,12 +234,13 @@ export default {
       searchInput: '',
       timeList: [],
       businessInfo: null,
-      currDateId: null
+      currDateId: null,
+      totalCount: 0
     }
   },
   created() {
     this.fetchDealersQuestionnaireRecode();
-    // this.fetchDealersQuestionnaireRecodeDetail();
+    this.fetchDealersQuestionnaireRecodeDetail();
   },
   methods: {
     changeSelectTime(value) {
@@ -274,6 +275,7 @@ export default {
       deep: true,
       handler: function(newV,oldV) {
         this.fetchDealersQuestionnaireRecode();
+        this.fetchDealersQuestionnaireRecodeDetail();
       }
     }
   },
