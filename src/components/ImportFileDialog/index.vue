@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     dialogVisible: function (val) {
-      this.visible = true;
+      this.visible = val;
       this.input = '';
     },
   },

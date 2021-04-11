@@ -115,7 +115,7 @@
       <div
         class="potential-distributor__upload mr-24 ml-24"
         @click="dialogFileVisible = !dialogFileVisible"
-        @dialogImportVisible="dialogImportVisible"
+        
       >
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
         <span>导入</span>
@@ -143,7 +143,7 @@
       @pagination="handlePagination"
     />
     <Dialog :dialogVisible="dialogVisible" :filterList="exportFilterList" @confirm="handleExportFile"/>
-    <import-file-dialog :dialogVisible="dialogFileVisible" :type="'potentialDealers'"></import-file-dialog>
+    <import-file-dialog :dialogVisible="dialogFileVisible" @dialogImportVisible="dialogImportVisible" :type="'potentialDealers'"></import-file-dialog>
   </div>
 </template>
 

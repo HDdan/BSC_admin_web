@@ -1,17 +1,17 @@
 <template>
   <div class="distributor-document-query mb-16">
-    <el-input class="mr-16 mb-16" v-model="queryInfo.name" placeholder="请输入经销商名称">
+    <el-input class="mr-16 mb-16" v-model="queryInfo.dealername" placeholder="请输入经销商名称">
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
     <el-date-picker
-      class="mr-16"
-      v-model="queryInfo.time"
+      class="mr-16 mb-16"
+      v-model="queryInfo.starttime"
       type="month"
       value-format="yyyy-MM"
       format="yyyy 年 MM 月"
       placeholder="选择年月">
     </el-date-picker>
-    <el-select class="mr-16" v-model="queryInfo.businessType" placeholder="业务分型">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.businesstype" placeholder="业务分型">
       <el-option
         v-for="item in businessTypeList"
         :key="item.id"
@@ -21,14 +21,14 @@
     </el-select>
     <el-cascader
       clearable
-      class="mr-16"
+      class="mr-16 mb-16"
       style="width: 200px; line-height: inherit"
       ref="cascaderRegion"
       placeholder="业务区域"
       :props="regionProps"
       @change="selectRegion"
     ></el-cascader>
-    <el-select class="mr-16" v-model="queryInfo.nonTemporary" placeholder="是否有非临能力">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.clientmaintain" placeholder="是否有非临能力">
       <el-option
         v-for="item in selectNonTemporary"
         :key="item.id"
@@ -36,7 +36,7 @@
         :value="item.id">
       </el-option>
     </el-select>
-    <el-select class="mr-16" v-model="queryInfo.nonTemporary" placeholder="SPAID">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.spaid" placeholder="SPAID">
       <el-option
         v-for="item in selectNonTemporary"
         :key="item.id"
@@ -44,7 +44,7 @@
         :value="item.id">
       </el-option>
     </el-select>
-    <el-select class="mr-16" v-model="queryInfo.nonTemporary" placeholder="经销商类型">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.type" placeholder="经销商类型">
       <el-option
         v-for="item in selectNonTemporary"
         :key="item.id"
@@ -52,7 +52,7 @@
         :value="item.id">
       </el-option>
     </el-select>
-    <el-select class="mr-16" v-model="queryInfo.nonTemporary" placeholder="涉及BU">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.bu" placeholder="涉及BU">
       <el-option
         v-for="item in selectNonTemporary"
         :key="item.id"
@@ -61,34 +61,19 @@
       </el-option>
     </el-select>
     <el-button type="primary" @click="handleQuery">检索</el-button>
-    <div class="distributor-document-query__divider ml-16"></div>
-    <!-- <el-upload
-      class="distributor-document-query__upload mr-10 ml-10"
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :before-remove="beforeRemove"
-      multiple
-      :limit="3"
-      :on-exceed="handleExceed"
-      :file-list="fileList"
-    >
-      <i class="mr-3 iconfont icondaorujilu-hui"></i>
-      <span>导入</span>
-    </el-upload> -->
+    <div class="distributor-document-query__divider ml-10"></div>
     <div
       class="distributor-document-query__upload mr-10 ml-10"
       @click="dialogFileVisible = !dialogFileVisible"
-      @dialogImportVisible="dialogImportVisible"
     >
       <i class="mr-10 iconfont icondaorujilu-hui"></i>
       <span>导入</span>
     </div>
     <div class="distributor-document-query__upload" @click="exportDistributorFile">
-      <i class="mr-10 iconfont icondaorujilu-hui"></i>
+      <i class="mr-10 iconfont icondaochujilu-hui"></i>
       <span>导出</span>
     </div>
-    <import-file-dialog :dialogVisible="dialogFileVisible" :type='"dealers"'></import-file-dialog>
+    <import-file-dialog :dialogVisible="dialogFileVisible" @dialogImportVisible="dialogImportVisible" :type='"dealers"'></import-file-dialog>
   </div>
 </template>
 <script>
@@ -98,11 +83,14 @@ export default {
   data() {
     return {
       queryInfo: {
-        name: '',
-        time: '',
-        businessType: '',
-        businessRegion: '',
-        nonTemporary: ''
+        dealername: '',
+        starttime: '',
+        businesstype: '',
+        advantageregion: '',
+        clientmaintain: '',
+        sapid: '',
+        type: '',
+        bu: ''
       },
       businessTypeList: [
         {
@@ -134,10 +122,22 @@ export default {
     }
   },
   methods: {
+    DownList() {
+      this.$api.execobj({
+        action: "DownList",
+        type: "city",
+        parentid: node.data.value,
+      }).then((res) => {
+        
+      });
+    },
     dialogImportVisible(value) {
       this.dialogFileVisible = value;
+      if (!value) {
+        this.$emit("importDistributorFile");
+      }
     },
-     fetchRegion(node, resolve) {
+    fetchRegion(node, resolve) {
       if (!node) {
         return false;
       }
@@ -184,31 +184,16 @@ export default {
     },
     selectRegion() {
       if (this.$refs.cascaderRegion.getCheckedNodes().length > 0) {
-        this.queryInfo.businessRegion =
+        this.queryInfo.advantageregion =
           this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
           "/" +
           this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
       } else {
-        this.queryInfo.businessRegion = "";
+        this.queryInfo.advantageregion = "";
       }
-    },
-    handlePreview() {
-
-    },
-    handleRemove() {
-
-    },
-    beforeRemove() {
-
-    },
-    handleExceed() {
-
     },
     handleQuery() {
       this.$emit("handleQuery", this.queryInfo);
-    },
-    importDistributorFile() {
-      this.$emit("importDistributorFile");
     },
     exportDistributorFile() {
       this.$emit("exportDistributorFile");

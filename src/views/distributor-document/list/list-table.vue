@@ -11,14 +11,34 @@
     <el-table-column prop="sapid" label="SAPID" width="80"> </el-table-column>
     <el-table-column prop="dealertype" label="经销商类型" width="80"> </el-table-column>
     <el-table-column prop="involvebu" label="涉及BU" width="80"> </el-table-column>
-    <el-table-column prop="advantagedepbrand" label="业务分型" width="80"> </el-table-column>
+    <el-table-column prop="businesstype" label="业务分型" width="80"> </el-table-column>
     <el-table-column prop="advantageregion" label="业务区域" width="80"></el-table-column>
-    <el-table-column prop="ps" label="能力分型配送" width="110"> </el-table-column>
-    <el-table-column prop="fx" label="分销分型配送" width="110"> </el-table-column>
-    <el-table-column prop="zx" label="直销分型配送" width="110"> </el-table-column>
-    <el-table-column prop="fw" label="服务分型配送" width="110"> </el-table-column>
-    <el-table-column prop="KZ_SYKZ_ZDWCTAN" label="发展意愿" width="110"> </el-table-column>
-    <el-table-column prop="equipmentrate" label="设备业务占比" width="100"> </el-table-column>
+    <el-table-column prop="ps" label="能力分型配送" width="110">
+      <template slot-scope="scope">
+        <span>{{ formate(scope.row.ps) }}</span> 
+      </template>
+    </el-table-column>
+    <el-table-column prop="fx" label="分销分型配送" width="110">
+      <template slot-scope="scope">
+        <span>{{ formate(scope.row.fx) }}</span> 
+      </template>
+    </el-table-column>
+    <el-table-column prop="zx" label="直销分型配送" width="110">
+      <template slot-scope="scope">
+        <span>{{ formate(scope.row.zx) }}</span> 
+      </template>
+    </el-table-column>
+    <el-table-column prop="fw" label="服务分型配送" width="110">
+      <template slot-scope="scope">
+        <span>{{ formate(scope.row.fw) }}</span> 
+      </template>
+    </el-table-column>
+    <el-table-column prop="developmentinterests" label="发展意愿" width="110"></el-table-column>
+    <el-table-column prop="equipmentrate" label="设备业务占比" width="100">
+      <template slot-scope="scope">
+        <span>{{ formate(scope.row.equipmentrate) }}</span> 
+      </template>
+    </el-table-column>
     <el-table-column prop="clientmaintain" label='是否有非临客户 关系维护能力'> </el-table-column>
   </el-table>
   <pagination v-if="tableData.count > 0" :total="tableData.count" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
@@ -53,6 +73,9 @@ export default {
         dealerscode: row.sapid,
         potentialdealersid: row.PotentialDealersId
       } });
+    },
+    formate(number) {
+      return number * 100 + '%'
     }
   },
   components: { Pagination }

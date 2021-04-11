@@ -8,7 +8,6 @@
        @exportDistributorFile="openExportDistributorDialog"></query-form>
       <list-table :tableData="tableData" @handlePagination="handlePagination"></list-table>
     </div>
-    <!-- <Dialog :dialogVisible="dialogVisible" @confirm="handleExportDistributorFile" /> -->
   </div>
 </template>
 <script>
@@ -26,20 +25,30 @@ export default {
     }
   },
   created() {
-    this.fetchDealersList();
+    const params = {
+      pageindex: 1,
+      pagesize: 10
+    }
+    this.fetchDealersList(params);
   },
   methods: {
     handleQuery(queryInfo) {
-      console.log("queryInfo", queryInfo);
+      const params = queryInfo;
+      params.pagesize = 10;
+      params.pageindex = 1;
+      this.fetchDealersList(params);
     },
     importDistributorFile() {
-
+      const params = {
+        pageindex: 1,
+        pagesize: 10
+      }
+      this.fetchDealersList(params);
     },
     openExportDistributorDialog() {
       this.dialogVisible = true;
     },
     handleExportDistributorFile() {
-      console.log("fsfs");
       this.$api.execobj({
         action: "FileUploadList",
         pageindex: 1,
@@ -48,14 +57,26 @@ export default {
         console.log("res", res);
       });
     },
-    handlePagination() {
-      console.log("pagination");
+    handlePagination(meta) {
+      const params = {
+        pageindex: meta.currPage,
+        pagesize: meta.pageSize
+      }
+      this.fetchDealersList(params);
     },
-    fetchDealersList() {
+    fetchDealersList(params) {
       this.$api.execobj({
         action: "DealersList",
-        pageindex: 1,
-        pagesize: 10,
+        dealername: params.dealername,
+        time: params.starttime,
+        businesstype: params.businesstype,
+        advantageregion: params.advantageregion,
+        clientmaintain: params.clientmaintain,
+        sapid: params.sapid,
+        type: params.type,
+        bu: params.bu,
+        pageindex: params.pageindex,
+        pagesize: params.pagesize,
       }).then((res) => {
         res.data.map(i => {
           i = lowerJSONKey(i);
@@ -64,7 +85,6 @@ export default {
           list: res.data,
           count: res.count
         }
-        console.log('res', res);
       });
     }
   },
@@ -73,7 +93,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .distributor-document {
-  height: 100%;
+  // height: 100%;
   background: #fff;
   &__header{
     height: 63px;
