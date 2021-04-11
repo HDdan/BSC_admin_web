@@ -2,18 +2,18 @@
   <div class="obor-cooperation">
     <el-table
     border
-    :data="tableData"
+    :data="studentInfo"
     style="width: 100%"
     >
-      <el-table-column prop="id" label="基础训练营参与次数"> </el-table-column>
-      <el-table-column prop="name" label="高等训练营参与次数" > </el-table-column>
-      <el-table-column prop="businessType" label="精英训练营参与次数"></el-table-column>
-      <el-table-column prop="businessRegion" label="沙龙参与次数"></el-table-column>
-      <el-table-column prop="address" label="精英训练营参与情况"></el-table-column>
+      <el-table-column prop="BaseCampNum" label="基础训练营参与次数"> </el-table-column>
+      <el-table-column prop="HighCampNum" label="高等训练营参与次数" > </el-table-column>
+      <el-table-column prop="EliteCampNum" label="精英训练营参与次数"></el-table-column>
+      <el-table-column prop="SalonNum" label="沙龙参与次数"></el-table-column>
+      <el-table-column prop="EliteCampDetail" label="精英训练营参与情况"></el-table-column>
     </el-table>
     <div class="obor-cooperation__echart">
       <div class="obor-cooperation__echart__radar">
-        <div class="obor-cooperation__echart__radar__title">学员 刘岳 四大能力象限得分</div>
+        <div class="obor-cooperation__echart__radar__title">学员 {{ studentInfo[0].DealerName }} 四大能力象限得分</div>
         <div id="radar_canvas" class="echart" style="width: 400px;height: 400px;"></div>
       </div>
       <div class="obor-cooperation__echart__pie">
@@ -24,21 +24,34 @@
   </div>
 </template>
 <script>
-// import echart from 'echarts'
 export default {
-  data() {
-    return {
-      tableData: [{}]
+  props: {
+    studentInfo: {
+      type: Array,
+      default: []
     }
   },
   mounted() {
     this.$nextTick(() => {
-      this.initRadar();
-      this.initPie();
+      const studentInfo = this.studentInfo[0];
+      const radarValue = [
+      studentInfo.HospitalMaintainScore,
+      studentInfo.CooScore,
+      studentInfo.SpecialtyScore,
+      studentInfo.NewHospitalScore,
+      studentInfo.HospitalCoverScore]
+      this.initRadar(radarValue);
+      const pieVale = {
+        BaseCampNum :studentInfo.BaseCampNum,
+        HighCampNum: studentInfo.HighCampNum,
+        EliteCampNum: studentInfo.EliteCampNum,
+        SalonNum: studentInfo.SalonNum
+      }
+      this.initPie(pieVale);
     })
   },
   methods: {
-    initRadar() {
+    initRadar(radarValue) {
       let charts = this.$echarts.init(document.getElementById('radar_canvas'));
       let option = {
       tooltip: {},
@@ -64,7 +77,7 @@ export default {
         type: 'radar',
         data: [
           {
-            value: [40, 30, 25, 20, 0],
+            value: radarValue,
             areaStyle: {
               opacity: 0.7,
               color:  '#4196FF'
@@ -90,7 +103,7 @@ export default {
     };
       charts.setOption(option);
     },
-    initPie() {
+    initPie(pieVale) {
       let charts = this.$echarts.init(document.getElementById('pie_canvas'));
       let option = {
         color: ["#4196FF","#117CFF","#3ED6FF","#BED8FF"],
@@ -113,10 +126,10 @@ export default {
             center: ['30%', '50%'],
             radius: [0, '50%'],
             data: [
-              {value: 1048, name: '历届基础训练营参加次数'},
-              {value: 735, name: '历届高等训练营参加次数'},
-              {value: 580, name: '历届精英训练营参加次数'},
-              {value: 484, name: '历届区域沙龙参加次数（2017至今）'}
+              {value: pieVale.BaseCampNum, name: '历届基础训练营参加次数'},
+              {value: pieVale.HighCampNum, name: '历届高等训练营参加次数'},
+              {value: pieVale.EliteCampNum, name: '历届精英训练营参加次数'},
+              {value: pieVale.SalonNum, name: '历届区域沙龙参加次数（2017至今）'}
             ],
             label: {
               show: false,

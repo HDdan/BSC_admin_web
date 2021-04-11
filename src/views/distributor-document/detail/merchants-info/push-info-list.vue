@@ -8,8 +8,7 @@
       <el-table
       border
       :data="tableData.list"
-      style="width: 100%"
-      >
+      style="width: 100%">
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="accomplishdate" label="推送时间"></el-table-column>
         <el-table-column prop="businessType" label="专员名称">{{ getUserName }}</el-table-column>
@@ -33,6 +32,12 @@ import { lowerJSONKey } from "../../../../utils/index"
 
 
 export default {
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       updateTime: null,
@@ -52,12 +57,12 @@ export default {
   },
   methods: {
     handlePagination() {
-
+      this.potentialDealersPushLogsList();
     },
     potentialDealersPushLogsList() {
       this.$api.execobj({
         action: "PotentialDealersPushLogsList",
-        potentialdealersid: this.$route.query.potentialdealersid,
+        potentialdealersid: this.baseInfo.potentialdealersid,
         pageindex: this.tableData.meta.currPage,
         pagesize: this.tableData.meta.pageSize,
       }).then((res) => {
@@ -69,6 +74,14 @@ export default {
         this.tableData.count = res.count;
       });
     },
+  },
+  watch: {
+    baseInfo: {
+      deep: true,
+      handler: function(newV,oldV) {
+        this.potentialDealersPushLogsList();
+      }
+    }
   },
   components: { Pagniation }
 }

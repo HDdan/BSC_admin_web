@@ -70,7 +70,7 @@ export default {
         dealername: params.dealername,
         time: params.starttime,
         businesstype: params.businesstype,
-        advantageregion: params.advantageregion,
+        province: params.province,
         clientmaintain: params.clientmaintain,
         sapid: params.sapid,
         type: params.type,

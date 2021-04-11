@@ -26,6 +26,12 @@ import Pagniation from '@/components/pagination';
 import { lowerJSONKey } from "../../../../utils/index"
 
 export default {
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       updateTime: null,
@@ -44,16 +50,16 @@ export default {
   },
   methods: {
     handlePagination() {
-
+      this.fetchPotentialDealersCallLogsList();
     },
     fetchPotentialDealersCallLogsList() {
       this.$api.execobj({
         action: "PotentialDealersCallLogsList",
-        potentialdealersid: this.$route.query.potentialdealersid,
+        potentialdealersid: this.baseInfo.potentialdealersid,
         pageindex: this.tableData.meta.currPage,
         pagesize: this.tableData.meta.pageSize
       }).then(res => {
-        res.data.forEach(item => {
+        res.data.list.forEach(item => {
           item = lowerJSONKey(item);
         });
         this.updateTime = res.data.lastupdatetime;
@@ -61,6 +67,14 @@ export default {
         this.tableData.count = res.count;
       });
     },
+  },
+  watch: {
+    baseInfo: {
+      deep: true,
+      handler: function(newV,oldV) {
+        this.fetchPotentialDealersCallLogsList();
+      }
+    }
   },
   components: { Pagniation }
 }

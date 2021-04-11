@@ -12,7 +12,7 @@
     <el-table-column prop="dealertype" label="经销商类型" width="80"> </el-table-column>
     <el-table-column prop="involvebu" label="涉及BU" width="80"> </el-table-column>
     <el-table-column prop="businesstype" label="业务分型" width="80"> </el-table-column>
-    <el-table-column prop="advantageregion" label="业务区域" width="80"></el-table-column>
+    <el-table-column prop="province" label="业务区域" width="80"></el-table-column>
     <el-table-column prop="ps" label="能力分型配送" width="110">
       <template slot-scope="scope">
         <span>{{ formate(scope.row.ps) }}</span> 
@@ -39,7 +39,7 @@
         <span>{{ formate(scope.row.equipmentrate) }}</span> 
       </template>
     </el-table-column>
-    <el-table-column prop="clientmaintain" label='是否有非临客户 关系维护能力'> </el-table-column>
+    <el-table-column prop="clientmaintain" label='非临客户维护能力'> </el-table-column>
   </el-table>
   <pagination v-if="tableData.count > 0" :total="tableData.count" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
 </div>
@@ -70,7 +70,6 @@ export default {
     gotoDetail(row, column, event) {
       this.$router.push({ path: '/distributorDocument/detail', query: {
         id: row.id,
-        dealerscode: row.sapid,
         potentialdealersid: row.PotentialDealersId
       } });
     },

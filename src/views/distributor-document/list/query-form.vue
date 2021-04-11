@@ -38,26 +38,26 @@
     </el-select>
     <el-select class="mr-16 mb-16" v-model="queryInfo.spaid" placeholder="SPAID">
       <el-option
-        v-for="item in selectNonTemporary"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id">
+        v-for="item in option.spaid"
+        :key="item.value"
+        :label="item.sapid"
+        :value="item.value">
       </el-option>
     </el-select>
     <el-select class="mr-16 mb-16" v-model="queryInfo.type" placeholder="经销商类型">
       <el-option
-        v-for="item in selectNonTemporary"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id">
+        v-for="item in option.DealersType"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Id">
       </el-option>
     </el-select>
     <el-select class="mr-16 mb-16" v-model="queryInfo.bu" placeholder="涉及BU">
       <el-option
-        v-for="item in selectNonTemporary"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id">
+        v-for="item in option.Bu"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Id">
       </el-option>
     </el-select>
     <el-button type="primary" @click="handleQuery">检索</el-button>
@@ -86,7 +86,7 @@ export default {
         dealername: '',
         starttime: '',
         businesstype: '',
-        advantageregion: '',
+        province: '',
         clientmaintain: '',
         sapid: '',
         type: '',
@@ -117,18 +117,35 @@ export default {
         name: '否',
         id: 0
       }],
+      option: {
+        DealersType: null,
+        Bu: null,
+        spaid: null
+      },
       fileList: [],
       dialogFileVisible: false
     }
   },
+  created() {
+    this.DownList('DealersType');
+    this.DownList('Bu');
+    this.fetchDealersSAPID();
+  },
   methods: {
-    DownList() {
+    DownList(type) {
       this.$api.execobj({
         action: "DownList",
-        type: "city",
-        parentid: node.data.value,
-      }).then((res) => {
-        
+        type: type,
+        parentid: 0
+      }).then(res => {
+        this.option[type] = res.data;
+      });
+    },
+    fetchDealersSAPID() {
+      this.$api.execobj({
+        action: "DealersSAPIDDownList"
+      }).then(res => {
+        this.option['spaid'] = res.data;
       });
     },
     dialogImportVisible(value) {
@@ -184,12 +201,12 @@ export default {
     },
     selectRegion() {
       if (this.$refs.cascaderRegion.getCheckedNodes().length > 0) {
-        this.queryInfo.advantageregion =
+        this.queryInfo.province =
           this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
           "/" +
           this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
       } else {
-        this.queryInfo.advantageregion = "";
+        this.queryInfo.province = "";
       }
     },
     handleQuery() {

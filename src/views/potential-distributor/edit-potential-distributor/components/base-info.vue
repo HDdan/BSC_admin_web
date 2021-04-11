@@ -259,65 +259,64 @@
           ></span>
         </div>
       </el-form-item>
-      <div style="width: 100%;disply: flex;">
-      <el-form-item label="主营品牌：" prop="mainbrands">
-        <el-select
-          clearable
-          v-if="edit_flg['mainbrands'] || isCreate"
-          v-model="baseForm.mainbrands"
-          multiple
-        >
-          <el-option
-            v-for="item in option.brandOption"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
+      <div style="width: 100%;display: flex;" v-for="(item, index) in brandsdeparment" :key="index">
+        <el-form-item label="主营品牌：" prop="mainbrands">
+          <el-select
+            clearable
+            v-if="edit_flg['mainbrands'] || isCreate"
+            v-model="item.brand"
+            multiple
           >
-          </el-option>
-        </el-select>
-        <div
-          v-else
-          class="edit-potential-distributor-base__detail"
-          @click="editInfo('mainbrands')"
-        >
-          <span>{{ baseForm.mainbrands }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
-        </div>
-      </el-form-item>
-      <el-form-item label="品牌对应科室：" prop="mainbrands" style="width: 40%">
-        <el-select
-          clearable
-          v-if="edit_flg['mainbrands'] || isCreate"
-          v-model="baseForm.mainbrands"
-          multiple
-        >
-          <el-option
-            v-for="item in option.brandOption"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
+            <el-option
+              v-for="item in option.brandOption"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+          <div
+            v-else
+            class="edit-potential-distributor-base__detail"
+            @click="editInfo('mainbrands')"
           >
-          </el-option>
-        </el-select>
-        <div
-          v-else
-          class="edit-potential-distributor-base__detail"
-          @click="editInfo('mainbrands')"
-        >
-          <span>{{ baseForm.mainbrands }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
+            <span>{{ item.brand }}</span>
+            <span
+              class="fz-16 mr-8 iconfont iconxiugai"
+              style="color: #9b9b9b"
+            ></span>
+          </div>
+        </el-form-item>
+        <el-form-item label="品牌对应科室：" prop="mainbrands" style="width: 40%">
+          <el-select
+            clearable
+            v-if="edit_flg['mainbrands'] || isCreate"
+            v-model="item.department"
+            multiple
+          >
+            <el-option
+              v-for="item in option.departmentOption"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            >
+            </el-option>
+          </el-select>
+          <div
+            v-else
+            class="edit-potential-distributor-base__detail"
+            @click="editInfo('mainbrands')"
+          >
+            <span>{{ item.deparment }}</span>
+            <span
+              class="fz-16 mr-8 iconfont iconxiugai"
+              style="color: #9b9b9b"
+            ></span>
+          </div>
+        </el-form-item>
+        <div style="display:flex;align-items:center;margin-top: 10px;" v-if="edit_flg['mainbrands'] || edit_flg['mainbrands'] || isCreate">
+          <img @click="deleteInvoicedConfig(index)"  v-if="index < brandsdeparment.length - 1"  width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
+          <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
         </div>
-      </el-form-item>
-      <div style="display:flex;align-items:center;" v-if="edit_flg['mainbrands'] || edit_flg['mainbrands'] || isCreate">
-        <img width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
-        <!-- <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" /> -->
-      </div>
       </div>
     </el-form>
     <div class="ml-20" v-if="isEdit || isCreate">
@@ -381,6 +380,7 @@ export default {
         mainProductTypesOption: null,
         brandOption: null,
       },
+      brandsdeparment: [{brand: '',department: ''}],
       baseForm: {
         medicalinstruments: "",
         department: "",
@@ -416,6 +416,12 @@ export default {
     } else this.isCreate = true;
   },
   methods: {
+    addInvoicedConfig() {
+      this.brandsdeparment.push({brand: '', department: ''});
+    },
+    deleteInvoicedConfig(index){
+      this.brandsdeparment.splice(index,1);
+    },
     changeProduct(val){
       this.baseForm.mainproducts=this.option["mainProductTypesOption"].filter((i)=>i.name==val)[0].detail
     },
@@ -433,13 +439,26 @@ export default {
     editPotentialDealersBase(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let department = "", mainproducttypes = "" , mainbrands = "";
-          if (typeof this.baseForm.department === "object") {
-            this.baseForm.department.forEach((item, index) => {
-              department = index === 0 ? item : department + "/" + item;
+          let mainproducttypes = "" , brandsdeparment = [];
+          if (typeof this.brandsdeparment[0].brand === "object") {
+            this.brandsdeparment.forEach(item => {
+              let brand = '',department = '';
+              item.brand.forEach((item, index) => {
+                brand = index === 0 ? item : brand + "/" + item;
+              });
+              item.brand = brand;
+
+              item.department.forEach((item, index) => {
+                department = index === 0 ? item : department + "/" + item;
+              });
+              item.department = department;
+
+              let obj = {};
+              obj[item.brand] = item.department;
+              brandsdeparment.push(obj);
             });
           } else {
-            department = this.baseForm.department;
+            brandsdeparment = this.brandsdeparment;
           }
 
           if (typeof this.baseForm.mainproducttypes === "object") {
@@ -450,13 +469,6 @@ export default {
             mainproducttypes = this.baseForm.mainproducttypes;
           }
 
-          if (typeof this.baseForm.mainbrands === "object") {
-            this.baseForm.mainbrands.forEach((item, index) => {
-              mainbrands = index === 0 ? item : mainbrands + "/" + item;
-            });
-          } else {
-            mainbrands = this.baseForm.mainbrands;
-          }
           const params = {
             action: "PotentialDealersEditBase",
             id: this.potentialDealersId,
@@ -465,10 +477,11 @@ export default {
             dealername: this.baseForm.dealername,
             medicalinstruments: this.baseForm.medicalinstruments,
             highvalueintervention: this.baseForm.highvalueintervention,
-            department: department,
+            department: '',
             mainproducttypes: mainproducttypes,
             mainproducts: this.baseForm.mainproducts,
-            mainbrands: mainbrands,
+            mainbrands: '',
+            brandsdeparment: brandsdeparment
           };
           this.$api.execobj(params).then((res) => {
             if (!this.$route.query.Id) this.isCreateSave = true;
@@ -494,7 +507,18 @@ export default {
         action: "PotentialDealersDetail",
         id: this.$route.query.Id || this.potentialDealersId,
       }).then((res) => {
-        this.baseForm = lowerJSONKey(res.data);
+        if (res.data.brandsdeparment.length > 0) {
+          this.brandsdeparment = res.data.brandsdeparment.map((item,key) => {
+            return {
+              brand: key,
+              department: res.data.brandsdeparment[key]
+            }
+          });
+        } else {
+          this.brandsdeparment = [{brand: '',department: ''}];
+        }
+
+        this.baseForm = lowerJSONKey(res.data.detail);
         this.$emit("onBase", this.potentialDealersId, this.baseForm.dealername);
         this.initBaseInfoFlg();
         this.isCreate = false;

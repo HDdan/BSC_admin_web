@@ -6,7 +6,7 @@
         <span>最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="visit-info__header__query">
-        <el-select v-model="searchInput" >
+        <el-select v-model="searchInput" @change="changeSelectTime">
           <el-option
             v-for="item in timeList"
             :key="item.id"
@@ -270,13 +270,29 @@
 import { lowerJSONKey } from "@/utils/index";
 
 export default {
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       totalCount: 0,
       updateTime: null,
       timeList: [],
       searchInput: '',
-      businessInfo: null
+      businessInfo: null,
+      currDateId: null
+    }
+  },
+  watch: {
+    baseInfo: {
+      deep: true,
+      handler: function(newV,oldV) {
+        this.fetchDealersVisitRecode();
+        this.fetchDealersVisitRecodeDetail();
+      }
     }
   },
   mounted() {
@@ -284,24 +300,26 @@ export default {
     this.fetchDealersVisitRecodeDetail();
   },
   methods: {
+    changeSelectTime(value) {
+      this.currDateId = value;
+    },
     searchData() {
       this.fetchDealersVisitRecodeDetail();
     },
     fetchDealersVisitRecode() {
       this.$api.execobj({
-        action: 'DealersVisitRecode',
-        dealerscode: this.$route.query.dealerscode
+        action: 'DealersVisitRecorde',
+        dealerscode: this.baseInfo.sapid,
       }).then(res => {
         this.updateTime = res.data.lastupdatetime;
-        
         this.timeList = res.data.list;
       });
     },
     fetchDealersVisitRecodeDetail() {
       this.$api.execobj({
-        action: 'DealersVisitRecodeDetail',
-        dealerscode: this.$route.query.dealerscode,
-        id: this.searchInput
+        action: 'DealersVisitRecordeDetail',
+        dealerscode: this.baseInfo.sapid,
+        id: this.currDateId
       }).then(res => {
         this.totalCount = res.count;
         this.businessInfo = lowerJSONKey(res.data);

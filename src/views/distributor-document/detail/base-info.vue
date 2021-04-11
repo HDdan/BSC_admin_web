@@ -6,10 +6,11 @@
           <div class="input__inner">{{ baseInfo.dealername }}</div>
         </div>
       </el-form-item>
-      <!-- <el-form-item label="经销商状态：">
-        <el-input class="mr-16 mb-16" v-model="baseInfo.id">
-        </el-input>
-      </el-form-item> -->
+      <el-form-item label="经销商类型:">
+        <div class="mr-16 mb-16 input">
+          <div class="input__inner">{{ baseInfo.dealertype }}</div>
+        </div>
+      </el-form-item>
       <el-form-item label="SAPID:">
         <div class="mr-16 mb-16 input">
           <div class="input__inner">{{ baseInfo.sapid }}</div>
@@ -20,10 +21,6 @@
           <div class="input__inner">{{ baseInfo.involvebu }}</div>
         </div>
       </el-form-item>
-      <!-- <el-form-item label="合作起始年份:">
-        <el-input class="mr-16 mb-16" v-model="baseInfo.contactdate">
-        </el-input>
-      </el-form-item> -->
       <el-form-item label="业务分型:">
         <div class="mr-16 mb-16 input">
           <div class="input__inner">{{ baseInfo.businesstype }}</div>
@@ -84,21 +81,6 @@
           <div class="input__inner">{{ baseInfo.smnum }}</div>
         </div>
       </el-form-item>
-      <!-- <el-form-item label="销售单人销货金额（含税）：">
-        <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.advantageregion }}</div>
-        </div>
-      </el-form-item> -->
-      <!-- <el-form-item label="SubBU基准:">
-        <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.inMedicalDate }}</div>
-        </div>
-      </el-form-item> -->
-      <!-- <el-form-item label="省级基准:">
-        <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.hospitalNumber }}</div>
-        </div>
-      </el-form-item> -->
       <el-form-item label="稳定业务三甲医院数量：">
         <div class="mr-16 mb-16 input">
           <div class="input__inner">{{ baseInfo.hospitalnumber }}</div>

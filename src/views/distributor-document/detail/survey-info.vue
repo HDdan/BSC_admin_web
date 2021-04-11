@@ -6,7 +6,7 @@
         <span>最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="survey-info__header__query">
-        <el-select v-model="searchInput" >
+        <el-select v-model="searchInput" @change="changeSelectTime">
           <el-option
             v-for="item in timeList"
             :key="item.id"
@@ -222,11 +222,19 @@
 import { lowerJSONKey } from "@/utils/index";
 
 export default {
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       updateTime: null,
       searchInput: '',
-      businessInfo: null
+      timeList: [],
+      businessInfo: null,
+      currDateId: null
     }
   },
   created() {
@@ -234,30 +242,41 @@ export default {
     // this.fetchDealersQuestionnaireRecodeDetail();
   },
   methods: {
+    changeSelectTime(value) {
+      this.currDateId = value;
+    },
     searchData() {
       this.fetchDealersQuestionnaireRecodeDetail();
     },
     fetchDealersQuestionnaireRecode() {
       this.$api.execobj({
         action: 'DealersQuestionnaireRecorde',
-        dealerscode: this.$route.query.dealerscode
+        dealerscode: this.baseInfo.dealerscode
       }).then(res => {
-        this.updateTime = res.data.lastupdatetime;
+        this.updateTime = res.data.sapid;
         this.timeList = res.data.list;
       });
     },
     fetchDealersQuestionnaireRecodeDetail() {
       this.$api.execobj({
         action: 'DealersQuestionnaireRecordeDetail',
-        dealerscode: this.$route.query.dealerscode,
-        id: this.searchInput
+        dealerscode: this.baseInfo.sapid,
+        id: this.currDateId
       }).then(res => {
         this.totalCount = res.count;
         this.businessInfo = lowerJSONKey(res.data);
         console.log("rs", res);
       });
     }
-  }
+  },
+  watch: {
+    baseInfo: {
+      deep: true,
+      handler: function(newV,oldV) {
+        this.fetchDealersQuestionnaireRecode();
+      }
+    }
+  },
 }
 </script>
 <style lang="scss">
@@ -279,10 +298,6 @@ export default {
         font-size: 14px;
         color: #666666;
       }
-    }
-    &__query {
-      display: flex;
-      width: 300px;
     }
   }
   &__content {

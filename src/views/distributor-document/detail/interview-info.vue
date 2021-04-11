@@ -6,7 +6,7 @@
         <span>最近更新时间：{{ updateTime }}</span>
       </div>
       <div class="visit-info__header__query">
-        <el-select v-model="searchInput" >
+        <el-select v-model="searchInput" @change="changeSelectTime">
           <el-option
             v-for="item in timeList"
             :key="item.id"
@@ -338,13 +338,20 @@
 import { lowerJSONKey } from "@/utils/index";
 
 export default {
+  props: {
+    baseInfo: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       totalCount: 0,
       updateTime: null,
       timeList: [],
       searchInput: '',
-      businessInfo: null
+      businessInfo: null,
+      currDateId: null
     }
   },
   mounted() {
@@ -365,29 +372,40 @@ export default {
     }
   },
   methods: {
+    changeSelectTime(value) {
+      this.currDateId = value;
+    },
     searchData() {
       this.fetchDealersInterviewRecodeDetail();
     },
     fetchDealersInterviewRecode() {
-      this.$api.user.execobj({
+      this.$api.execobj({
         action: 'DealersInterviewRecorde',
-        dealerscode: this.$route.query.dealerscode
+        dealerscode: this.baseInfo.sapid,
       }).then(res => {
         this.updateTime = res.data.lastupdatetime;
         this.timeList = res.data.list;
       });
     },
     fetchDealersInterviewRecodeDetail() {
-      this.$api.user.execobj({
+      this.$api.execobj({
         action: 'DealersInterviewRecordeDetail',
-        dealerscode: this.$route.query.dealerscode,
-        id: this.searchInput
+        dealerscode: this.baseInfo.sapid,
+        id: this.currDateId
       }).then(res => {
         this.totalCount = res.count;
         this.businessInfo = lowerJSONKey(res.data);
       });
     }
-  }
+  },
+  watch: {
+    baseInfo: {
+      deep: true,
+      handler: function(newV,oldV) {
+        this.fetchDealersInterviewRecode();
+      }
+    }
+  },
 }
 </script>
 <style lang="scss">
