@@ -61,37 +61,37 @@ export default {
         {
           id: 31,
           name: "OBOR数据",
-          url: "/obor",
+          url: "/oborData",
           icon: "iconfont iconjingxiaoshangdangan-hui",
           child: [
             {
               id: 311,
               name: "基础主数据",
-              url: "/obor/basicInfo",
+              url: "/oborData/basicInfo",
               left: "15px",
             },
             {
               id: 312,
               name: "销量主数据",
-              url: "/obor/salesInfo",
+              url: "/oborData/salesInfo",
               left: "15px",
             },
             {
               id: 313,
               name: "SFE主数据",
-              url: "/obor/sfeInfo",
+              url: "/oborData/sfeInfo",
               left: "15px",
             },
             {
               id: 314,
               name: "优势标签主数据",
-              url: "/obor/lableInfo",
+              url: "/oborData/lableInfo",
               left: "15px",
             },
             {
               id: 315,
               name: "线上线下赋能主数据",
-              url: "/obor/courseInfo",
+              url: "/oborData/courseInfo",
               left: "15px",
             },
           ],

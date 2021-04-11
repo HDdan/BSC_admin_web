@@ -18,6 +18,7 @@
           class="mr-20"
           v-model="name"
           placeholder="请选择"
+          clearable
         >
           <el-option
             v-for="item in option"
@@ -28,6 +29,7 @@
           </el-option>
         </el-select>
           <el-select
+          clearable
           v-if="apiType != 'hospital'"
           class="mr-20"
           v-model="name"
@@ -42,23 +44,21 @@
           </el-option>
         </el-select>
         <el-button v-if="action == 'baselist'" type="primary" @click="baselist">检索</el-button>
-        <el-upload
-          v-if="action == 'baselist'"
-          action="''"
-          class="potential-distributor__upload mr-18 ml-4"
-          multiple
-          :limit="3"
-        >
-          <i class="mr-3 iconfont icondaorujilu-hui"></i>
-          <span>导入</span>
-        </el-upload>
-        <div
-          v-if="action == 'baselist'"
-          class="potential-distributor__upload mr-24"
-        >
-          <i class="mr-10 iconfont icondaorujilu-hui"></i>
-          <span>导出</span>
-        </div>
+        <div class="split-line mr-20 ml-20"></div>
+    <div
+        class="potential-distributor__upload mr-18"
+        @click="dialogFileVisible = !dialogFileVisible"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>导入</span>
+      </div>
+      <div
+        class="potential-distributor__upload mr-24"
+        @click="fileDownLoad"
+      >
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <span>导出</span>
+      </div>
         <el-button
           icon="fz-14 mr-8 iconfont iconxinzeng"
           type="primary"
@@ -86,6 +86,7 @@
       :limit.sync="page.pageSize"
       @pagination="handlePagination"
     />
+    <import-file-dialog :dialogVisible="dialogFileVisible" :type="apiType" @dialogImportVisible="baselist"></import-file-dialog>
   </div>
 </template>
 
@@ -94,9 +95,10 @@ import Table from "./table.vue";
 import "../index.scss";
 import AddSource from "./addSource.vue";
 import Pagination from "@/components/Pagination";
+import ImportFileDialog from "@/components/ImportFileDialog";
 
 export default {
-  components: { Table, AddSource, Pagination },
+  components: { Table, AddSource, Pagination, ImportFileDialog },
   props: {
     title: {
       type: String,
@@ -125,6 +127,7 @@ export default {
   },
   data() {
     return {
+      dialogFileVisible: false,
       name:'',
       showAddSource: false,
       baseData: {},
@@ -138,6 +141,14 @@ export default {
     };
   },
   methods: {
+    fileDownLoad() {
+      let list={
+        filter:{name: this.name},
+        action:'FileDownLoad',
+        type:this.apiType
+      }
+      this.$api.execobj(list)
+    },
     handlePagination(val) {
       console.log("oodooso", val);
       this.page.currPage = val.page;
@@ -153,6 +164,7 @@ export default {
     },
     baselist() {
       this.$api.execobj({
+        name:this.name,
         action: this.action,
         type: this.apiType,
         pageindex: this.page.currPage,

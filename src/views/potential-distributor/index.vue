@@ -124,7 +124,7 @@
         class="potential-distributor__upload mr-24"
         @click="dialogVisible = !dialogVisible"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
         <span>导出</span>
       </div>
       <el-button

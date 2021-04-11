@@ -19,7 +19,7 @@
       <el-table-column prop="ApprobateRate" label="带教员认可率" show-overflow-tooltip> </el-table-column>
          <el-table-column label="操作" width="60">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+        <el-button @click="()=>{id=scope.row.Id;dialogVisible=true}" type="text" size="medium">删除</el-button>
       </template>
       </el-table-column>
        </el-table>
@@ -42,7 +42,7 @@
       <el-table-column prop="ClassicApprobateRate" label="经典项目带教员认可率" show-overflow-tooltip> </el-table-column>
          <el-table-column label="操作" width="60">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+        <el-button @click="()=>{id=scope.row.Id;dialogVisible=true}" type="text" size="medium">删除</el-button>
       </template>
       </el-table-column>
       </el-table>
@@ -65,17 +65,27 @@
       <el-table-column prop="GroundApprobateRate" label="地推项目带教员认可SFE次数" show-overflow-tooltip> </el-table-column>
          <el-table-column label="操作" width="60">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row.Id)" type="text" size="medium">删除</el-button>
+        <el-button @click="()=>{id=scope.row.Id;dialogVisible=true}" type="text" size="medium">删除</el-button>
       </template>
       </el-table-column>
        </el-table>
+
       </div>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="handleClick"></confirm-action-dialog>
    
   </div>
 </template>
 
 <script>
+import ConfirmActionDialog from '@/components/ConfirmActionDialog';
 export default {
+  components: {ConfirmActionDialog },
+  data(){
+    return{
+      dialogVisible: false,
+      id:''
+    }
+  },
   props: {
     tableData: {
       type: Array,
@@ -87,11 +97,11 @@ export default {
     }
   },
   methods: {
-    handleClick(val){
+    handleClick(){
       this.$api.execobj({
         action: 'BaseDelete',
         type: 'sfe',
-        id:val
+        id:this.id
       }).then((res) => {
         this.$emit('del')
       });

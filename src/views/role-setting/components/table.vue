@@ -30,7 +30,7 @@
             <div
               class="ml-15"
               style="color: #4196ff; cursor: pointer"
-              @click="del(scope.row.Id)"
+              @click="()=>{id=scope.row.Id;dialogVisible=true}"
             >
               删除
             </div>
@@ -38,11 +38,21 @@
         </template>
       </el-table-column>
     </el-table>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="del"></confirm-action-dialog>
+
   </div>
 </template>
 
 <script>
+import ConfirmActionDialog from '@/components/ConfirmActionDialog';
 export default {
+  components: {ConfirmActionDialog },
+  data(){
+    return{
+      dialogVisible: false,
+      id:''
+    }
+  },
   props: {
     tableData: {
       type: Array,
@@ -65,10 +75,10 @@ export default {
     editInfo(data) {
       this.$emit("alter", data);
     },
-    del(id) {
+    del() {
       this.$api.execobj({
         action: "userdelete",
-        id: id,
+        id: this.id,
       }).then((res) => {
         this.$emit("del");
       });

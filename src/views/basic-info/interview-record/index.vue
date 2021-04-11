@@ -83,7 +83,7 @@ export default {
       this.baselist();
     },
     baselist() {
-      let list = this.search;
+      let list = Object.assign({}, this.search);
       list.action = "InterviewRecordlist";
       list.pageindex = this.page.currPage;
       list.pagesize = this.page.pageSize;

@@ -3,9 +3,10 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import router from '../router'
 import { getToken,removeToken } from '@/utils/auth'
-
+import { Loading } from 'element-ui';
 // create an axios instance
 const self=this
+let loadingInstance 
 const service = axios.create({
   // baseURL: "http://dealer.qtdatas.com/api/Boke", // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
@@ -15,6 +16,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    loadingInstance = Loading.service({ fullscreen: true });
     // do something before request is sent
 
     if (store.getters.token) {
@@ -35,6 +37,7 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   response => {
+    loadingInstance.close();
     const res = response.data
     if (res.code!=1) {
       if (!getToken() ) {
@@ -63,11 +66,11 @@ service.interceptors.response.use(
           duration: 1000
         });
       }
-
       return res
     }
   },
   error => {
+    loadingInstance.close();
     console.log('errsssss3' ,error.response.status) // for debug
     if(error.response.status==401){
       store.dispatch('user/resetToken').then(() => {

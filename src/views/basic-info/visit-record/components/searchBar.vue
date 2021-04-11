@@ -15,9 +15,9 @@
     >
       <el-option
         v-for="item in option.visitRecord"
-        :key="item.Id"
-        :label="item.Name"
-        :value="item.Name"
+        :key="item"
+        :label="item"
+        :value="item"
       >
       </el-option>
     </el-select>
@@ -37,7 +37,7 @@
       class="mr-16 mb-16"
       v-model="search.date"
       type="date"
-      placeholder="面谈日期"
+      placeholder="拜访日期"
     >
     </el-date-picker>
     <el-select clearable class="mr-15" v-model="search.bu" placeholder="BU">
@@ -151,6 +151,21 @@
     <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
+    <div class="split-line mr-20 ml-20 mt-8"></div>
+    <div
+        class="potential-distributor__upload mr-18"
+        @click="dialogFileVisible = !dialogFileVisible"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>导入</span>
+      </div>
+      <div
+        class="potential-distributor__upload mr-24"
+        @click="fileDownLoad"
+      >
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <span>导出</span>
+      </div>
         <el-button
       icon="fz-14 mr-8 iconfont iconxinzeng"
       type="primary"
@@ -158,16 +173,21 @@
       style="padding: 0 6px; box-sizing: content-box;height: 34px;"
       >拜访数据</el-button
     >
+    <import-file-dialog :dialogVisible="dialogFileVisible" :type="'visitRecord'" @dialogImportVisible="onSearch"></import-file-dialog>
   </div>
 </template>
 
 <script>
+import ImportFileDialog from "@/components/ImportFileDialog";
 export default {
+  components: {
+    ImportFileDialog,
+  },
   props: {},
   data() {
     return {
-      search: {
-      },
+      dialogFileVisible: false,
+      search: {},
       option: {
         department: [],
         brand: [],
@@ -219,6 +239,14 @@ export default {
     this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+     fileDownLoad() {
+      let list={
+        filter:this.search,
+        action:'FileDownLoad',
+        type:'visitRecord'
+      }
+      this.$api.execobj(list)
+    },
         add(){
       this.$router.push({ path: '/baseInfo/visitRecord/add' });
     },

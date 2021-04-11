@@ -1,39 +1,18 @@
 <template>
   <div class="potential-distributor__search">
-    <el-select
-      clearable
+       <el-input
       class="mr-15 mb-16"
-      v-model="search.coverprovince"
-      placeholder="覆盖省份"
-      @change="changeProvince"
+      placeholder="请输入经销商名称"
+      v-model="search.dealersname"
     >
-      <el-option
-        v-for="item in option.province"
-        :key="item.Id"
-        :label="item.Name"
-        :value="item.Name"
-      >
-      </el-option>
-    </el-select>
+      <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    </el-input>
+
     <el-select
       clearable
       class="mr-15 mb-16"
-      v-model="search.deparment"
-      placeholder="重点科室"
-    >
-      <el-option
-        v-for="item in option.department"
-        :key="item.Id"
-        :label="item.Name"
-        :value="item.Name"
-      >
-      </el-option>
-    </el-select>
-    <el-select
-      clearable
-      class="mr-15 mb-16"
-      v-model="search.brand"
-      placeholder="重点品牌"
+      v-model="search.bu"
+      placeholder="BU"
     >
       <el-option
         v-for="item in option.Bu"
@@ -43,41 +22,92 @@
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-select
+      clearable
+      class="mr-15 mb-16"
+      v-model="search.channelpersontype"
+      placeholder="渠道人类型"
+    >
+      <el-option
+        v-for="item in option.ChannelPersonType"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-select
+      clearable
+      class="mr-15 mb-16"
+      v-model="search.studenttype"
+      placeholder="学员类型"
+    >
+      <el-option
+        v-for="item in option.studentType"
+        :key="item.Id"
+        :label="item.Name"
+        :value="item.Name"
+      >
+      </el-option>
+    </el-select>
+    <el-select
+      clearable
+      class="mr-15 mb-16"
+      v-model="search.studentname"
+      placeholder="学员姓名"
+    >
+      <el-option
+        v-for="item in option.base"
+        :key="item"
+        :label="item"
+        :value="item"
+      >
+      </el-option>
+    </el-select>
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch">检索</el-button>
+     <div class="split-line mr-20 ml-20 mt-8"></div>
+    <div
+        class="potential-distributor__upload mr-18"
+        @click="dialogFileVisible = !dialogFileVisible"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>导入</span>
+      </div>
+      <div
+        class="potential-distributor__upload mr-24"
+        @click="fileDownLoad"
+      >
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <span>导出</span>
+      </div>
     <el-button
+     class="margin-bottom-16"
       icon="fz-14 mr-8 iconfont iconxinzeng"
       type="primary"
       @click="add"
       style="padding: 0 6px; box-sizing: content-box;height: 34px;"
       >OBOR数据</el-button
     >
+    <import-file-dialog :dialogVisible="dialogFileVisible" :type="'obordata'" @dialogImportVisible="onSearch"></import-file-dialog>
+
   </div>
 </template>
 
 <script>
+import ImportFileDialog from "@/components/ImportFileDialog";
 export default {
+  components: {
+    ImportFileDialog,
+  },
   props: {},
   data() {
     return {
+      dialogFileVisible: false,
       search: {},
       option: {
         department: [],
         brand: [],
         Bu: [],
-        businesstype: [
-          {
-            Id: "地市经销商",
-            Name: "地市经销商",
-          },
-          {
-            Id: "区域集团型经销商",
-            Name: "区域集团型经销商",
-          },
-          {
-            Id: "省级经销商",
-            Name: "省级经销商",
-          },
-        ],
         equipmentbusiness: [
           {
             Id: "是",
@@ -88,24 +118,34 @@ export default {
             Name: "否",
           },
         ],
-        visitRecord: [],
         province: [],
+        ChannelPersonType: [],
+        studentType: [],
+        base: [],
       },
     };
   },
   created() {
-    this.baseList("BaseList", "department");
-    this.baseList("BaseList", "brand");
-    this.baseList("DownList", "Bu");
-    this.baseList("DownList", "province");
-    this.baseList("ManagerNameList", "visitRecord");
+   this.baseList("DownList", "Bu");
+    this.baseList("DownList", "ChannelPersonType");
+    this.baseList("DownList", "studentType");
+    this.baseList("OborStudentNameList", "base");
+
   },
   methods: {
+    fileDownLoad() {
+      let list={
+        filter:this.search,
+        action:'FileDownLoad',
+        type:'obordata'
+      }
+      this.$api.execobj(list)
+    },
     add(){
       this.$router.push({ path: '/baseInfo/oborInfo/add' });
     },
     changeProvince(val) {
-      this.$set(this.search, "covercity", "");
+      // this.$set(this.search, "covercity", "");
 
       let province = this.option.province.filter((v) => v.Name == val);
       if (province.length > 0)

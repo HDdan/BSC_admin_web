@@ -31,14 +31,42 @@
       </el-option>
     </el-select>
     <el-button type="primary" @click="onSearch">检索</el-button>
+    <div class="split-line mr-20 ml-20 mt-8"></div>
+    <div
+        class="potential-distributor__upload mr-18"
+        @click="dialogFileVisible = !dialogFileVisible"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>导入</span>
+      </div>
+      <div
+        class="potential-distributor__upload mr-24"
+        @click="fileDownLoad"
+      >
+        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <span>导出</span>
+      </div>
+    <el-button
+      icon="fz-14 mr-8 iconfont iconxinzeng"
+      type="primary"
+      @click="add"
+      style="padding: 0 6px; box-sizing: content-box;height: 34px;"
+    >赋能数据</el-button
+    >
+    <import-file-dialog :dialogVisible="dialogFileVisible" :type="'course'" @dialogImportVisible="onSearch"></import-file-dialog>
   </div>
 </template>
 
 <script>
+import ImportFileDialog from "@/components/ImportFileDialog";
 export default {
+  components: {
+    ImportFileDialog,
+  },
   props: {},
   data() {
     return {
+      dialogFileVisible: false,
       search: {},
       option: {
         department: [],
@@ -68,6 +96,17 @@ export default {
     // this.baseList("DownList", "province");
   },
   methods: {
+    fileDownLoad() {
+      let list={
+        filter:this.search,
+        action:'FileDownLoad',
+        type:'course'
+      }
+      this.$api.execobj(list)
+    },
+     add(){
+      this.$router.push({ path: '/obor/courseInfo/add' });
+    },
     baseList(action, type, parentid) {
       let list = {
         action: action,

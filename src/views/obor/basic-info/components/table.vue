@@ -6,7 +6,7 @@
       style="width: 100%"
       :row-class-name="tableRowClassName"
     >
-      <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip > </el-table-column>
       <el-table-column prop="Bu" label="BU" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称" width="120" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DealerType" label="经销商类型" show-overflow-tooltip> </el-table-column>

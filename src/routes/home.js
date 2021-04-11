@@ -60,29 +60,44 @@ export default [
         component: resolve => require(['../views/potential-distributor/create-potential-distributor'], resolve),
       },
       {
-        path: '/obor/basicInfo',
+        path: '/oborData/basicInfo',
         name: 'basicInfo',
         component: resolve => require(['../views/obor/basic-info'], resolve),
       },
       {
-        path: '/obor/salesInfo',
+        path: '/oborData/salesInfo',
         name: 'salesInfo',
         component: resolve => require(['../views/obor/sales-info'], resolve),
       },
       {
-        path: '/obor/sfeInfo',
+        path: '/oborData/sfeInfo',
         name: 'sfeInfo',
         component: resolve => require(['../views/obor/sfe-info'], resolve),
       },
       {
-        path: '/obor/lableInfo',
+        path: '/oborData/sfeInfo/add',
+        name: 'sfeInfoAdd',
+        component: resolve => require(['../views/obor/sfe-info/add'], resolve),
+      },
+      {
+        path: '/oborData/lableInfo',
         name: 'lableInfo',
         component: resolve => require(['../views/obor/lable-info'], resolve),
       },
       {
-        path: '/obor/courseInfo',
+        path: '/oborData/lableInfo/add',
+        name: 'lableInfoAdd',
+        component: resolve => require(['../views/obor/lable-info/add'], resolve),
+      },
+      {
+        path: '/oborData/courseInfo',
         name: 'courseInfo',
         component: resolve => require(['../views/obor/course-info'], resolve),
+      },
+      {
+        path: '/oborData/courseInfo/add',
+        name: 'courseInfoAdd',
+        component: resolve => require(['../views/obor/course-info/add'], resolve),
       },
       {
         path: '/baseInfo/merchantsInfo/source',
