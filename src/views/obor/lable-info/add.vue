@@ -69,7 +69,7 @@ export default {
           let params = this.form;
           params.action = "LabelEdit";
           this.$api.execobj(params).then((res) => {
-            this.$router.push({ path: "/obor/lableInfo" });
+            this.$router.push({ path: "/oborData/lableInfo" });
           });
         } else {
           return false;

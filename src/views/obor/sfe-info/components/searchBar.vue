@@ -105,7 +105,7 @@ export default {
       this.$api.execobj(list)
     },
     add(){
-      this.$router.push({ path: '/obor/sfeInfo/add' });
+      this.$router.push({ path: '/oborData/sfeInfo/add' });
     },
     baseList(action, type, parentid) {
       let list = {

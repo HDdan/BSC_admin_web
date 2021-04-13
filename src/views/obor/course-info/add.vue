@@ -69,7 +69,7 @@ export default {
           let params = this.form;
           params.action = "CourseEdit";
           this.$api.execobj(params).then((res) => {
-            this.$router.push({ path: "/obor/courseInfo" });
+            this.$router.push({ path: "/oborData/courseInfo" });
           });
         } else {
           return false;

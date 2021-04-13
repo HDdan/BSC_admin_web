@@ -93,7 +93,7 @@ export default {
           let params = this.form;
           params.action = "SfeEdit";
           this.$api.execobj(params).then((res) => {
-            this.$router.push({ path: "/obor/sfeInfo" });
+            this.$router.push({ path: "/oborData/sfeInfo" });
           });
         } else {
           return false;

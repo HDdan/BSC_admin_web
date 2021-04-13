@@ -106,7 +106,7 @@ export default {
       this.$api.execobj(list)
     },
     add(){
-      this.$router.push({ path: '/obor/lableInfo/add' });
+      this.$router.push({ path: '/oborData/lableInfo/add' });
     },
     baseList(action, type, parentid) {
       let list = {
