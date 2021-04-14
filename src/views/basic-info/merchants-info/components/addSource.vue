@@ -50,6 +50,10 @@ export default {
   },
   methods: {
     add() {
+      if (this.apiType == 'department' && !this.input) {
+        this.$message.error('请输入医院科室');
+        return;
+      }
       let params={
         action: 'basemain',
         name: this.input,
