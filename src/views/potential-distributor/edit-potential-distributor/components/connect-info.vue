@@ -35,7 +35,7 @@
           <el-option v-for="item in option.roleOptions" :key="item.Id" :value="item.Name">
           </el-option>
         </el-select> -->
-        <el-input maxlength="500" class="mt-10 ml-24" type="textarea" v-model="form.detail" placeholder="请简述沟通内容……"></el-input>
+        <el-input maxlength="500" class="mt-10 ml-24" show-word-limit  type="textarea" v-model="form.detail" placeholder="请简述沟通内容……"></el-input>
         <div class="add-source__btn ml-24 mt-30">
           <el-button type="primary" @click="editPotentialDealersCallLogs">添加</el-button>
           <el-button @click="cancelCallLogs">取消</el-button>

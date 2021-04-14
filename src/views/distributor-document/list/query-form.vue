@@ -1,17 +1,9 @@
 <template>
   <div class="distributor-document-query mb-16">
-    <el-input class="mr-16 mb-16" v-model="queryInfo.dealername" placeholder="请输入经销商名称">
+    <el-input class="mr-16 mb-16" v-model="queryInfo.dealername" placeholder="请输入经销商名称" clearable>
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
-    <el-date-picker
-      class="mr-16 mb-16"
-      v-model="queryInfo.starttime"
-      type="month"
-      value-format="yyyy-MM"
-      format="yyyy 年 MM 月"
-      placeholder="选择年月">
-    </el-date-picker>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.businesstype" placeholder="业务分型">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.businesstype" placeholder="业务分型" clearable>
       <el-option
         v-for="item in businessTypeList"
         :key="item.id"
@@ -28,7 +20,7 @@
       :props="regionProps"
       @change="selectRegion"
     ></el-cascader>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.clientmaintain" placeholder="是否有非临能力">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.clientmaintain" placeholder="是否有非临能力" clearable>
       <el-option
         v-for="item in selectNonTemporary"
         :key="item.id"
@@ -36,7 +28,7 @@
         :value="item.id">
       </el-option>
     </el-select>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.spaid" placeholder="SPAID">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.spaid" placeholder="SPAID" clearable>
       <el-option
         v-for="item in option.spaid"
         :key="item.value"
@@ -44,7 +36,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.type" placeholder="经销商类型">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.type" placeholder="经销商类型" clearable>
       <el-option
         v-for="item in option.DealersType"
         :key="item.Id"
@@ -52,7 +44,7 @@
         :value="item.Id">
       </el-option>
     </el-select>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.bu" placeholder="涉及BU">
+    <el-select class="mr-16 mb-16" v-model="queryInfo.bu" placeholder="涉及BU" clearable>
       <el-option
         v-for="item in option.Bu"
         :key="item.Id"
@@ -87,7 +79,6 @@ export default {
     return {
       queryInfo: {
         dealername: '',
-        starttime: '',
         businesstype: '',
         province: '',
         clientmaintain: '',
@@ -228,6 +219,9 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   // height: 36px;
+  .el-input {
+    width: 200px!important;
+  }
   .el-date-editor.el-input, .el-date-editor.el-input__inner {
     width: 200px;
     height: 36px;

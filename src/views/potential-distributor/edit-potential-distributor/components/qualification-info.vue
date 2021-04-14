@@ -117,8 +117,8 @@
           </div>
         </el-form-item>
         <div style="display:flex;align-items:center;" v-if="edit_flg['invoicedyear'] || edit_flg['invoicedamount'] || isCreate">
-          <img @click="deleteInvoicedConfig(index)" v-if="index<invoicedAmount.length -1" width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
-          <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
+          <img class="mr-5" @click="deleteInvoicedConfig(index)" width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
+          <img @click="addInvoicedConfig" v-if="index==invoicedAmount.length -1" width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
         </div>
       </div>
     </el-form>
@@ -284,6 +284,10 @@ export default {
     editInfo(params) {
       this.edit_flg[params] = true;
       this.isEdit = true;
+      console.log("this.invoicedAmount",this.invoicedAmount);
+      if (this.invoicedAmount.length == 0) {
+        this.invoicedAmount = [''];
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -303,10 +307,11 @@ export default {
     },
     potentialDealersQualificationEdit() {
       let amount = '',year = '';
-      this.invoicedAmount.forEach(item => {
+      console.log("this.invoicedAmount", this.invoicedAmount);
+      this.invoicedAmount && this.invoicedAmount.forEach(item => {
         amount = amount + '/' + item;
       });
-      this.invoicedYear.forEach(item => {
+      this.invoicedYear && this.invoicedYear.forEach(item => {
         year = year + '/' + item;
       });
 
@@ -333,11 +338,13 @@ export default {
         id: this.$route.query.Id||this.potentialDealersId,
       }).then((res) => {
         this.ruleForm = lowerJSONKey(res.data);
-        this.invoicedYear = this.ruleForm.invoicedyear.split('/')||[];
-        this.invoicedAmount = this.ruleForm.invoicedamount.split('/')||[];
+        this.invoicedYear = this.ruleForm.invoicedyear && this.ruleForm.invoicedyear.split('/')||[];
+        this.invoicedAmount = this.ruleForm.invoicedamount && this.ruleForm.invoicedamount.split('/')||[];
         this.initBaseInfoFlg();
-        this.isCreate=false
-        this.changeMoney(this.ruleForm.registeredcapital)
+        this.isCreate = false;
+        if (this.ruleForm.registeredcapital) {
+          this.changeMoney(this.ruleForm.registeredcapital);
+        }
       });
     },
     initBaseInfoFlg() {

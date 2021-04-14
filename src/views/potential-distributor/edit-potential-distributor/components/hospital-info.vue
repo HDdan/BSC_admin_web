@@ -177,14 +177,16 @@ export default {
       this.fetchPotentialDealersCoverHospitalsList();
     },
     editPotentialDealersCoverHospitals() {
-      let department=this.form.department
+      let department = '';
        if (typeof this.form.department === "object") {
-            this.form.department.forEach((item, index) => {
-              department = index === 0 ? item : department + "/" + item;
-            });
-          } else {
-            department = this.form.department;
-          }
+          this.form.department && this.form.department.forEach((item, index) => {
+            department = index === 0 ? item : department + "/" + item;
+          });
+        } else if (this.form.department.length > 0){
+          department = this.form.department;
+        } else {
+          department = '';
+        }
       this.$api.execobj({
         action: "PotentialDealersCoverHospitalsEdit",
         id: this.currentEditHospitalId ? this.currentEditHospitalId : 0,

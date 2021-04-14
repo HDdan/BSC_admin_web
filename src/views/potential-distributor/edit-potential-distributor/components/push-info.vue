@@ -44,6 +44,7 @@
           value-format="yyyy-MM-dd"
           placeholder="推送时间"
           type="date"
+          :disabled="isEdit"
         >
         </el-date-picker>
         <el-select
@@ -232,6 +233,7 @@ export default {
           },
         ],
       },
+      isEdit: false,
     };
   },
   methods: {
@@ -251,6 +253,8 @@ export default {
         this.accomplish = data.accomplish;
         this.accomplishDate = data.accomplishdate;
         this.date = data.date;
+
+        this.isEdit = true;
       });
     },
     onAccomplishDate(val){
@@ -338,6 +342,8 @@ export default {
     cancel() {
       if(!this.tableData||this.tableData.length==0)this.emptyText='暂无数据'
       this.show = false;
+
+      this.isEdit = false;
       this.clear();
     },
     add() {
@@ -357,6 +363,8 @@ export default {
         this.page.totalNum = res.count;
         this.tableData = res.data.list;
         this.lastupdatetime = res.data.lastupdatetime;
+
+        this.isEdit = false;
       });
     },
     potentialDealersPushLogsEdit() {

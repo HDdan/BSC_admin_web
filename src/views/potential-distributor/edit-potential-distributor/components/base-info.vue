@@ -74,7 +74,7 @@
             v-for="item in option.dealersListOption"
             :key="item.Id"
             :label="item.SAPID"
-            :value="item.Id"
+            :value="item.SAPID"
           >
           </el-option>
         </el-select>
@@ -100,10 +100,10 @@
           v-model="baseForm.dealerstatus"
         >
           <el-option
-            v-for="item in option.dealersListOption"
+            v-for="item in option.dealersStatusOption"
             :key="item.Id"
-            :label="item.SAPID"
-            :value="item.Id"
+            :label="item.Name"
+            :value="item.Name"
           >
           </el-option>
         </el-select>
@@ -314,8 +314,8 @@
           </div>
         </el-form-item>
         <div style="display:flex;align-items:center;margin-top: 10px;" v-if="edit_flg['mainbrands'] || edit_flg['mainbrands'] || isCreate">
-          <img @click="deleteInvoicedConfig(index)"  v-if="index < brandsdeparment.length - 1"  width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
-          <img @click="addInvoicedConfig" v-else width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
+          <img class="mr-5" @click="deleteInvoicedConfig(index)" width="36" height="36" src="@/assets/images/delete-invoiced@2x.png" />
+          <img @click="addInvoicedConfig" v-if="index == brandsdeparment.length - 1"  width="36" height="36" src="@/assets/images/add-invoiced@2x.png" />
         </div>
       </div>
     </el-form>
@@ -343,6 +343,7 @@ export default {
         createtime: false,
         dealercode: false,
         dealername: false,
+        dealerstatus: false,
         medicalinstruments: false,
         highvalueintervention: false,
         mainproducttypes: false,
@@ -352,6 +353,7 @@ export default {
       option: {
         sourceOption: null,
         dealersListOption: null,
+        dealersStatusOption: null,
         medicalInstrumentsOption: [
           {
             value: "否",
@@ -388,6 +390,7 @@ export default {
         sources: "",
         dealerid: "",
         dealercode: "",
+        dealerstatus: "",
         dealername: "",
         medicalinstruments: "",
         highvalueintervention: "",
@@ -411,6 +414,7 @@ export default {
     this.fetchDepartmentList();
     this.fetchMainProductTypesOption();
     this.fetchBrandOption();
+    this.fetchDealersStatus();
     if (this.$route.query.Id) {
       this.fetchPotentialDealersDetail();
     } else this.isCreate = true;
@@ -428,6 +432,9 @@ export default {
     editInfo(params) {
       this.$set(this.edit_flg,params,true);
       this.isEdit = true;
+      if(this.brandsdeparment.length == 0) {
+        this.brandsdeparment = [{brand: '',department: ''}];
+      }
     },
     resetForm(formName) {
       if (this.isCreate) this.$refs[formName].resetFields();
@@ -440,7 +447,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let mainproducttypes = "" , brandsdeparment = [];
-          if (typeof this.brandsdeparment[0].brand === "object") {
+          if (this.brandsdeparment.length > 0 && typeof this.brandsdeparment[0].brand === "object") {
             this.brandsdeparment.forEach(item => {
               let brand = '',department = '';
               item.brand.forEach((item, index) => {
@@ -475,6 +482,7 @@ export default {
             sources: this.baseForm.sources,
             dealercode: this.baseForm.dealercode,
             dealername: this.baseForm.dealername,
+            dealerstatus: this.baseForm.dealerstatus,
             medicalinstruments: this.baseForm.medicalinstruments,
             highvalueintervention: this.baseForm.highvalueintervention,
             department: '',
@@ -585,6 +593,14 @@ export default {
         this.option["brandOption"] = res.data.list;
       });
     },
+    fetchDealersStatus() {
+      this.$api.execobj({
+        action: "DownList",
+        type: "dealerstatus"
+      }).then((res) => {
+        this.option["dealersStatusOption"] = res.data;
+      });
+    }
   },
 };
 </script>
