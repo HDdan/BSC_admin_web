@@ -64,7 +64,7 @@
       placeholder="重点品牌"
     >
       <el-option
-        v-for="item in option.Bu"
+        v-for="item in option.brand"
         :key="item.Id"
         :label="item.Name"
         :value="item.Name"

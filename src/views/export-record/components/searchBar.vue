@@ -92,8 +92,9 @@ export default {
   computed: {},
   methods: {
     onSearch() {
-      this.search.starttime = this.dateRange && this.dateRange[0];
-      this.search.endtime = this.dateRange && this.dateRange[1];
+      // this.search.starttime = this.dateRange && this.dateRange[0];
+      this.search.endtime = this.search.starttime;
+      // this.search.operationuserid = this.operatId
       this.search.operationuserid =
         this.operatId &&
         this.userlistOption.filter((val) => val.Name == this.operatId)[0].Id;

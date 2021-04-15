@@ -13,7 +13,7 @@
         <el-table-column prop="id" label="序号"></el-table-column>
         <el-table-column prop="date" label="沟通时间"></el-table-column>
         <el-table-column prop="getUserName" label="专员名称"></el-table-column>
-        <el-table-column prop="type" label="沟通类型"></el-table-column>
+        <!-- <el-table-column prop="type" label="沟通类型"></el-table-column> -->
         <el-table-column prop="detail" label="沟通内容"></el-table-column>
       </el-table>
       <pagination v-if="tableData.count>0" :total="tableData.count" :page.sync="tableData.meta.currPage" :limit.sync="tableData.meta.pageSize" @pagination="handlePagination" />

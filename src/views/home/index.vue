@@ -12,7 +12,7 @@
             <i class="iconfont iconyonghuming-2"></i>
           </div>
 
-          <span>admin</span>
+          <span>{{getUserName}}</span>
         </div>
 
         <el-dropdown-menu slot="dropdown">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { getUserName } from "@/utils/auth";
 import Left from "./components/left.vue";
 import "./index.scss";
 import { login } from "@/api/group/user";
@@ -45,6 +46,7 @@ export default {
   },
   data() {
     return {
+      getUserName: getUserName(),
       munuList: [
         {
           id: 1,

@@ -86,11 +86,11 @@
           <div class="input__inner">{{ baseInfo.hospitalnumber }}</div>
         </div>
       </el-form-item>
-      <el-form-item label="招商团队最近接触时间：">
+      <!-- <el-form-item label="招商团队最近接触时间：">
         <div class="mr-16 mb-16 input">
           <div class="input__inner">{{ baseInfo.contactdate ? baseInfo.contactdate : '无接触' }}</div>
         </div>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="重点科室及品牌：">
         <div class="mr-16 mb-16 input">
           <div class="input__inner">{{ baseInfo.advantagedepbrand }}</div>

@@ -31,7 +31,11 @@
     >
       <el-table-column prop="Id" label="序号" width="50"> </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称"></el-table-column>
-      <el-table-column label="StudentName" width="180"></el-table-column>
+      <el-table-column prop="StudentName" width="180" label="学员名称">
+         <template slot-scope="scope">
+           <span style="color:#4196ff;font-weight: bold;">{{scope.row.StudentName}}</span>
+      </template>
+      </el-table-column>
       <el-table-column prop="StudentAppcode" label="学员appcode" width="80"> </el-table-column>
       <el-table-column prop="StudentType" label="学员类型" width="80"></el-table-column>
       <el-table-column prop="ChannelPersonType" label="渠道人类型" width="110"> </el-table-column>

@@ -28,11 +28,11 @@
         :value="item.id">
       </el-option>
     </el-select>
-    <el-select class="mr-16 mb-16" v-model="queryInfo.spaid" placeholder="SPAID" clearable>
+    <el-select class="mr-16 mb-16" v-model="queryInfo.sapid" placeholder="SPAID" clearable>
       <el-option
         v-for="item in option.spaid"
         :key="item.value"
-        :label="item.sapid"
+        :label="item.spaid"
         :value="item.value">
       </el-option>
     </el-select>
@@ -207,7 +207,7 @@ export default {
       this.$emit("handleQuery", this.queryInfo);
     },
     exportDistributorFile() {
-      this.$emit("exportDistributorFile");
+      this.$emit("exportDistributorFile", this.queryInfo);
     }
   },
   components: { ImportFileDialog }

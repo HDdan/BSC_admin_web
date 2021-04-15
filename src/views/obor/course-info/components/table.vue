@@ -23,7 +23,7 @@
       </template>
       </el-table-column>
     </el-table>
-    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="handleClick"></confirm-action-dialog>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'删除后将不可恢复，是否确定删除？'" @confirm="handleClick"></confirm-action-dialog>
 
   </div>
 </template>

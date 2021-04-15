@@ -53,7 +53,7 @@
       </div>
       <pagination v-if="regionList_total>0" :total="regionList_total" :page.sync="meta.currPage" :limit.sync="meta.pageSize" @pagination="handlePagination" />
     </div>
-    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'请确认信息无误后删除！'" @confirm="deleteData"></confirm-action-dialog>
+    <confirm-action-dialog :dialogVisible.sync="dialogVisible" :tips="'删除后将不可恢复，是否确定删除？'" @confirm="deleteData"></confirm-action-dialog>
   </div>
 </template>
 <script>

@@ -45,8 +45,14 @@ export default {
       }
       this.fetchDealersList(params);
     },
-    openExportDistributorDialog() {
-      this.dialogVisible = true;
+    openExportDistributorDialog(info) {
+      // this.dialogVisible = true;
+      let list={
+        filter:info,
+        action:'FileDownLoad',
+        type:'dealers'
+      }
+      this.$api.execobj(list)
     },
     handleExportDistributorFile() {
       this.$api.execobj({

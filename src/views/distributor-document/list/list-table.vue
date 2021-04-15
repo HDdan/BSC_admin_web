@@ -7,7 +7,11 @@
     @row-click="gotoDetail"
   >
     <el-table-column prop="id" label="序号" width="50"> </el-table-column>
-    <el-table-column prop="dealername" label="经销商名称" width="180"> </el-table-column>
+    <el-table-column prop="dealername" label="经销商名称" width="150" show-overflow-tooltip> 
+       <template slot-scope="scope">
+         <span class="table-hover">{{scope.row.dealername}}</span>
+      </template>
+    </el-table-column>
     <el-table-column prop="sapid" label="SAPID" width="80"> </el-table-column>
     <el-table-column prop="dealertype" label="经销商类型" width="80"> </el-table-column>
     <el-table-column prop="involvebu" label="涉及BU" width="80"> </el-table-column>

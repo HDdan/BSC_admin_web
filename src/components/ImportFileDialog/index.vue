@@ -7,8 +7,8 @@
     :close-on-click-modal="false"
   >
     <div>
-      <div class="mb-16">请输入导入原因,不多余20字</div>
-      <el-input v-model="input" maxlength="20" style="width:100%"></el-input>
+      <div class="mb-16">请输入导入原因,不多于20字</div>
+      <el-input v-model="input" maxlength="20" style="width: 100%!important"></el-input>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-upload
