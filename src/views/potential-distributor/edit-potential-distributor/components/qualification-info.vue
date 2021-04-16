@@ -306,15 +306,30 @@ export default {
             });
             return;
           }
+          if(this.isRepeat(this.invoicedYear)){
+            this.$message.error("公司开票年份禁止重复")
+            return 
+          }
           this.potentialDealersQualificationEdit();
         } else {
           return false;
         }
       });
     },
+    isRepeat(arr){
+      var hash = {};
+      for(var i in arr) {
+        if(hash[arr[i]]) {
+          return true;
+        }
+        // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
+        hash[arr[i]] = true;
+      }
+      return false;
+    },
     potentialDealersQualificationEdit() {
       let amount = '',year = '';
-      console.log("this.invoicedAmount", this.invoicedAmount);
+      console.log("this.invoicedAmount", this.invoicedAmount,this.invoicedYear);
       this.invoicedAmount && this.invoicedAmount.forEach(item => {
         amount = amount + '/' + item;
       });
