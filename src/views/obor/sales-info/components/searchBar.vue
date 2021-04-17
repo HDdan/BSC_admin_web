@@ -46,17 +46,24 @@
     >
     </el-date-picker> -->
     <el-button type="primary" @click="onSearch">检索</el-button>
+    <span style="display:flex" v-if="tabType!=='all'">
     <div class="split-line mr-20 ml-20 mt-8"></div>
     <div class="potential-distributor__upload" @click="fileDownLoad">
       <i class="mr-8 iconfont icondaochujilu-hui"></i>
       <span> 导出 </span>
     </div>
+    </span>
   </div>
 </template>
 
 <script>
 export default {
-  props: {},
+  props: {
+    tabType:{
+      type:String,
+      default:'all'
+    }
+  },
   data() {
     return {
       search: {},

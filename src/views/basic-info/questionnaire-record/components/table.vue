@@ -47,7 +47,7 @@
       
       <el-table-column label="操作" width="60" fixed="right">
       <template slot-scope="scope">
-        <el-button @click="()=>{id=scope.row.Id;dialogVisible=true}" type="text" size="medium">删除</el-button>
+        <el-button @click="()=>{id=scope.row.id;dialogVisible=true}" type="text" size="medium">删除</el-button>
       </template>
       </el-table-column>
     </el-table>

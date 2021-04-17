@@ -158,6 +158,7 @@ export default {
   },
   data() {
     return {
+      id: 0,
       isAdmin:getIsAdmin()&&getIsAdmin()=='true'?true:false,
       dialogVisible: false,
        pickerOptions: {
@@ -238,6 +239,7 @@ export default {
   },
   methods: {
     handleClick(id){
+       this.id=id
        this.$api.execobj({
         action: "PotentialDealersPushLogsDetail",
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
@@ -253,7 +255,11 @@ export default {
         this.accomplish = data.accomplish;
         this.accomplishDate = data.accomplishdate;
         this.date = data.date;
-
+         const time='1753-01-01 00:00:00'
+        if(this.accomplishDate==time)this.accomplishDate=''
+        if(this.bargain==time)this.bargain=''
+        if(this.clinical==time)this.clinical=''
+        if(this.date==time)this.date=''
         this.isEdit = true;
       });
     },
@@ -371,7 +377,7 @@ export default {
       this.$api.execobj({
         action: "PotentialDealersPushLogsEdit",
         potentialdealersid: this.$route.query.Id || this.potentialDealersId,
-        id: 0,
+        id: this.id || 0,
         intentsource: this.intentsource,
         intentbu: this.intentbu,
         intentsubbu: this.intentsubbu,

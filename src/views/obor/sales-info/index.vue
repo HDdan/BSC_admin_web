@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="main-header">销量主数据</div>
-    <SearchBar @onSearch="onSearch" />
+    <SearchBar @onSearch="onSearch" :tabType="tabType" />
      <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
     <el-radio-button label="all">所有优势医院</el-radio-button>
     <el-radio-button label="in">项目内医院</el-radio-button>

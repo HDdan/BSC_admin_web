@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     add() {
-      if (this.apiType == 'department' && !this.input) {
-        this.$message.error('请输入医院科室');
+      if (!this.input) {
+        this.$message.error('请输入' + this.placeholder);
         return;
       }
       let params={

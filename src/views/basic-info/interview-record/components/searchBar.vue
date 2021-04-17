@@ -209,12 +209,12 @@ export default {
         ],
         equipmentbusiness: [
           {
-            Id: "是",
-            Name: "是",
+            Id: "有",
+            Name: "有",
           },
           {
-            Id: "否",
-            Name: "否",
+            Id: "无",
+            Name: "无",
           },
         ],
         clientmaintain: [
