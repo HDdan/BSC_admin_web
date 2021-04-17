@@ -43,7 +43,7 @@
       <el-table-column prop="EquipmentRate" label="设备业务在自身业务占比" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="EngineerNum" label="提供维保服务的工程师人数" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="YBNegotiate" label="是否有医保物价协商能力" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="ClientMaintain" label="是否有非临客户关系维护能力" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="ClientMaintain" label="非临客户维护能力" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Others" label="其他信息记录" show-overflow-tooltip> </el-table-column>
       <el-table-column label="操作" width="60" fixed="right">
       <template slot-scope="scope">

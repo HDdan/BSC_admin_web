@@ -295,7 +295,7 @@
               <div class="mr-16 mb-16 input">
                 <div class="input__inner">{{ businessInfo.ybnegotiate }}</div></div>
             </el-form-item>
-            <el-form-item label="是否有非临客户关系维护能力：">
+            <el-form-item label="非临客户维护能力:">
               <div class="mr-16 mb-16 input">
                 <div class="input__inner">{{ businessInfo.clientmaintain }}</div></div>
             </el-form-item>
@@ -356,7 +356,6 @@ export default {
   },
   mounted() {
     this.fetchDealersInterviewRecode();
-    this.fetchDealersInterviewRecodeDetail();
   },
   computed: {
     coverProvinceCityNum() {

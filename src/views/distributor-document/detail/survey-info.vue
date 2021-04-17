@@ -240,7 +240,6 @@ export default {
   },
   created() {
     this.fetchDealersQuestionnaireRecode();
-    this.fetchDealersQuestionnaireRecodeDetail();
   },
   methods: {
     changeSelectTime(value) {

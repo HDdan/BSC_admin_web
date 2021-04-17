@@ -105,7 +105,7 @@
          <el-form-item label="是否有医保物价协商能力：" prop="ybnegotiate">
           <el-input v-model="form.ybnegotiate"></el-input>
         </el-form-item>
-         <el-form-item label="是否有非临客户关系维护能力：" prop="clientmaintain">
+         <el-form-item label="非临客户维护能力：" prop="clientmaintain">
           <el-input v-model="form.clientmaintain"></el-input>
         </el-form-item>
          <el-form-item label="其他信息记录：" prop="others">
