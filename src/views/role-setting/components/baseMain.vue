@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main-header">{{ title }}</div>
     <div class="info-search mt-30 mb-20 ml-20 mr-20">
-      <TotalAndTime />
+      <TotalAndTime :total="baseData.total" :time="baseData.data&&baseData.data.lastupdatetime"/>
       <div class="info-search__right">
         <el-button
           icon="fz-14 mr-8 iconfont iconxinzeng"
