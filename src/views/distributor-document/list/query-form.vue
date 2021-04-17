@@ -25,7 +25,7 @@
         v-for="item in selectNonTemporary"
         :key="item.id"
         :label="item.name"
-        :value="item.id">
+        :value="item.name">
       </el-option>
     </el-select>
     <el-select class="mr-16 mb-16" v-model="queryInfo.sapid" placeholder="SPAID" clearable>
@@ -105,10 +105,10 @@ export default {
         lazyLoad: this.fetchRegion,
       },
       selectNonTemporary: [{
-        name: '是',
+        name: '有',
         id: 1
       },{
-        name: '否',
+        name: '无',
         id: 0
       }],
       option: {

@@ -71,10 +71,10 @@
           filterable
         >
           <el-option
-            v-for="item in option.dealersListOption"
-            :key="item.Id"
-            :label="item.SAPID"
-            :value="item.SAPID"
+            v-for="item in option.dealersSapidOption"
+            :key="item.sapid"
+            :label="item.sapid"
+            :value="item.sapid"
           >
           </el-option>
         </el-select>
@@ -304,9 +304,9 @@
           <div
             v-else
             class="edit-potential-distributor-base__detail"
-            @click="editInfo('mainbrands')"
+            @click="editInfo('mainbrands', index)"
           >
-            <span>{{ item.deparment }}</span>
+            <span>{{ item.department }}</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
@@ -353,6 +353,7 @@ export default {
       option: {
         sourceOption: null,
         dealersListOption: null,
+        dealersSapidOption: null,
         dealersStatusOption: null,
         medicalInstrumentsOption: [
           {
@@ -382,7 +383,8 @@ export default {
         mainProductTypesOption: null,
         brandOption: null,
       },
-      brandsdeparment: [{brand: '',department: ''}],
+      brandsdeparment: [{ brand: '',department: '' }],
+      currentBrandsDepartmentIndex: null,
       baseForm: {
         medicalinstruments: "",
         department: "",
@@ -410,6 +412,7 @@ export default {
   },
   created() {
     this.fetchDealersList();
+    this.fetchSapidList();
     this.fetchSourceList();
     this.fetchDepartmentList();
     this.fetchMainProductTypesOption();
@@ -432,8 +435,8 @@ export default {
     editInfo(params) {
       this.$set(this.edit_flg,params,true);
       this.isEdit = true;
-      if(this.brandsdeparment.length == 0) {
-        this.brandsdeparment = [{brand: '',department: ''}];
+      if (this.brandsdeparment.length == 0) {
+        this.brandsdeparment = [{ brand: '',department: '' }];
       }
     },
     resetForm(formName) {
@@ -476,6 +479,17 @@ export default {
             mainproducttypes = this.baseForm.mainproducttypes;
           }
 
+          let department = '';
+          if (typeof this.baseForm.department === "object") {
+            this.baseForm.department.forEach((item, index) => {
+              department = index === 0 ? item : department + "/" + item;
+            });
+          } else {
+            department = this.baseForm.department;
+          }
+
+          console.log("brandsdeparment", brandsdeparment);
+
           const params = {
             action: "PotentialDealersEditBase",
             id: this.potentialDealersId,
@@ -485,7 +499,7 @@ export default {
             dealerstatus: this.baseForm.dealerstatus,
             medicalinstruments: this.baseForm.medicalinstruments,
             highvalueintervention: this.baseForm.highvalueintervention,
-            department: '',
+            department: department,
             mainproducttypes: mainproducttypes,
             mainproducts: this.baseForm.mainproducts,
             mainbrands: '',
@@ -514,16 +528,16 @@ export default {
       this.$api.execobj({
         action: "PotentialDealersDetail",
         id: this.$route.query.Id || this.potentialDealersId,
-      }).then((res) => {
+      }).then(res => {
         if (res.data.brandsdeparment.length > 0) {
-          this.brandsdeparment = res.data.brandsdeparment.map((item,key) => {
+          this.brandsdeparment = res.data.brandsdeparment.map(item => {
             return {
-              brand: key,
-              department: res.data.brandsdeparment[key]
+              brand: item.MainBrands,
+              department: item.Department
             }
           });
         } else {
-          this.brandsdeparment = [{brand: '',department: ''}];
+          this.brandsdeparment = [{ brand: '',department: '' }];
         }
 
         this.baseForm = lowerJSONKey(res.data.detail);
@@ -539,6 +553,15 @@ export default {
         pagesize: 10000
       }).then(res => {
         this.option.dealersListOption = res.data;
+      });
+    },
+    fetchSapidList() {
+      this.$api.execobj({
+        action: "DealersSAPIDDownList",
+        pageindex: 1,
+        pagesize: 10000
+      }).then(res => {
+        this.option.dealersSapidOption = res.data;
       });
     },
     fetchSourceList() {

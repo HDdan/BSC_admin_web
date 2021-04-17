@@ -31,24 +31,24 @@
           <div class="input__inner">{{ baseInfo.advantageregion }}</div>
         </div>
       </el-form-item>
-      <el-form-item label="能力分型配送：">
+      <el-form-item label="配送能力：">
         <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.ps }}</div>
+          <div class="input__inner">{{ formate(baseInfo.ps) }}</div>
         </div>
       </el-form-item>
-      <el-form-item label="分销分型配：">
+      <el-form-item label="分销能力：">
         <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.fx }}</div>
+          <div class="input__inner">{{ formate(baseInfo.fx) }}</div>
         </div>
       </el-form-item>
-      <el-form-item label="直销分型配送：">
+      <el-form-item label="直销能力：">
         <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.zx }}</div>
+          <div class="input__inner">{{ formate(baseInfo.zx) }}</div>
         </div>
       </el-form-item>
-      <el-form-item label="服务分型配送：">
+      <el-form-item label="服务能力：">
         <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.fw }}</div>
+          <div class="input__inner">{{ formate(baseInfo.fw) }}</div>
         </div>
       </el-form-item>
       <el-form-item label="发展意愿：">
@@ -58,7 +58,7 @@
       </el-form-item>
       <el-form-item label="设备业务占比：">
         <div class="mr-16 mb-16 input">
-          <div class="input__inner">{{ baseInfo.equipmentrate }}</div>
+          <div class="input__inner">{{ formate(baseInfo.equipmentrate) }}</div>
         </div>
       </el-form-item>
       <el-form-item label="非临客户维护能力：">
@@ -115,6 +115,11 @@ export default {
     baseInfo: {
       type: Object,
       default: () => ({})
+    }
+  },
+  methods: {
+    formate(number) {
+      return number * 100 + '%'
     }
   }
 }

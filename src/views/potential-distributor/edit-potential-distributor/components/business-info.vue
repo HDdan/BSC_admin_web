@@ -130,17 +130,17 @@ export default {
       this.fetchPotentialDealersRegionsList();
     },
     editPotentialDealersRegions() {
-      let city = '';
-      const index = this.form.city.findIndex(item => item == '全省');
-      if (index > -1) {
-        city = '全省';
-      } else {
-        this.form.city.forEach((item,index) => {
-          city = index === 0 ? item : city + '/' + item;
-        });
-      }
-
       if (this.form.city && this.form.province) {
+        let city = '';
+        const index = this.form.city.findIndex(item => item == '全省');
+        if (index > -1) {
+          city = '全省';
+        } else {
+          this.form.city.forEach((item,index) => {
+            city = index === 0 ? item : city + '/' + item;
+          });
+        }
+
         this.$api.execobj({
           action: "PotentialDealersRegionsEdit",
           id: this.currentEditRegionId ? this.currentEditRegionId : 0,
@@ -184,13 +184,13 @@ export default {
         this.form.city = this.form.city.split('/');
         const currentProvince = this.option['provinceOptions'].filter(item => item.name === this.form.province);
         const currentProvinceId = currentProvince.length > 0 ? currentProvince[0].id : 0;
-        this.$api.execobj({
+        return this.$api.execobj({
           action: "DownList",
           type: 'city',
           parentid: currentProvinceId
-        })
-      }).then((res) => {
-        res.data.forEach(item => {
+        });
+      }).then(res => {
+        res.data && res.data.forEach(item => {
           item = lowerJSONKey(item);
         });
         res.data.unshift({ name: '全省', id: '全省' });

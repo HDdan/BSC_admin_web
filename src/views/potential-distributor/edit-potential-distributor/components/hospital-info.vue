@@ -64,6 +64,7 @@
           placeholder="医院编号"
         ></el-input>
         <el-select
+          v-if="form.hospitalname"
           multiple
           clearable
           class="mt-34 ml-24"
@@ -265,6 +266,14 @@ export default {
         this.option["hospitalOption"] = res.data.list;
       });
     },
+  },
+  watch: {
+    'form.hospitalname': {
+      deep:true,
+      handler:function() {
+        this.$set(this.form, "department", '');
+      }
+    }
   },
   components: { Pagination, ConfirmActionDialog },
 };

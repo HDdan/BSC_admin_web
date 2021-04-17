@@ -17,22 +17,22 @@
     <el-table-column prop="involvebu" label="涉及BU" width="80"> </el-table-column>
     <el-table-column prop="businesstype" label="业务分型" width="80"> </el-table-column>
     <el-table-column prop="province" label="业务区域" width="80"></el-table-column>
-    <el-table-column prop="ps" label="能力分型配送" width="110">
+    <el-table-column prop="ps" label="配送能力" width="110">
       <template slot-scope="scope">
         <span>{{ formate(scope.row.ps) }}</span> 
       </template>
     </el-table-column>
-    <el-table-column prop="fx" label="分销分型配送" width="110">
+    <el-table-column prop="fx" label="分销能力" width="110">
       <template slot-scope="scope">
         <span>{{ formate(scope.row.fx) }}</span> 
       </template>
     </el-table-column>
-    <el-table-column prop="zx" label="直销分型配送" width="110">
+    <el-table-column prop="zx" label="直销能力" width="110">
       <template slot-scope="scope">
         <span>{{ formate(scope.row.zx) }}</span> 
       </template>
     </el-table-column>
-    <el-table-column prop="fw" label="服务分型配送" width="110">
+    <el-table-column prop="fw" label="服务能力" width="110">
       <template slot-scope="scope">
         <span>{{ formate(scope.row.fw) }}</span> 
       </template>
