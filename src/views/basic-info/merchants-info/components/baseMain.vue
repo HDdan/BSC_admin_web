@@ -131,6 +131,7 @@ export default {
       name:'',
       showAddSource: false,
       baseData: {},
+      filterData:{},
       page: {
         currPage: 1,
         pageSize: 10,
@@ -162,6 +163,18 @@ export default {
       this.showAddSource = false;
       this.baselist();
     },
+    filterList(){
+      this.$api.execobj({
+        name:this.name,
+        action: this.action,
+        type: this.apiType,
+        pageindex: 1,
+        pagesize: 10000,
+      }).then((res) => {
+        this.tableData = res.data;
+        this.option= this.tableData.list||this.tableData
+      });
+    },
     baselist() {
       this.$api.execobj({
         name:this.name,
@@ -172,13 +185,13 @@ export default {
       }).then((res) => {
         this.baseData = res;
         this.tableData = res.data;
-        this.option= this.tableData.list||this.tableData
         this.page.totalNum = res.count;
       });
     },
   },
   created() {
     this.baselist();
+    this.filterList();
   },
 };
 </script>
