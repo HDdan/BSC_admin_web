@@ -6,6 +6,7 @@
     style="width: 100%"
     :row-class-name="tableRowClassName"
     @row-click="gotoDetail"
+    @sort-change="sortChange"
   >
     <el-table-column prop="Id" label="序号" width="60"> </el-table-column>
     <el-table-column prop="DealerName" label="经销商名称" show-overflow-tooltip> 
@@ -13,7 +14,7 @@
          <span class="table-hover">{{scope.row.DealerName}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="CreateTime" label="创建时间" show-overflow-tooltip sortable> </el-table-column>
+    <el-table-column prop="CreateTime" label="创建时间" show-overflow-tooltip sortable></el-table-column>
     <el-table-column prop="Sources" label="数据来源" show-overflow-tooltip> </el-table-column>
     <el-table-column prop="Province" label="业务区域" show-overflow-tooltip> </el-table-column>
     <el-table-column prop="Department" label="合作科室" show-overflow-tooltip> </el-table-column>
@@ -45,13 +46,15 @@ export default {
         return "";
       }
     },
+    sortChange(column, key, order) {
+      this.$emit("sortChange", column);
+    },
     gotoDetail(row) {
       this.$router.push({
         name: "editPotentialDistributor",
         path: "/potentialDistributor/edit'",
         query: { Id: row.Id }
       });
-      console.log("detail",row);
     }
   },
   data() {

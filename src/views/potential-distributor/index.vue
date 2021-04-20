@@ -135,7 +135,7 @@
         >经销商</el-button
       >
     </div>
-    <Table :tableData="tableData"></Table>
+    <Table :tableData="tableData" @sortChange="sortChange"></Table>
     <Pagination
       :total="page.totalNum"
       :page.sync="page.currPage"
@@ -188,6 +188,7 @@ export default {
         province: "",
         callusername: "",
         pushusername: "",
+        sorttype: "",
       },
 
       page: {
@@ -214,6 +215,14 @@ export default {
     this.userlist();
   },
   methods: {
+    sortChange(column) {
+      if (column.order == "descending") {
+        this.$set(this.params, "sorttype", "desc");
+      } else {
+        this.$set(this.params, "sorttype", "asc");
+      }
+      this.potentialDealersList();
+    },
     dialogImportVisible(value) {
       this.dialogFileVisible = value;
     },
@@ -330,6 +339,7 @@ export default {
       params.pushendtime = this.pushTime ? this.pushTime[1] : "";
       params.mainproducts = mainproducts;
       params.department = department;
+      params.sorttype = this.params.sorttype;
       params.pageindex = this.page.currPage;
       params.pagesize = this.page.pageSize;
       this.$api.execobj(params).then((res) => {

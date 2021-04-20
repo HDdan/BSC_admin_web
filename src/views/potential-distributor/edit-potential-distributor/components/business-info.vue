@@ -130,7 +130,8 @@ export default {
       this.fetchPotentialDealersRegionsList();
     },
     editPotentialDealersRegions() {
-      if (this.form.city && this.form.province) {
+      console.log("this.form.city", this.form.city);
+      if (this.form.city.length > 0 && this.form.province) {
         let city = '';
         const index = this.form.city.findIndex(item => item == '全省');
         if (index > -1) {
