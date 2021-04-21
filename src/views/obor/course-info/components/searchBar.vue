@@ -21,6 +21,7 @@
       class="mr-15"
       v-model="search.studentname"
       placeholder="学员姓名"
+      filterable
     >
       <el-option
         v-for="item in option.course"
