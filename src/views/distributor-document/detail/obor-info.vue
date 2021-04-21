@@ -7,9 +7,9 @@
     style="width: 100%"
     >
       <el-table-column prop="DealerName" label="经销商名称" width="100"></el-table-column>
-      <el-table-column prop="DealerCooOBORYears" label="BSC合作年限" width="100"> </el-table-column>
+      <el-table-column prop="DealerCooOBORYears" :label="'BSC\n合作年限'" width="100"> </el-table-column>
       <el-table-column prop="DLScore" label="迪乐评分" width="80"> </el-table-column>
-      <el-table-column prop="StudentCooOBORYears" label="OBOR合作年限" width="80"></el-table-column>
+      <el-table-column prop="StudentCooOBORYears" :label="'OBOR\n合作年限'" width="80"></el-table-column>
       <el-table-column prop="StudentNumber" label="OBOR学员人数" width="110"> </el-table-column>
       <el-table-column prop="StudentKaoHeNumber" label="考核学员人数" width="110"> </el-table-column>
       <el-table-column prop="StudentFuNengNumber" label="赋能学员人数" width="110"> </el-table-column>

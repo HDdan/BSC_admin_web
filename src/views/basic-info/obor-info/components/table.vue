@@ -19,7 +19,7 @@
       <el-table-column prop="StudentCity" label="学员城市" show-overflow-tooltip> </el-table-column>
       <!-- <el-table-column prop="InvolveBu" label="学员类型" show-overflow-tooltip> </el-table-column> -->
       <el-table-column prop="AbilityType" label="能力认证" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="OBORYears" label="OBOR合作年限" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="OBORYears" :label="'OBOR\n合作年限'"  show-overflow-tooltip> </el-table-column>
       <el-table-column prop="HospitalGTNum1" label="2018年优势医院跟台数" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="HospitalGTNum2" label="2019年优势医院跟台数" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="HospitalGTNum3" label="2020年优势医院跟台数" show-overflow-tooltip> </el-table-column>

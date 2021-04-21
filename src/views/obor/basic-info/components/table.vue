@@ -11,13 +11,13 @@
       <el-table-column prop="DealerName" label="经销商名称" width="120" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DealerType" label="经销商类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DLScore" label="迪乐评分" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="DealerCooOBORYears" label="BSC合作年限" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="DealerCooOBORYears" :label="'BSC\n合作年限'" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentName" label="DealerSales" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentPhone" label="学员电话" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="ChannelPersonType" label="渠道人类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentType" label="学员类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="AbilityType" label="能力认证" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentCooOBORYears" label="OBOR合作年限" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentCooOBORYears" :label="'OBOR\n合作年限'" show-overflow-tooltip> </el-table-column>
     </el-table>
   </div>
 </template>
