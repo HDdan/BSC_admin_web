@@ -450,15 +450,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let mainproducttypes = "" , brandsdeparment = [];
-          if (this.brandsdeparment.length > 0 && typeof this.brandsdeparment[0].brand === "object") {
+          if (this.brandsdeparment.length > 0 && Object.prototype.toString.call(this.brandsdeparment[0].brand) === "[object Object]") {
             this.brandsdeparment.forEach(item => {
               let brand = '',department = '';
-              item.brand.forEach((item, index) => {
+              item.brand && item.brand.forEach((item, index) => {
                 brand = index === 0 ? item : brand + "/" + item;
               });
               item.brand = brand;
 
-              item.department.forEach((item, index) => {
+              item.department && item.department.forEach((item, index) => {
                 department = index === 0 ? item : department + "/" + item;
               });
               item.department = department;
@@ -468,9 +468,12 @@ export default {
               brandsdeparment.push(obj);
             });
           } else {
-            brandsdeparment = this.brandsdeparment;
+            this.brandsdeparment.forEach(item => {
+              let obj = {};
+              obj[item.brand] = item.department;
+              brandsdeparment.push(obj);
+            });
           }
-
           if (typeof this.baseForm.mainproducttypes === "object") {
             this.baseForm.mainproducttypes.forEach((item, index) => {
               mainproducttypes = index === 0 ? item : mainproducttypes + "/" + item;

@@ -136,7 +136,7 @@
       >
     </div>
     <Table :tableData="tableData" @sortChange="sortChange"></Table>
-    <Pagination
+    <pagination
       :total="page.totalNum"
       :page.sync="page.currPage"
       :limit.sync="page.pageSize"

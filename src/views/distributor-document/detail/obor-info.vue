@@ -54,7 +54,7 @@
 
 </template>
 <script>
-import Pagination from '@/components/pagination'
+import Pagination from '../../../components/Pagination/index';
 export default {
   props: {
     baseInfo: {

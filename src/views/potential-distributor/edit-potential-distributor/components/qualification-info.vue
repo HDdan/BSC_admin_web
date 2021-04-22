@@ -330,10 +330,10 @@ export default {
     potentialDealersQualificationEdit() {
       let amount = '',year = '';
       console.log("this.invoicedAmount", this.invoicedAmount,this.invoicedYear);
-      this.invoicedAmount && this.invoicedAmount.forEach(item => {
+      this.invoicedAmount[0] && this.invoicedAmount.forEach(item => {
         amount = amount + '/' + item;
       });
-      this.invoicedYear && this.invoicedYear.forEach(item => {
+      this.invoicedYear[0] && this.invoicedYear.forEach(item => {
         year = year + '/' + item;
       });
 

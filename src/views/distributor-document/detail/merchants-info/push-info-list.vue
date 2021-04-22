@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import Pagniation from '@/components/pagination';
+import Pagniation from '../../../../components/Pagination/index';
 
 import { getUserName } from "@/utils/auth";
 import { lowerJSONKey } from "../../../../utils/index"
