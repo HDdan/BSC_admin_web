@@ -2,6 +2,8 @@
   background: #fff;
   min-width: 1200px;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .main-header {
   height: 63px;

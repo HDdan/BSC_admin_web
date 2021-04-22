@@ -470,13 +470,13 @@ export default {
               item.department = department;
 
               let obj = {};
-              obj[item.brand] = item.department;
+              obj[JSON.stringify(item.brand)] = item.department;
               brandsdeparment.push(obj);
             });
           } else {
             this.brandsdeparment.forEach(item => {
               let obj = {};
-              obj[item.brand] = item.department;
+              obj[JSON.stringify(item.brand)] = item.department;
               brandsdeparment.push(obj);
             });
           }

@@ -68,31 +68,31 @@ export default {
           child: [
             {
               id: 311,
-              name: "基础主数据",
+              name: "基础数据",
               url: "/oborData/basicInfo",
               left: "15px",
             },
             {
               id: 312,
-              name: "销量主数据",
+              name: "销量数据",
               url: "/oborData/salesInfo",
               left: "15px",
             },
             {
               id: 313,
-              name: "SFE主数据",
+              name: "SFE数据",
               url: "/oborData/sfeInfo",
               left: "15px",
             },
             {
               id: 314,
-              name: "优势标签主数据",
+              name: "优势标签数据",
               url: "/oborData/lableInfo",
               left: "15px",
             },
             {
               id: 315,
-              name: "线上线下赋能主数据",
+              name: "线上线下赋能数据",
               url: "/oborData/courseInfo",
               left: "15px",
             },

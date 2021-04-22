@@ -70,9 +70,9 @@
         </el-form-item>
         <el-form-item
           label="今年项目内优势医院达成："
-          prop="lastyearnhospitalreach"
+          prop="yearyhospitalreach"
         >
-          <el-input v-model="form.lastyearnhospitalreach"></el-input>
+          <el-input v-model="form.yearyhospitalreach"></el-input>
         </el-form-item>
         <el-form-item
           label="去年非项目优势医院达成："

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">SFE数据-新建</div>
+    <div class="main-header">优势标签数据-新建</div>
     <div class="mt-30">
       <el-form :model="form" ref="forms" label-width="200px" class="add-form">
         <el-form-item label="BU：" prop="bu">

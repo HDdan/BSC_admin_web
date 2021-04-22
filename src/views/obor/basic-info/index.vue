@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">基础主数据</div>
+    <div class="main-header">基础数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
       :type="tabType"

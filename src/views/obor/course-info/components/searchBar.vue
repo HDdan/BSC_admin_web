@@ -1,7 +1,7 @@
 <template>
   <div class="potential-distributor__search">
     <el-input
-      class="mr-16"
+      class="mr-16 mb-16"
       placeholder="请输入经销商名称"
       v-model="search.dealersname"
     >
@@ -18,7 +18,7 @@
     </el-select>
     <el-select
       clearable
-      class="mr-15"
+      class="mr-15 mb-16"
       v-model="search.studentname"
       placeholder="学员姓名"
       filterable
@@ -31,7 +31,7 @@
       >
       </el-option>
     </el-select>
-    <el-button type="primary" @click="onSearch">检索</el-button>
+    <el-button class="margin-bottom-16" type="primary" @click="onSearch">检索</el-button>
     <div class="split-line mr-20 ml-20 mt-8"></div>
     <div
         class="potential-distributor__upload mr-18"

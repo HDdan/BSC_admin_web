@@ -1,6 +1,7 @@
 <template>
-  <div class="mr-20 ml-20">
+  <div class="mr-20 ml-20" style="height: 100%" ref="tableCot">
     <el-table
+      :height="Height"
       border
       :data="tableData"
       style="width: 100%"
@@ -17,7 +18,6 @@
       <el-table-column prop="StudentType" label="学员类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="ChannelPersonType" label="渠道人类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentCity" label="学员城市" show-overflow-tooltip> </el-table-column>
-      <!-- <el-table-column prop="InvolveBu" label="学员类型" show-overflow-tooltip> </el-table-column> -->
       <el-table-column prop="AbilityType" label="能力认证" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="OBORYears" :label="'OBOR\n合作年限'"  show-overflow-tooltip> </el-table-column>
       <el-table-column prop="HospitalGTNum1" label="2018年优势医院跟台数" show-overflow-tooltip> </el-table-column>
@@ -101,7 +101,8 @@ export default {
   data(){
     return{
       dialogVisible: false,
-      id:''
+      id:'',
+      Height: 200
     }
   },
   props: {
@@ -110,7 +111,23 @@ export default {
       default: [],
     },
   },
+  created() {
+    this.listenResize();
+},
+    mounted(){
+        window.addEventListener('resize',this.listenResize);  
+    },
+    beforeDestroy() {
+        window.removeEventListener("resize",this.listenResize);
+    },
   methods: {
+    listenResize(){
+      this.$nextTick(()=>{
+       console.log("----00",this.$refs.tableCot.offsetHeight)
+        let heightStyle = (this.$refs.tableCot.offsetHeight) + "px"
+        this.Height = heightStyle
+    })
+    },
     handleClick(){
       this.$api.execobj({
         action: 'BaseDelete',

@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" style="height:100%;min-height:600px">
     <div class="main-header">OBOR主数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">SFE主数据</div>
+    <div class="main-header">SFE数据</div>
     <SearchBar @onSearch="onSearch" />
      <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
     <el-radio-button label="all">所有项目</el-radio-button>

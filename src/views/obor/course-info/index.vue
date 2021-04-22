@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">线上线下赋能主数据</div>
+    <div class="main-header">线上线下赋能数据</div>
     <SearchBar class="margin-bottom-20" @onSearch="onSearch" />
      <!-- <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
     <el-radio-button label="count">参加次数</el-radio-button>

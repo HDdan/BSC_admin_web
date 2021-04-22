@@ -12,7 +12,7 @@
           <el-form-item label="经销商名称:" prop="dealername">
           <el-input v-model="form.dealername"></el-input>
         </el-form-item>
-          <el-form-item label="SFE指标:" prop="sfetarget">
+          <!-- <el-form-item label="SFE指标:" prop="sfetarget">
           <el-input v-model="form.sfetarget"></el-input>
         </el-form-item>
           <el-form-item label="SFE达成：" prop="sfeaccomplish">
@@ -26,7 +26,7 @@
         </el-form-item>
           <el-form-item label="带教员认可率：" prop="approbaterate">
           <el-input v-model="form.approbaterate"></el-input>
-        </el-form-item>
+        </el-form-item> -->
           <el-form-item label="经典项目SFE总指标:" prop="classicsfetarget">
           <el-input v-model="form.classicsfetarget"></el-input>
         </el-form-item>

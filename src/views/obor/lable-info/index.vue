@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="main-header">优势标签主数据</div>
+    <div class="main-header">优势标签数据</div>
     <SearchBar @onSearch="onSearch" />
     <Table
       @del="baselist"
