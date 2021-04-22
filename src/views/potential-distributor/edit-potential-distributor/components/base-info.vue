@@ -306,7 +306,7 @@
             class="edit-potential-distributor-base__detail"
             @click="editInfo('mainbrands', index)"
           >
-            <span>{{ item.department }}</span>
+            <span>{{ item.department | formatDepartment }}</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
@@ -409,6 +409,12 @@ export default {
         ],
       },
     };
+  },
+  filters: {
+    formatDepartment: function (value) {
+    if (!value) return ''
+    return JSON.parse(value).join("/") 
+  }
   },
   created() {
     this.fetchDealersList();
