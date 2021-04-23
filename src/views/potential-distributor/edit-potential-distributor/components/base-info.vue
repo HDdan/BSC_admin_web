@@ -89,9 +89,6 @@
             style="color: #9b9b9b"
           ></span>
         </div>
-        <!-- <div v-else class="edit-potential-distributor-base__detail">
-          <span>{{ baseForm.dealercode }}</span>
-        </div> -->
       </el-form-item>
       <el-form-item label="经销商状态:" prop="dealerstatus" v-if="!isCreate">
         <el-select
@@ -279,7 +276,7 @@
             class="edit-potential-distributor-base__detail"
             @click="editInfo('mainbrands')"
           >
-            <span>{{ item.brand }}</span>
+            <span>{{ formatDepartment(item.brand)}}</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
@@ -306,7 +303,7 @@
             class="edit-potential-distributor-base__detail"
             @click="editInfo('mainbrands', index)"
           >
-            <span>{{ item.department | formatDepartment }}</span>
+            <span>{{ formatDepartment(item.department)}}</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
@@ -411,10 +408,7 @@ export default {
     };
   },
   filters: {
-    formatDepartment: function (value) {
-    if (!value) return ''
-    return JSON.parse(value).join("/") 
-  }
+    
   },
   created() {
     this.fetchDealersList();
@@ -429,6 +423,13 @@ export default {
     } else this.isCreate = true;
   },
   methods: {
+    formatDepartment: function (value) {
+      if (value && value != '[]') {
+        return value.join("/");
+      } else {
+        return '';
+      }
+    },
     addInvoicedConfig() {
       this.brandsdeparment.push({brand: '', department: ''});
     },
@@ -456,30 +457,23 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let mainproducttypes = "" , brandsdeparment = [];
-          if (this.brandsdeparment.length > 0 && Object.prototype.toString.call(this.brandsdeparment[0].brand) === "[object Object]") {
-            this.brandsdeparment.forEach(item => {
-              let brand = '',department = '';
-              item.brand && item.brand.forEach((item, index) => {
-                brand = index === 0 ? item : brand + "/" + item;
-              });
-              item.brand = brand;
+          this.brandsdeparment.forEach(item => {
+            if (item.brand.length > 0) {
+              item.brand = item.brand.join("/");
+            } else {
+              item.brand = "";
+            }
+            if (item.department.length > 0) {
+              item.department = item.department.join("/");
+            } else {
+              item.department = "";
+            }
 
-              item.department && item.department.forEach((item, index) => {
-                department = index === 0 ? item : department + "/" + item;
-              });
-              item.department = department;
+            let obj = {};
+            obj[JSON.stringify(item.brand)] = item.department;
+            brandsdeparment.push(obj);
+          });
 
-              let obj = {};
-              obj[JSON.stringify(item.brand)] = item.department;
-              brandsdeparment.push(obj);
-            });
-          } else {
-            this.brandsdeparment.forEach(item => {
-              let obj = {};
-              obj[JSON.stringify(item.brand)] = item.department;
-              brandsdeparment.push(obj);
-            });
-          }
           if (typeof this.baseForm.mainproducttypes === "object") {
             this.baseForm.mainproducttypes.forEach((item, index) => {
               mainproducttypes = index === 0 ? item : mainproducttypes + "/" + item;
@@ -496,8 +490,6 @@ export default {
           } else {
             department = this.baseForm.department;
           }
-
-          console.log("brandsdeparment", brandsdeparment);
 
           const params = {
             action: "PotentialDealersEditBase",
@@ -544,6 +536,10 @@ export default {
               brand: item.MainBrands,
               department: item.Department
             }
+          });
+          this.brandsdeparment && this.brandsdeparment.forEach(item => {
+            item.brand = item.brand != '""' ? JSON.parse(item.brand).split('/') : [];
+            item.department = item.department != "" ? item.department.split('/') : [];
           });
         } else {
           this.brandsdeparment = [{ brand: '',department: '' }];

@@ -49,7 +49,7 @@
         v-for="item in option.Bu"
         :key="item.Id"
         :label="item.Name"
-        :value="item.Id">
+        :value="item.Name">
       </el-option>
     </el-select>
     <div class="mb-16" style="display: flex;align-items: center;">
