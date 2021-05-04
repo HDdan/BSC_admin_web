@@ -47,13 +47,14 @@
         <i class="mr-10 iconfont icondaochujilu-hui"></i>
         <span>导出</span>
       </div>
+      <div class="mb-8">
         <el-button
-      icon="fz-14 mr-8 iconfont iconxinzeng"
-      type="primary"
-      @click="add"
-      style="padding: 0 6px; box-sizing: content-box;height: 34px;"
-      >优势标签</el-button
-    >
+        icon="fz-14 mr-8 iconfont iconxinzeng"
+        type="primary"
+        @click="add"
+        style="padding: 0 6px; box-sizing: content-box;height: 34px;"
+        >优势标签</el-button>
+      </div>
     <import-file-dialog :dialogVisible="dialogFileVisible" :type="'lable'" @dialogImportVisible="onSearch"></import-file-dialog>
 
   </div>

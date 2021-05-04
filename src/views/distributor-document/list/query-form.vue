@@ -166,39 +166,17 @@ export default {
               return {
                 value: val.Id,
                 label: val.Name,
-                leaf: false,
+                leaf: true,
               };
             })
           );
-        });
-      } else if (node.level === 1) {
-        this.$api.execobj({
-          action: "DownList",
-          type: "city",
-          parentid: node.data.value,
-        }).then((res) => {
-          let city = res.data.map((val) => {
-            return {
-              value: val.Id,
-              label: val.Name,
-              leaf: true,
-            };
-          });
-          city.unshift({
-            value: 0,
-            label: '全省',
-            leaf: true,
-          });
-          resolve(city);
         });
       }
     },
     selectRegion() {
       if (this.$refs.cascaderRegion.getCheckedNodes().length > 0) {
         this.queryInfo.province =
-          this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0] +
-          "/" +
-          this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[1];
+          this.$refs.cascaderRegion.getCheckedNodes()[0].pathLabels[0]
       } else {
         this.queryInfo.province = "";
       }
