@@ -10,7 +10,11 @@
     >
         <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Bu" label="BU" width="100" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span style="cursor: pointer;" @click="gotoStudentDetail(scope.row)">{{ scope.row.StudentName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称" show-overflow-tooltip> </el-table-column>
          <el-table-column prop="SFETarget" label="SFE指标" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="SFEAccomplish" label="SFE达成" show-overflow-tooltip> </el-table-column>
@@ -33,7 +37,11 @@
     >
       <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Bu" label="BU" width="100" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span style="cursor: pointer;" @click="gotoStudentDetail(scope.row)">{{ scope.row.StudentName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称" show-overflow-tooltip> </el-table-column>
          <el-table-column prop="ClassicSFETarget" label="经典项目SFE总指标" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="ClassicSFEAccomplish" label="经典项目SFE总达成" show-overflow-tooltip> </el-table-column>
@@ -56,7 +64,11 @@
     >
          <el-table-column prop="Id" label="序号" width="100" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="Bu" label="BU" width="100" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentName" label="学员姓名" width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span style="cursor: pointer;" @click="gotoStudentDetail(scope.row)">{{ scope.row.StudentName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="DealerName" label="经销商名称" show-overflow-tooltip> </el-table-column>
          <el-table-column prop="GroundSFETarget" label="地推项目SFE总指标" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="GroundSFEAccomplish" label="地推项目SFE总达成" show-overflow-tooltip> </el-table-column>
@@ -116,6 +128,9 @@ export default {
     download(url) {
       window.open(url)
     },
+    gotoStudentDetail(row) {
+      this.$router.push({ path: '/distributorDocument/studentDetail',query: { studentappcode: row.StudentAppcode }});
+    }
   },
 };
 </script>

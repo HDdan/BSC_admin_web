@@ -7,7 +7,7 @@
       <el-collapse-item title="四大能力象限(各象限最高50分）" name="2">
         <ability-quadrant-info :studentInfo="studentInfo"></ability-quadrant-info>
       </el-collapse-item>
-      <el-collapse-item title="OBOR合作度" name="3">
+      <el-collapse-item title="OBOR合作度" name="3" v-if="studentInfo">
         <obor-cooperation :studentInfo="studentInfo"></obor-cooperation>
       </el-collapse-item>
     </el-collapse>
@@ -26,12 +26,24 @@ export default {
     }
   },
   created() {
-    this.studentInfo = [JSON.parse(this.$route.query.row)];
+    const studentappcode = this.$route.query.studentappcode;
+    this.baselist(studentappcode);
   },
   methods: {
     handleChange(val) {
       console.log(val);
-    }
+    },
+    baselist(studentappcode) {
+      let list = {
+        action : "OborDatalist",
+        studentappcode: studentappcode,
+        pageindex : 1,
+        pagesize : 1000,
+      }
+      this.$api.execobj(list).then((res) => {
+        this.studentInfo = res.data;
+      });
+    },
   },
   components: { BaseInfo, OborCooperation, AbilityQuadrantInfo }
 }

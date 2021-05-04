@@ -50,7 +50,7 @@ export default {
       window.open(url)
     },
     gotoStudentDetail(row) {
-      this.$router.push({ path: '/distributorDocument/studentDetail',query: { row: JSON.stringify(row) }});
+      this.$router.push({ path: '/distributorDocument/studentDetail',query: { studentappcode: row.StudentAppcode }});
     }
   },
 };
