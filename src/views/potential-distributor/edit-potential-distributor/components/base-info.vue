@@ -90,32 +90,6 @@
           ></span>
         </div>
       </el-form-item>
-      <el-form-item label="经销商状态:" prop="dealerstatus" v-if="!isCreate">
-        <el-select
-          clearable
-          v-if="edit_flg['dealerstatus'] || isCreate"
-          v-model="baseForm.dealerstatus"
-        >
-          <el-option
-            v-for="item in option.dealersStatusOption"
-            :key="item.Id"
-            :label="item.Name"
-            :value="item.Name"
-          >
-          </el-option>
-        </el-select>
-        <div
-          v-else
-          class="edit-potential-distributor-base__detail"
-          @click="editInfo('dealerstatus')"
-        >
-          <span>{{ baseForm.dealerstatus }}</span>
-          <span
-            class="fz-16 mr-8 iconfont iconxiugai"
-            style="color: #9b9b9b"
-          ></span>
-        </div>
-      </el-form-item>
       <el-form-item label="潜在经销商名称:" prop="dealername" required>
         <el-input
           v-if="edit_flg['dealername'] || isCreate"
@@ -340,7 +314,6 @@ export default {
         createtime: false,
         dealercode: false,
         dealername: false,
-        dealerstatus: false,
         medicalinstruments: false,
         highvalueintervention: false,
         mainproducttypes: false,
@@ -389,7 +362,6 @@ export default {
         sources: "",
         dealerid: "",
         dealercode: "",
-        dealerstatus: "",
         dealername: "",
         medicalinstruments: "",
         highvalueintervention: "",
@@ -417,7 +389,6 @@ export default {
     this.fetchDepartmentList();
     this.fetchMainProductTypesOption();
     this.fetchBrandOption();
-    this.fetchDealersStatus();
     if (this.$route.query.Id) {
       this.fetchPotentialDealersDetail();
     } else this.isCreate = true;
@@ -497,7 +468,6 @@ export default {
             sources: this.baseForm.sources,
             dealercode: this.baseForm.dealercode,
             dealername: this.baseForm.dealername,
-            dealerstatus: this.baseForm.dealerstatus,
             medicalinstruments: this.baseForm.medicalinstruments,
             highvalueintervention: this.baseForm.highvalueintervention,
             department: department,
@@ -621,14 +591,6 @@ export default {
         this.option["brandOption"] = res.data.list;
       });
     },
-    fetchDealersStatus() {
-      this.$api.execobj({
-        action: "DownList",
-        type: "dealerstatus"
-      }).then((res) => {
-        this.option["dealersStatusOption"] = res.data;
-      });
-    }
   },
 };
 </script>
