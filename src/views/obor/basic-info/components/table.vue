@@ -12,7 +12,11 @@
       <el-table-column prop="DealerType" label="经销商类型" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DLScore" label="迪乐评分" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="DealerCooOBORYears" :label="'BSC\n合作年限'" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="StudentName" label="DealerSales" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="StudentName" label="DealerSales" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span style="cursor: pointer;" @click="gotoStudentDetail(scope.row)">{{ scope.row.StudentName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="StudentCooOBORYears" :label="'OBOR\n合作年限'" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="StudentPhone" label="学员电话" show-overflow-tooltip> </el-table-column>
       <el-table-column prop="ChannelPersonType" label="渠道人类型" show-overflow-tooltip> </el-table-column>
@@ -45,6 +49,9 @@ export default {
     download(url) {
       window.open(url)
     },
+    gotoStudentDetail(row) {
+      this.$router.push({ path: '/distributorDocument/studentDetail',query: { row: JSON.stringify(row) }});
+    }
   },
 };
 </script>

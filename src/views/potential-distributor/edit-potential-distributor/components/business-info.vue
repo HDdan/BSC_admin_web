@@ -19,7 +19,7 @@
         <el-table-column prop="province" label="业务省份" width="150"></el-table-column>
         <el-table-column prop="city" label="业务城市" width="150"></el-table-column>
         <el-table-column prop="iscounty" label="是/否县级区域"></el-table-column>
-        <el-table-column prop="bscsalesnum" label="可以用作波科销售的业务人数"></el-table-column>
+        <el-table-column prop="bscsalesnum" label="本省可以用作波科销售的业务人数"></el-table-column>
         <el-table-column prop="businessRegion" label="操作">
           <template slot-scope="scope">
           <span style="display: flex">
