@@ -154,6 +154,13 @@
     <div class="split-line mr-20 ml-20 mt-8"></div>
     <div
         class="potential-distributor__upload mr-18"
+        @click="downTemplate"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
+    <div
+        class="potential-distributor__upload mr-18"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
@@ -167,6 +174,7 @@
         <span>导出</span>
       </div>
         <el-button
+        class="margin-bottom-16"
       icon="fz-14 mr-8 iconfont iconxinzeng"
       type="primary"
       @click="add"
@@ -239,6 +247,9 @@ export default {
     this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+    downTemplate(){
+      window.open('http://dealer.qtdatas.com/file/template/经销商档案-渠道经理拜访信息.xlsx')
+    },
      fileDownLoad() {
       let list={
         filter:this.search,

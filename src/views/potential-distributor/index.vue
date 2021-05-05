@@ -112,6 +112,14 @@
         </el-option>
       </el-select>
       <el-button class="margin-bottom-16" type="primary" @click="potentialDealersList">检索</el-button>
+     <div
+        class="potential-distributor__upload ml-24"
+        @click="downTemplate"
+        
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
       <div
         class="potential-distributor__upload mr-24 ml-24"
         @click="dialogFileVisible = !dialogFileVisible"
@@ -215,6 +223,9 @@ export default {
     this.userlist();
   },
   methods: {
+    downTemplate(){
+      window.open('http://dealer.qtdatas.com/file/template/潜在经销商.xlsx')
+    },
     sortChange(column) {
       if (column.order == "descending") {
         this.$set(this.params, "sorttype", "desc");

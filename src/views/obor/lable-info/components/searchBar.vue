@@ -35,6 +35,13 @@
     <div class="split-line mr-20 ml-20 mt-8"></div>
     <div
         class="potential-distributor__upload mr-18"
+        @click="downTemplate"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
+    <div
+        class="potential-distributor__upload mr-18"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
@@ -99,6 +106,9 @@ export default {
     // this.baseList("DownList", "province");
   },
   methods: {
+    downTemplate(){
+      window.open('http://dealer.qtdatas.com/file/template/OBOR-优势标签主数据模板.xlsx')
+    },
     fileDownLoad() {
       let list={
         filter:this.search,

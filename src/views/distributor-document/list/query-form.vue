@@ -57,6 +57,13 @@
       <div class="distributor-document-query__divider ml-10"></div>
       <div
         class="distributor-document-query__upload mr-10 ml-10"
+        @click="downTemplate"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
+      <div
+        class="distributor-document-query__upload mr-10 ml-10"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
@@ -126,6 +133,9 @@ export default {
     this.fetchDealersSAPID();
   },
   methods: {
+    downTemplate(){
+      window.open('http://dealer.qtdatas.com/file/template/经销商档案主数据.xlsx')
+    },
     DownList(type) {
       this.$api.execobj({
         action: "DownList",

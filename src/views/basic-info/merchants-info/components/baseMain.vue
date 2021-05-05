@@ -45,6 +45,13 @@
         </el-select>
         <el-button v-if="action == 'baselist'" type="primary" @click="baselist">检索</el-button>
         <div class="split-line mr-20 ml-20"></div>
+            <div
+        class="potential-distributor__upload mr-18"
+        @click="downTemplate"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
     <div
         class="potential-distributor__upload mr-18"
         @click="dialogFileVisible = !dialogFileVisible"
@@ -142,6 +149,18 @@ export default {
     };
   },
   methods: {
+    downTemplate(){
+        let name
+        switch(this.apiType){
+          case 'source':name='数据来源';break;
+          case 'hospital':name='医院';break;
+          case 'product':name='产品';break;
+          case 'department':name='科室';break;
+          case 'brand': name='品牌';break;
+        }
+        console.log("---088",this.apiType,name)
+    window.open(`http://dealer.qtdatas.com/file/template/招商主数据-${name}.xlsx`)
+    },
     fileDownLoad() {
       let list={
         filter:{name: this.name},

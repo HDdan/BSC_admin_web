@@ -153,14 +153,21 @@
     >
      <div class="split-line mr-20 ml-20 mt-8"></div>
     <div
-        class="potential-distributor__upload mr-18"
+        class="potential-distributor__upload mr-18 mb-16"
+        @click="downTemplate"
+      >
+        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <span>下载模版</span>
+      </div>
+    <div
+        class="potential-distributor__upload mr-18 mb-16"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="mr-10 iconfont icondaorujilu-hui"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload mr-24"
+        class="potential-distributor__upload mr-24 mb-16"
         @click="fileDownLoad"
       >
         <i class="mr-10 iconfont icondaochujilu-hui"></i>
@@ -170,6 +177,7 @@
       icon="fz-14 mr-8 iconfont iconxinzeng"
       type="primary"
       @click="add"
+      class="margin-bottom-16"
       style="padding: 0 6px; box-sizing: content-box;height: 34px;"
       >面谈数据</el-button>
     <import-file-dialog :dialogVisible="dialogFileVisible" :type="'interviewRecord'" @dialogImportVisible="onSearch"></import-file-dialog>
@@ -240,6 +248,9 @@ export default {
     this.baseList("ManagerNameList", "visitRecord");
   },
   methods: {
+    downTemplate(){
+      window.open('http://dealer.qtdatas.com/file/template/经销商档案-渠道经理面谈信息.xlsx')
+    },
     fileDownLoad() {
       let list={
         filter:this.search,
