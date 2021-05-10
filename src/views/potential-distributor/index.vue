@@ -113,26 +113,26 @@
       </el-select>
       <el-button class="margin-bottom-16" type="primary" @click="potentialDealersList">检索</el-button>
      <div
-        class="potential-distributor__upload ml-24"
+        class="potential-distributor__upload ml-20 mb-11"
         @click="downTemplate"
         
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont iconxiazaimoban"></i>
         <span>下载模版</span>
       </div>
       <div
-        class="potential-distributor__upload mr-24 ml-24"
+        class="potential-distributor__upload ml-20 mb-11"
         @click="dialogFileVisible = !dialogFileVisible"
         
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload mr-24"
+        class="potential-distributor__upload ml-20 mr-20 mb-11"
         @click="dialogVisible = !dialogVisible"
       >
-        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
       <el-button
@@ -405,9 +405,9 @@ export default {
 </script>
 <style scoped>
 .potential-distributor__search {
-  display: block!important;
+  /* display: block!important; */
 }
 .potential-distributor__upload {
-  display: inline-block!important;
+  /* display: inline-block!important; */
 }
 </style>

@@ -44,26 +44,25 @@
           </el-option>
         </el-select>
         <el-button v-if="action == 'baselist'" type="primary" @click="baselist">检索</el-button>
-        <div class="split-line mr-20 ml-20"></div>
             <div
-        class="potential-distributor__upload mr-18"
+        class="potential-distributor__upload ml-20"
         @click="downTemplate"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont iconxiazaimoban"></i>
         <span>下载模版</span>
       </div>
     <div
-        class="potential-distributor__upload mr-18"
+        class="potential-distributor__upload ml-20"
         @click="dialogFileVisible = !dialogFileVisible"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload mr-24"
+        class="potential-distributor__upload ml-20 mr-20"
         @click="fileDownLoad"
       >
-        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
         <el-button

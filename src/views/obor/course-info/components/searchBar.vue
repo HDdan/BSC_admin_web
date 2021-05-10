@@ -7,7 +7,7 @@
     >
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
-    <el-select clearable class="mr-15" v-model="search.bu" placeholder="BU">
+    <el-select clearable class="mr-15 mb-16" v-model="search.bu" placeholder="BU">
       <el-option
         v-for="item in option.Bu"
         :key="item.Id"
@@ -32,29 +32,29 @@
       </el-option>
     </el-select>
     <el-button class="margin-bottom-16" type="primary" @click="onSearch">检索</el-button>
-    <div class="split-line mr-20 ml-20 mt-8"></div>
     <div
-        class="potential-distributor__upload mr-18"
+        class="potential-distributor__upload ml-20 mb-11"
         @click="downTemplate"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont iconxiazaimoban"></i>
         <span>下载模版</span>
       </div>
     <div
-        class="potential-distributor__upload mr-18"
+        class="potential-distributor__upload ml-20 mb-11"
         @click="dialogFileVisible = !dialogFileVisible"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload mr-24"
+        class="potential-distributor__upload ml-20 mr-20 mb-11"
         @click="fileDownLoad"
       >
-        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+        <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
     <el-button
+      class="margin-bottom-16"
       icon="fz-14 mr-8 iconfont iconxinzeng"
       type="primary"
       @click="add"

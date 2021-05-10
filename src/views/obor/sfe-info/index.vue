@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main-header">SFE数据</div>
     <SearchBar @onSearch="onSearch" />
-     <el-radio-group v-model="tabType" class="mt-20 mb-25 ml-20" size="small" @change="baselist">
+     <el-radio-group v-model="tabType" class="mb-25 ml-20" size="small" @change="baselist">
     <el-radio-button label="all">所有项目</el-radio-button>
     <el-radio-button label="classic">经典项目</el-radio-button>
     <el-radio-button label="ground">地推项目</el-radio-button>

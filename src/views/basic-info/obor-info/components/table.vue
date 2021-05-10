@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-20 ml-20" style="height: 100%" ref="tableCot">
+  <div class="mr-20 ml-20 mt-4" style="height: 100%" ref="tableCot">
     <el-table
       :height="Height"
       border

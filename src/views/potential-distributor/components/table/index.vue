@@ -1,5 +1,5 @@
 <template>
-<div class="mr-20 ml-20">
+<div class="mr-20 ml-20 mt-4">
   <el-table
     border
     :data="tableData"

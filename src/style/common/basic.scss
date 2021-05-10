@@ -14,13 +14,19 @@
       margin-top: 30px;
       margin: 30px 20px 4px 20px;
       flex-flow: wrap;
+      align-items: center;
     }
     &__upload{
       display: flex;
       align-items: center;
       color: #9B9B9B;
       cursor: pointer;
-      height: 36px;
+      // height: 36px;
+      flex-direction: column;
+      i{
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
     }
   }
   .el-cascader .el-input{

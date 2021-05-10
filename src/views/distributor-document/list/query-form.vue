@@ -1,5 +1,5 @@
 <template>
-  <div class="distributor-document-query mb-16">
+  <div class="distributor-document-query mb-4">
     <el-input class="mr-16 mb-16" v-model="queryInfo.dealername" placeholder="请输入经销商名称" clearable>
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
@@ -54,23 +54,22 @@
     </el-select>
     <div class="mb-16" style="display: flex;align-items: center;">
       <el-button type="primary" @click="handleQuery">检索</el-button>
-      <div class="distributor-document-query__divider ml-10"></div>
       <div
-        class="distributor-document-query__upload mr-10 ml-10"
+        class="distributor-document-query__upload ml-20"
         @click="downTemplate"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont iconxiazaimoban"></i>
         <span>下载模版</span>
       </div>
       <div
-        class="distributor-document-query__upload mr-10 ml-10"
+        class="distributor-document-query__upload ml-20"
         @click="dialogFileVisible = !dialogFileVisible"
       >
-        <i class="mr-10 iconfont icondaorujilu-hui"></i>
+        <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
-      <div class="distributor-document-query__upload" @click="exportDistributorFile">
-        <i class="mr-10 iconfont icondaochujilu-hui"></i>
+      <div class="distributor-document-query__upload  ml-20 mr-20" @click="exportDistributorFile">
+        <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
     </div>
@@ -229,10 +228,15 @@ export default {
     border-left: 1px solid #DADADA;
   }
   &__upload{
-    display: inline-block;
+    display: flex;
     align-items: center;
     color: #9B9B9B;
     cursor: pointer;
+    flex-direction: column;
+   i{
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
   }
 }
 

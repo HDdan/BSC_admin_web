@@ -68,9 +68,8 @@
     <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
-    <div class="split-line mr-20 ml-20 mt-8"></div>
-    <div class="potential-distributor__upload" @click="fileDownLoad">
-      <i class="mr-8 iconfont icondaochujilu-hui"></i>
+    <div class="potential-distributor__upload ml-20 mb-11" @click="fileDownLoad">
+      <i class="iconfont icondaochu"></i>
       <span> 导出 </span>
     </div>
   </div>
