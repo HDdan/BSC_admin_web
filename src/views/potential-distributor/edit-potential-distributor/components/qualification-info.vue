@@ -11,13 +11,19 @@
       }"
     >
       <el-form-item label="注册资金：" prop="registeredcapital">
-        <el-input
+        <!-- <el-input
         maxlength="7"
         @input="changeMoney"
         @blur="inputMoney($event,'registeredcapital')"
           v-if="edit_flg['registeredcapital'] || isCreate"
           v-model="ruleForm.registeredcapital"
-        ><span slot="suffix" class="mr-14">{{unitMoney}}</span></el-input>
+        ><span slot="suffix" class="mr-14">{{unitMoney}}</span></el-input> -->
+        <el-input
+        maxlength="7"
+       
+          v-if="edit_flg['registeredcapital'] || isCreate"
+          v-model="ruleForm.registeredcapital"
+        ><span slot="suffix" class="mr-14">万</span></el-input>
         <div
           v-else
           class="edit-potential-distributor-base__detail"
@@ -25,7 +31,7 @@
         >
           <span>{{ ruleForm.registeredcapital }}</span>
           <div>
-            <span slot="suffix" class="mr-14" style="color: #9b9b9b">{{unitMoney}}</span>
+            <span slot="suffix" class="mr-14" style="color: #9b9b9b">万</span>
             <span
               class="fz-16 mr-8 iconfont iconxiugai"
               style="color: #9b9b9b"
