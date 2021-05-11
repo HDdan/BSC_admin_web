@@ -48,7 +48,7 @@
     </el-date-picker> -->
     <el-button type="primary" @click="onSearch">检索</el-button>
     <span style="display:flex" v-if="tabType!=='all'">
-    <div class="potential-distributor__upload ml-20" @click="fileDownLoad">
+    <div class="potential-distributor__upload ml-20" @click="fileDownLoad" v-if="showImport">
       <i class="iconfont icondaochu"></i>
       <span> 导出 </span>
     </div>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import userRoleServices from '../../../../services/user-role';
+import actionRoleServices from '../../../../services/actionRole/obor';
 export default {
   props: {
     tabType:{
@@ -119,5 +121,13 @@ export default {
       this.$emit("onSearch", this.search);
     },
   },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkSalesInfo(this.userType);
+    },
+  }
 };
 </script>

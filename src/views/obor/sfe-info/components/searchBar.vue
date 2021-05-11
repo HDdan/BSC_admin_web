@@ -40,14 +40,14 @@
         <span>下载模版</span>
       </div>
     <div
-        class="potential-distributor__upload ml-20 mb-11"
+        class="potential-distributor__upload ml-20 mb-11" v-if="showImport"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload ml-20 mr-20 mb-11"
+        class="potential-distributor__upload ml-20 mr-20 mb-11" v-if="showImport"
         @click="fileDownLoad"
       >
         <i class="iconfont icondaochu"></i>
@@ -67,6 +67,8 @@
 
 <script>
 import ImportFileDialog from "@/components/ImportFileDialog";
+import userRoleServices from '../../../../services/user-role';
+import actionRoleServices from '../../../../services/actionRole/obor';
 export default {
   components: {
     ImportFileDialog,
@@ -135,5 +137,13 @@ export default {
       this.$emit("onSearch", this.search);
     },
   },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkSfeInfo(this.userType);
+    },
+  }
 };
 </script>
