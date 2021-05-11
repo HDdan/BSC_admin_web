@@ -34,6 +34,7 @@
   </div>
 </template>
 <script>
+import userRoleServices from '../../services/user-role'
 export default {
   name: "login",
   data() {
@@ -50,7 +51,8 @@ export default {
           loginname: this.user,
           password: this.password,
         })
-        .then(() => {
+        .then(res => {
+          userRoleServices.setUserType(res.role);
           this.$router.replace({ path: "/potentialDistributor" });
         })
         .catch((e) => {});

@@ -29,7 +29,7 @@ const actions = {
           setToken(data.id);
           setUserName(data.name);
           setIsAdmin(data.isadmin);
-          resolve();
+          resolve(data);
         })
         .catch(error => {
           reject(error);
