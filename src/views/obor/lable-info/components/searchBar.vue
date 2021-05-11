@@ -41,6 +41,7 @@
       </div>
     <div
         class="potential-distributor__upload ml-20 mb-11"
+        v-if="showImport"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="iconfont icondaoru"></i>
@@ -48,7 +49,7 @@
       </div>
       <div
         class="potential-distributor__upload ml-20 mr-20 mb-11"
-        @click="fileDownLoad"
+        @click="fileDownLoad" v-if="showImport"
       >
         <i class="iconfont icondaochu"></i>
         <span>导出</span>
@@ -67,6 +68,8 @@
 
 <script>
 import ImportFileDialog from "@/components/ImportFileDialog";
+import userRoleServices from '../../../../services/user-role';
+import actionRoleServices from '../../../../services/actionRole/obor';
 export default {
   components: {
     ImportFileDialog,
@@ -135,5 +138,13 @@ export default {
       this.$emit("onSearch", this.search);
     },
   },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkLableInfo(this.userType);
+    },
+  }
 };
 </script>

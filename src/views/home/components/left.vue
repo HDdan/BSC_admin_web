@@ -21,7 +21,7 @@
       </el-submenu>
       <el-menu-item
         :class="{ 'is-active': route.indexOf(item.url) > -1 }"
-        v-else
+        v-else-if="item.name != 'OBOR主数据' || (item.name == 'OBOR主数据' && showMenu)"
         :index="item.url"
         :key="item.id"
       >
@@ -31,9 +31,12 @@
     </template>
      
   </el-menu>
-</template>v-else
+</template>
 
 <script>
+import userRoleServices from '../../../services/user-role'
+import actionRoleServices from '../../../services/actionRole/basic-info';
+
 import "../index.scss";
 export default {
   name: "Left",
@@ -52,6 +55,14 @@ export default {
       route: "",
       isCollapse: false,
     };
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showMenu() {
+      return actionRoleServices.checkOborMenu(this.userType);
+    }
   },
  
 };

@@ -68,7 +68,7 @@
     <el-button class="margin-bottom-16" type="primary" @click="onSearch"
       >检索</el-button
     >
-    <div class="potential-distributor__upload ml-20 mb-11" @click="fileDownLoad">
+    <div class="potential-distributor__upload ml-20 mb-11" @click="fileDownLoad" v-if="showImport">
       <i class="iconfont icondaochu"></i>
       <span> 导出 </span>
     </div>
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import userRoleServices from '../../../../services/user-role';
+import actionRoleServices from '../../../../services/actionRole/obor';
 export default {
   props: {},
   data() {
@@ -138,5 +140,13 @@ export default {
       this.$emit("onSearch", this.search);
     },
   },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkBaseInfo(this.userType);
+    },
+  }
 };
 </script>

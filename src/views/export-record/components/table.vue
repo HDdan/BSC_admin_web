@@ -16,7 +16,7 @@
         label="操作者"
       show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" v-if="checkDownload">
         <template slot-scope="scope">
             <a class="mr-15" style="color: #4196ff; cursor: pointer" :href="'http://'+scope.row.Url">
                 下载
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import userRoleServices from '../../../services/user-role'
+import actionRoleServices from '../../../services/actionRole/export-record';
 export default {
   props: {
     tableData: {
@@ -46,6 +48,14 @@ export default {
     download(url) {
       window.open(url)
     },
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    checkDownload() {
+      return actionRoleServices.checkDownload(this.userType);
+    }
   },
 };
 </script>

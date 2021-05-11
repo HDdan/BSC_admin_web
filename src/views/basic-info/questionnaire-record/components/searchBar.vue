@@ -83,14 +83,14 @@
       </div>
     <div
         class="potential-distributor__upload ml-20 mb-11"
-        @click="dialogFileVisible = !dialogFileVisible"
+        @click="dialogFileVisible = !dialogFileVisible" v-if="showPort"
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
         class="potential-distributor__upload ml-20 mr-20 mb-11"
-        @click="fileDownLoad"
+        @click="fileDownLoad" v-if="showPort"
       >
         <i class="iconfont icondaochu"></i>
         <span>导出</span>
@@ -109,6 +109,9 @@
 </template>
 
 <script>
+import userRoleServices from '../../../../services/user-role'
+import actionRoleServices from '../../../../services/actionRole/basic-info';
+
 import ImportFileDialog from "@/components/ImportFileDialog";
 export default {
    components: {
@@ -174,6 +177,14 @@ export default {
     onSearch() {
       this.$emit("onSearch", this.search);
     },
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showPort() {
+      return actionRoleServices.checkQuestionnairePort(this.userType);
+    }
   },
 };
 </script>

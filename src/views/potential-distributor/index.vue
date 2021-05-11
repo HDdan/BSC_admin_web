@@ -123,19 +123,20 @@
       <div
         class="potential-distributor__upload ml-20 mb-11"
         @click="dialogFileVisible = !dialogFileVisible"
-        
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
         class="potential-distributor__upload ml-20 mr-20 mb-11"
+        v-if="showExport"
         @click="dialogVisible = !dialogVisible"
       >
         <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
       <el-button
+        v-if="showAdd"
         class="margin-bottom-16"
         icon="fz-14 mr-8 iconfont iconxinzeng"
         type="primary"
@@ -159,6 +160,8 @@
 import Table from "./components/table";
 import Dialog from "@/components/Dialog";
 import ImportFileDialog from "@/components/ImportFileDialog";
+import userRoleServices from '../../services/user-role';
+import actionRoleServices from '../../services/actionRole/potential-distributor';
 
 import Pagination from "@/components/Pagination/index";
 
@@ -401,6 +404,20 @@ export default {
       this.$router.push({ path: "/potentialDistributor/create" });
     },
   },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkImport(this.userType);
+    },
+    showExport() {
+      return actionRoleServices.checkExport(this.userType);
+    },
+    showAdd() {
+      return actionRoleServices.checkAdd(this.userType);
+    }
+  }
 };
 </script>
 <style scoped>

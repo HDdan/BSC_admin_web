@@ -30,6 +30,8 @@
 <script>
 import "./index.scss";
 
+import userRoleServices from '../../../../services/user-role'
+import actionRoleServices from '../../../../services/actionRole/potential-distributor';
 export default {
   props:{
      tableData: {
@@ -50,16 +52,22 @@ export default {
       this.$emit("sortChange", column);
     },
     gotoDetail(row) {
-      this.$router.push({
-        name: "editPotentialDistributor",
-        path: "/potentialDistributor/edit'",
-        query: { Id: row.Id }
-      });
+      if (this.showAdd) {
+        this.$router.push({
+          name: "editPotentialDistributor",
+          path: "/potentialDistributor/edit'",
+          query: { Id: row.Id }
+        });
+      }
     }
   },
-  data() {
-    return {
-    };
-  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showAdd() {
+      return actionRoleServices.checkAdd(this.userType);
+    }
+  }
 };
 </script>
