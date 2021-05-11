@@ -63,12 +63,13 @@
       </div>
       <div
         class="distributor-document-query__upload ml-20"
+        v-if="showImport"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
-      <div class="distributor-document-query__upload  ml-20 mr-20" @click="exportDistributorFile">
+      <div class="distributor-document-query__upload  ml-20 mr-20" @click="exportDistributorFile" v-if="showExport" >
         <i class="iconfont icondaochu"></i>
         <span>导出</span>
       </div>
@@ -78,6 +79,9 @@
   </div>
 </template>
 <script>
+import userRoleServices from '../../../services/user-role'
+import actionRoleServices from '../../../services/actionRole/distributor-document';
+
 import ImportFileDialog from "@/components/ImportFileDialog";
 
 export default {
@@ -195,6 +199,17 @@ export default {
     },
     exportDistributorFile() {
       this.$emit("exportDistributorFile", this.queryInfo);
+    }
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showImport() {
+      return actionRoleServices.checkImport(this.userType);
+    },
+    showExport() {
+      return actionRoleServices.checkExport(this.userType);
     }
   },
   components: { ImportFileDialog }
