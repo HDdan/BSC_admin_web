@@ -5,6 +5,7 @@
       <TotalAndTime :total="baseData.total" :time="baseData.data&&baseData.data.lastupdatetime"/>
       <div class="info-search__right">
         <el-button
+          v-if="checkEdit"
           icon="fz-14 mr-8 iconfont iconxinzeng"
           type="primary"
           @click="addSource"
@@ -33,6 +34,9 @@
 </template>
 
 <script>
+import userRoleServices from '../../../services/user-role'
+import actionRoleServices from '../../../services/actionRole/role-setting';
+
 import Table from "./table.vue";
 // import "../index.scss";
 import AddSource from "./addSource.vue";
@@ -104,6 +108,14 @@ export default {
         this.page.totalNum = res.count;
       });
     },
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    checkEdit() {
+      return actionRoleServices.checkEdit(this.userType);
+    }
   },
   created() {
     this.baselist();
