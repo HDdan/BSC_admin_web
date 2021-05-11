@@ -54,12 +54,13 @@
     <div
         class="potential-distributor__upload ml-20"
         @click="dialogFileVisible = !dialogFileVisible"
+        v-if="showMerchantsPort"
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload ml-20 mr-20"
+        class="potential-distributor__upload ml-20 mr-20" v-if="showMerchantsPort"
         @click="fileDownLoad"
       >
         <i class="iconfont icondaochu"></i>
@@ -97,6 +98,9 @@
 </template>
 
 <script>
+import userRoleServices from '../../../../services/user-role'
+import actionRoleServices from '../../../../services/actionRole/basic-info';
+
 import Table from "./table.vue";
 import "../index.scss";
 import AddSource from "./addSource.vue";
@@ -206,6 +210,14 @@ export default {
         this.page.totalNum = res.count;
       });
     },
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showMerchantsPort() {
+      return actionRoleServices.checkMerchantsPort(this.userType);
+    }
   },
   created() {
     this.baselist();

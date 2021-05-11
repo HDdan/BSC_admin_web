@@ -159,14 +159,14 @@
         <span>下载模版</span>
       </div>
     <div
-        class="potential-distributor__upload ml-20 mb-11"
+        class="potential-distributor__upload ml-20 mb-11" v-if="showPort"
         @click="dialogFileVisible = !dialogFileVisible"
       >
         <i class="iconfont icondaoru"></i>
         <span>导入</span>
       </div>
       <div
-        class="potential-distributor__upload ml-20 mr-20 mb-11"
+        class="potential-distributor__upload ml-20 mr-20 mb-11" v-if="showPort"
         @click="fileDownLoad"
       >
         <i class="iconfont icondaochu"></i>
@@ -185,6 +185,9 @@
 </template>
 
 <script>
+import userRoleServices from '../../../../services/user-role'
+import actionRoleServices from '../../../../services/actionRole/basic-info';
+
 import ImportFileDialog from "@/components/ImportFileDialog";
 
 export default {
@@ -284,6 +287,14 @@ export default {
     onSearch() {
       this.$emit("onSearch", this.search);
     },
+  },
+  computed: {
+    userType() {
+      return userRoleServices.getUserType();
+    },
+    showPort() {
+      return actionRoleServices.checkInterviewPort(this.userType);
+    }
   },
 };
 </script>
